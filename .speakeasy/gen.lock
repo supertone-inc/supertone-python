@@ -1,0 +1,418 @@
+lockVersion: 2.0.0
+id: a7434ee7-004c-44b3-a7c4-1d4e3f9fb006
+management:
+  docChecksum: 32f96d9f72f3a35354d06972dd072a79
+  docVersion: 0.8.69
+  speakeasyVersion: 1.606.0
+  generationVersion: 2.686.7
+  releaseVersion: 0.1.0
+  configChecksum: 80c7053560cd9f204873dd6ca02594fd
+features:
+  python:
+    acceptHeaders: 3.0.0
+    additionalDependencies: 1.0.0
+    constsAndDefaults: 1.0.5
+    core: 5.19.9
+    customCodeRegions: 0.1.1
+    defaultEnabledRetries: 0.2.0
+    downloadStreams: 1.0.1
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.3.2
+    flatRequests: 1.0.1
+    flattening: 3.1.1
+    globalSecurity: 3.0.3
+    globalSecurityCallbacks: 1.0.0
+    globalSecurityFlattening: 1.0.0
+    globalServerURLs: 3.1.1
+    methodArguments: 1.0.2
+    multipartFileContentType: 1.0.0
+    nullables: 1.0.1
+    responseFormat: 1.0.1
+    retries: 3.0.2
+    sdkHooks: 1.1.0
+    uploadStreams: 1.0.0
+generatedFiles:
+  - .gitattributes
+  - .vscode/settings.json
+  - USAGE.md
+  - docs/errors/badrequesterrorresponse.md
+  - docs/errors/forbiddenerrorresponse.md
+  - docs/errors/internalservererrorresponse.md
+  - docs/errors/notfounderrorresponse.md
+  - docs/errors/payloadtoolargeerrorresponse.md
+  - docs/errors/paymentrequirederrorresponse.md
+  - docs/errors/requesttimeouterrorresponse.md
+  - docs/errors/toomanyrequestserrorresponse.md
+  - docs/errors/unauthorizederrorresponse.md
+  - docs/errors/unsupportedmediatypeerrorresponse.md
+  - docs/models/apiconverttexttospeechusingcharacterrequest.md
+  - docs/models/apiconverttexttospeechusingcharacterrequestlanguage.md
+  - docs/models/apiconverttexttospeechusingcharacterrequestoutputformat.md
+  - docs/models/apisampledata.md
+  - docs/models/breakdowntype.md
+  - docs/models/bucketwidth.md
+  - docs/models/converttexttospeechparameters.md
+  - docs/models/createclonedvoicerequest.md
+  - docs/models/createclonedvoiceuploadresponse.md
+  - docs/models/createspeechrequest.md
+  - docs/models/createspeechresponse.md
+  - docs/models/createspeechresponsebody.md
+  - docs/models/createspeechresponseresult.md
+  - docs/models/deletecustomvoicerequest.md
+  - docs/models/editcustomvoicerequest.md
+  - docs/models/files.md
+  - docs/models/forbiddenerrorresponsemessage.md
+  - docs/models/getapicharacterlistresponse.md
+  - docs/models/getapicharacterresponsedata.md
+  - docs/models/getcharacterbyidresponse.md
+  - docs/models/getcreditbalanceresponse.md
+  - docs/models/getcustomvoicelistresponse.md
+  - docs/models/getcustomvoicerequest.md
+  - docs/models/getcustomvoiceresponsedata.md
+  - docs/models/getsingleclonedvoiceresponse.md
+  - docs/models/getusagelistv1response.md
+  - docs/models/getusagerequest.md
+  - docs/models/getusageresponsev1data.md
+  - docs/models/getvoicerequest.md
+  - docs/models/getvoiceusagerequest.md
+  - docs/models/internalservererrorresponsemessage.md
+  - docs/models/listcustomvoicesrequest.md
+  - docs/models/listvoicesrequest.md
+  - docs/models/notfounderrorresponsemessage.md
+  - docs/models/payloadtoolargeerrorresponsemessage.md
+  - docs/models/paymentrequirederrorresponsemessage.md
+  - docs/models/phonemes.md
+  - docs/models/predictdurationrequest.md
+  - docs/models/predictdurationresponse.md
+  - docs/models/predictttsdurationusingcharacterrequest.md
+  - docs/models/predictttsdurationusingcharacterrequestlanguage.md
+  - docs/models/predictttsdurationusingcharacterrequestoutputformat.md
+  - docs/models/requesttimeouterrorresponsemessage.md
+  - docs/models/searchcustomvoicesrequest.md
+  - docs/models/searchvoicesrequest.md
+  - docs/models/security.md
+  - docs/models/streamspeechrequest.md
+  - docs/models/streamspeechresponse.md
+  - docs/models/streamspeechresponseresult.md
+  - docs/models/toomanyrequestserrorresponsemessage.md
+  - docs/models/unauthorizederrorresponsemessage.md
+  - docs/models/updateclonedvoicerequest.md
+  - docs/models/updateclonedvoiceresponse.md
+  - docs/models/usageanalyticsresponse.md
+  - docs/models/usagebucket.md
+  - docs/models/usageresult.md
+  - docs/models/utils/retryconfig.md
+  - docs/sdks/customvoices/README.md
+  - docs/sdks/supertone/README.md
+  - docs/sdks/texttospeech/README.md
+  - docs/sdks/usage/README.md
+  - docs/sdks/voices/README.md
+  - py.typed
+  - pylintrc
+  - pyproject.toml
+  - scripts/publish.sh
+  - src/supertone/__init__.py
+  - src/supertone/_hooks/__init__.py
+  - src/supertone/_hooks/sdkhooks.py
+  - src/supertone/_hooks/types.py
+  - src/supertone/_version.py
+  - src/supertone/basesdk.py
+  - src/supertone/custom_voices.py
+  - src/supertone/errors/__init__.py
+  - src/supertone/errors/badrequesterrorresponse.py
+  - src/supertone/errors/forbiddenerrorresponse.py
+  - src/supertone/errors/internalservererrorresponse.py
+  - src/supertone/errors/no_response_error.py
+  - src/supertone/errors/notfounderrorresponse.py
+  - src/supertone/errors/payloadtoolargeerrorresponse.py
+  - src/supertone/errors/paymentrequirederrorresponse.py
+  - src/supertone/errors/requesttimeouterrorresponse.py
+  - src/supertone/errors/responsevalidationerror.py
+  - src/supertone/errors/supertonedefaulterror.py
+  - src/supertone/errors/supertoneerror.py
+  - src/supertone/errors/toomanyrequestserrorresponse.py
+  - src/supertone/errors/unauthorizederrorresponse.py
+  - src/supertone/errors/unsupportedmediatypeerrorresponse.py
+  - src/supertone/httpclient.py
+  - src/supertone/models/__init__.py
+  - src/supertone/models/apiconverttexttospeechusingcharacterrequest.py
+  - src/supertone/models/apisampledata.py
+  - src/supertone/models/converttexttospeechparameters.py
+  - src/supertone/models/create_cloned_voiceop.py
+  - src/supertone/models/create_speechop.py
+  - src/supertone/models/createclonedvoiceuploadresponse.py
+  - src/supertone/models/delete_custom_voiceop.py
+  - src/supertone/models/edit_custom_voiceop.py
+  - src/supertone/models/forbiddenerrorresponse.py
+  - src/supertone/models/get_custom_voiceop.py
+  - src/supertone/models/get_usageop.py
+  - src/supertone/models/get_voice_usageop.py
+  - src/supertone/models/get_voiceop.py
+  - src/supertone/models/getapicharacterlistresponse.py
+  - src/supertone/models/getapicharacterresponsedata.py
+  - src/supertone/models/getcharacterbyidresponse.py
+  - src/supertone/models/getcreditbalanceresponse.py
+  - src/supertone/models/getcustomvoicelistresponse.py
+  - src/supertone/models/getcustomvoiceresponsedata.py
+  - src/supertone/models/getsingleclonedvoiceresponse.py
+  - src/supertone/models/getusagelistv1response.py
+  - src/supertone/models/getusageresponsev1data.py
+  - src/supertone/models/internalservererrorresponse.py
+  - src/supertone/models/list_custom_voicesop.py
+  - src/supertone/models/list_voicesop.py
+  - src/supertone/models/notfounderrorresponse.py
+  - src/supertone/models/payloadtoolargeerrorresponse.py
+  - src/supertone/models/paymentrequirederrorresponse.py
+  - src/supertone/models/predict_durationop.py
+  - src/supertone/models/predictttsdurationusingcharacterrequest.py
+  - src/supertone/models/requesttimeouterrorresponse.py
+  - src/supertone/models/search_custom_voicesop.py
+  - src/supertone/models/search_voicesop.py
+  - src/supertone/models/security.py
+  - src/supertone/models/stream_speechop.py
+  - src/supertone/models/toomanyrequestserrorresponse.py
+  - src/supertone/models/unauthorizederrorresponse.py
+  - src/supertone/models/updateclonedvoicerequest.py
+  - src/supertone/models/updateclonedvoiceresponse.py
+  - src/supertone/models/usageanalyticsresponse.py
+  - src/supertone/models/usagebucket.py
+  - src/supertone/models/usageresult.py
+  - src/supertone/py.typed
+  - src/supertone/sdk.py
+  - src/supertone/sdkconfiguration.py
+  - src/supertone/text_to_speech.py
+  - src/supertone/types/__init__.py
+  - src/supertone/types/basemodel.py
+  - src/supertone/usage.py
+  - src/supertone/utils/__init__.py
+  - src/supertone/utils/annotations.py
+  - src/supertone/utils/datetimes.py
+  - src/supertone/utils/enums.py
+  - src/supertone/utils/eventstreaming.py
+  - src/supertone/utils/forms.py
+  - src/supertone/utils/headers.py
+  - src/supertone/utils/logger.py
+  - src/supertone/utils/metadata.py
+  - src/supertone/utils/queryparams.py
+  - src/supertone/utils/requestbodies.py
+  - src/supertone/utils/retries.py
+  - src/supertone/utils/security.py
+  - src/supertone/utils/serializers.py
+  - src/supertone/utils/unmarshal_json_response.py
+  - src/supertone/utils/url.py
+  - src/supertone/utils/values.py
+  - src/supertone/voices.py
+examples:
+  create_speech:
+    english-sample:
+      parameters:
+        path:
+          voice_id: "<id>"
+      requestBody:
+        application/json: {"text": "<value>", "language": "ja", "model": "sona_speech_1", "output_format": "wav", "include_phonemes": false}
+      responses:
+        "200":
+          application/json: {"audio_base64": "UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTuW1fzGfS8GI3fE8NyTQQoUXbPn7K5YFApCn+H0vWYhBTuY1vzCfiwGIXbC8d+WSAoTXLbm7K5ZEwpBnOL0vWQiBDyb1v3CfiwGIn+/8t+QSAkTW7Pp7K1XEglEM+DzvmclBTuY1fy/fysMJna/8t6WSAoSW7Lp7KlXEwhEM+H0vWQjBTub1vu/fyoLKHLA8t6UQAoOWbHo7K1ZEwpBnOL0vWMhBTyY1vy/fyoLJXfA8t+UQAoNWLPo7K1ZEwo/nOL0vWUiBDqY1vy/gCsNKHLA8t6SQgkOV7Hp7K1YEwhGm+L0vWYhBTue1vm/fyoLKHLA8t2UQgkPWLPo7KxbEgkAm+L0vWUIBD2b1fy7gCsNKHLA8tyXRAkSWbLm7K5cEglBm+DzvmUkBDya1vy+fyoLJ3fA8t2USgkMWLPo7KxbEgkAm+H0vWUIBD2b1fy8giwMJ3bB8tyXRAkSWbPm7K5bEgkBm+D0vWQkBDya1vy/fyoKKHfA8t2USgkOWLPo7KxZEgkCnODyvmUIBD2a1fy/gCsLJ3bA8t2WTAkNWLPo7KxZEggCnODyvmUJBT2a1vy/gCsKJ3bB8tyWTAkSWbPm7KxbEghCnODyvmQkBDya1v2/fyoLKHfA8t2USgkPWLPo7KtbEgkCnODyvmQkBDya1vy+fyoNKHfA8t2UTAkPWLPo7KtZEgkCnOH0vWQkBDua1vy/gCsLJ3fA8t2USwkPWLPo7KtZEgkCnOHzvWQkBDua1vy/gCsLJ3fA8t2USwkMWLPo7KtZEgkCnODyvmQkBDya1vy/gCsLJ3fA8t2UTAkMWLPo7KtZEgkCnODyvmQkBDya1vy+gCsLJ3fA8t2UTAkMWLPo7KtZEgkCnODyvmQkBDya1vy/gCsLJ3fA8t2UTAkLWLPo7KtZEgkCnOH0vWQkBDua1vy/gCsLJ3fA8t2UTAkLWLPo7KtZEgkCnOH0vWQkBDua1vy/gCsLJ3fA8t2UTAkLWLPo7KtZEgkCnOH0vWQkBDua", "phonemes": {"symbols": ["", "h", "ɐ", "ɡ", "ʌ", ""], "start_times_seconds": [0, 0.0928798185941043, 0.197369614512472, 0.255419501133787, 0.290249433106576, 0.580498866213152], "durations_seconds": [0.0928798185941043, 0.104489795918367, 0.0580498866213152, 0.0348299319727891, 0.290249433106576, 0.162539682539683]}}
+    korean-sample:
+      parameters:
+        path:
+          voice_id: "<id>"
+      requestBody:
+        application/json: {"text": "<value>", "language": "ja", "model": "sona_speech_1", "output_format": "wav", "include_phonemes": false}
+      responses:
+        "200":
+          application/json: {"audio_base64": "UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhY...", "phonemes": {"symbols": ["", "ɐ", "nf", "n", "iʌ", "ŋ", "ɐ", "s", "e", "io", "iʌ", ""], "start_times_seconds": [0, 0.11609977324263, 0.174149659863946, 0.208979591836735, 0.243809523809524, 0.290249433106576, 0.325079365079365, 0.394739229024943, 0.464399092970522, 0.510839002267574, 0.626938775510204, 0.661768707482993], "durations_seconds": [0.11609977324263, 0.0580498866213152, 0.0348299319727891, 0.0348299319727891, 0.0464399092970522, 0.0348299319727891, 0.0696598639455782, 0.0696598639455782, 0.0464399092970522, 0.11609977324263, 0.0348299319727891, 0.0812698412698413]}}
+  stream_speech:
+    speakeasy-default-stream-speech:
+      parameters:
+        path:
+          voice_id: "<id>"
+      requestBody:
+        application/json: {"text": "<value>", "language": "pt", "model": "sona_speech_1", "output_format": "wav", "include_phonemes": false}
+      responses:
+        "200":
+          audio/wav: "x-file: example.file"
+          audio/mpeg: "x-file: example.file"
+          application/x-ndjson: "<value>"
+        "400":
+          application/json: {"status": "error", "message": "Invalid request data"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "402":
+          application/json: {"status": "error", "message": {"message": "Not enough credits", "error": "Payment Required", "status_code": 401}}
+        "403":
+          application/json: {"status": "error", "message": {"message": "Permission denied", "error": "Forbidden", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "408":
+          application/json: {"status": "error", "message": {"message": "Request timed out", "error": "Request Timeout", "status_code": 401}}
+        "429":
+          application/json: {"status": "error", "message": {"message": "rate limit exceeded", "error": "Too Many Requests", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  predict_duration:
+    speakeasy-default-predict-duration:
+      parameters:
+        path:
+          voice_id: "<id>"
+      requestBody:
+        application/json: {"text": "<value>", "language": "ja", "model": "sona_speech_1", "output_format": "wav"}
+      responses:
+        "200":
+          application/json: {}
+        "400":
+          application/json: {"status": "error", "message": "Invalid request data"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "402":
+          application/json: {"status": "error", "message": {"message": "Not enough credits", "error": "Payment Required", "status_code": 401}}
+        "403":
+          application/json: {"status": "error", "message": {"message": "Permission denied", "error": "Forbidden", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "408":
+          application/json: {"status": "error", "message": {"message": "Request timed out", "error": "Request Timeout", "status_code": 401}}
+        "429":
+          application/json: {"status": "error", "message": {"message": "rate limit exceeded", "error": "Too Many Requests", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  list_voices:
+    speakeasy-default-list-voices:
+      responses:
+        "200":
+          application/json: {"items": [{"voice_id": "<voice-id>", "name": "Agatha", "description": "", "age": "young-adult", "gender": "female", "use_case": "narration", "use_cases": ["narration", "storytelling"], "language": ["ko", "en", "ja"], "styles": ["kind-default", "normal", "serene"], "models": ["sona_speech_1"], "samples": [{"language": "ko", "style": "kind-default", "model": "sona_speech_1", "url": "https://example.com/samples/sample-audio.wav"}], "thumbnail_image_url": "https://example.com/thumbnails/voice-thumbnail.png"}], "total": 150, "next_page_token": "some_opaque_token_string_representing_last_id"}
+  search_voices:
+    speakeasy-default-search-voices:
+      responses:
+        "200":
+          application/json: {"items": [{"voice_id": "<voice-id>", "name": "Agatha", "description": "", "age": "young-adult", "gender": "female", "use_case": "narration", "use_cases": ["narration", "storytelling"], "language": ["ko", "en", "ja"], "styles": ["kind-default", "normal", "serene"], "models": ["sona_speech_1"], "samples": [{"language": "ko", "style": "kind-default", "model": "sona_speech_1", "url": "https://example.com/samples/sample-audio.wav"}], "thumbnail_image_url": "https://example.com/thumbnails/voice-thumbnail.png"}], "total": 150, "next_page_token": "some_opaque_token_string_representing_last_id"}
+  get_voice:
+    speakeasy-default-get-voice:
+      parameters:
+        path:
+          voice_id: "<id>"
+      responses:
+        "200":
+          application/json: {"voice_id": "<voice-id>", "name": "Agatha", "description": "", "age": "young-adult", "gender": "female", "use_case": "narration", "use_cases": ["narration", "storytelling"], "language": ["ko", "en", "ja"], "styles": ["kind-default", "normal", "serene"], "models": ["sona_speech_1"], "samples": [{"language": "ko", "style": "kind-default", "model": "sona_speech_1", "url": "https://example.com/samples/sample-audio.wav"}], "thumbnail_image_url": "https://example.com/thumbnails/voice-thumbnail.png"}
+  create_cloned_voice:
+    speakeasy-default-create-cloned-voice:
+      requestBody:
+        multipart/form-data: {"files": "x-file: example.file", "name": "<value>"}
+      responses:
+        "200":
+          application/json: {"voice_id": "voice_123456789"}
+        "400":
+          application/json: {"status": "error", "message": "Invalid request data"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "403":
+          application/json: {"status": "error", "message": {"message": "Permission denied", "error": "Forbidden", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "413":
+          application/json: {"status": "error", "message": {"message": "File too large", "error": "Payload Too Large", "status_code": 401}}
+        "415":
+          application/json: {"status": "error", "message": "Unsupported audio format. Supported formats: WAV, MP3. Received: application/json"}
+        "429":
+          application/json: {"status": "error", "message": {"message": "rate limit exceeded", "error": "Too Many Requests", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  list_custom_voices:
+    speakeasy-default-list-custom-voices:
+      responses:
+        "200":
+          application/json: {"items": [{"voice_id": "<id>", "name": "<value>", "description": "dislocate yippee ick celebrate jagged following quip"}], "total": 25, "next_page_token": "10"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  search_custom_voices:
+    speakeasy-default-search-custom-voices:
+      responses:
+        "200":
+          application/json: {"items": [{"voice_id": "<id>", "name": "<value>", "description": "corny insidious gad well-worn"}], "total": 25, "next_page_token": "10"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  get_custom_voice:
+    speakeasy-default-get-custom-voice:
+      parameters:
+        path:
+          voice_id: "<id>"
+      responses:
+        "200":
+          application/json: {"voice_id": "voice_123456789", "name": "My Custom Voice", "description": "A warm and friendly voice for customer service"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  edit_custom_voice:
+    speakeasy-default-edit-custom-voice:
+      parameters:
+        path:
+          voice_id: "<id>"
+      requestBody:
+        application/json: {"name": "My Updated Voice", "description": "An updated warm and friendly voice for customer service"}
+      responses:
+        "200":
+          application/json: {"voice_id": "voice_123456789", "name": "My Updated Voice", "description": "An updated warm and friendly voice for customer service"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  delete_custom_voice:
+    speakeasy-default-delete-custom-voice:
+      parameters:
+        path:
+          voice_id: "<id>"
+      responses:
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "404":
+          application/json: {"status": "error", "message": {"message": "Voice not found", "error": "Not Found", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  get_voice_usage:
+    speakeasy-default-get-voice-usage:
+      parameters:
+        query:
+          start_date: "2024-11-01"
+          end_date: "2024-11-30"
+      responses:
+        "200":
+          application/json: {"usages": [{"date": "2024-09-24", "voice_id": "<id>", "total_minutes_used": 6558.71}]}
+  get_usage:
+    speakeasy-default-get-usage:
+      parameters:
+        query:
+          start_time: "2024-01-01T00:00:00+09:00"
+          end_time: "2024-01-31T23:59:59+09:00"
+          bucket_width: "day"
+          breakdown_type: ["voice_name"]
+          page_size: 10
+      responses:
+        "200":
+          application/json: {"data": [{"starting_at": "2024-01-01T00:00:00+09:00", "ending_at": "2024-01-01T01:00:00+09:00", "results": [{"minutes_used": 3867.15}]}], "total": 8302.89}
+        "400":
+          application/json: {"status": "error", "message": "Invalid request data"}
+        "401":
+          application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
+        "408":
+          application/json: {"status": "error", "message": {"message": "Request timed out", "error": "Request Timeout", "status_code": 401}}
+        "500":
+          application/json: {"status": "error", "message": {"message": "Failed to convert text to speech", "error": "Internal Server Error", "status_code": 401}}
+  get_credit_balance:
+    speakeasy-default-get-credit-balance:
+      responses:
+        "200":
+          application/json: {"balance": 8745.37}
+examplesVersion: 1.0.2

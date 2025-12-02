@@ -1,0 +1,9 @@
+# StreamSpeechRequest
+
+
+## Fields
+
+| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `voice_id`                                                                                                     | *str*                                                                                                          | :heavy_check_mark:                                                                                             | N/A                                                                                                            |
+| `api_convert_text_to_speech_using_character_request`                                                           | [models.APIConvertTextToSpeechUsingCharacterRequest](../models/apiconverttexttospeechusingcharacterrequest.md) | :heavy_check_mark:                                                                                             | N/A                                                                                                            |

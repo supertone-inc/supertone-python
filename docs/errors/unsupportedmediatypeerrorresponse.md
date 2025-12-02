@@ -1,0 +1,9 @@
+# UnsupportedMediaTypeErrorResponse
+
+
+## Fields
+
+| Field                                                                             | Type                                                                              | Required                                                                          | Description                                                                       | Example                                                                           |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `status`                                                                          | *str*                                                                             | :heavy_check_mark:                                                                | Response status                                                                   | error                                                                             |
+| `message`                                                                         | *str*                                                                             | :heavy_check_mark:                                                                | Unsupported media type error message                                              | Unsupported audio format. Supported formats: WAV, MP3. Received: application/json |

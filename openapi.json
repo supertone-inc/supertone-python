@@ -1,0 +1,2569 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/text-to-speech/{voice_id}": {
+      "post": {
+        "operationId": "create_speech",
+        "summary": "Convert text to speech",
+        "description": "Convert text to speech using the specified voice",
+        "parameters": [
+          {
+            "name": "voice_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/APIConvertTextToSpeechUsingCharacterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns either binary audio or JSON with phoneme data based on include_phonemes parameter",
+            "content": {
+              "audio/wav": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "Binary audio file (when include_phonemes=false or omitted)"
+                }
+              },
+              "audio/mpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "Binary audio file (when include_phonemes=false or omitted)"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "JSON response with base64 audio and phoneme data (when include_phonemes=true)",
+                  "properties": {
+                    "audio_base64": {
+                      "type": "string",
+                      "description": "Base64 encoded audio data",
+                      "example": "UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhY..."
+                    },
+                    "phonemes": {
+                      "type": "object",
+                      "description": "Phoneme timing data with IPA symbols",
+                      "properties": {
+                        "symbols": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "List of IPA phonetic symbols",
+                          "example": [
+                            "",
+                            "h",
+                            "ɐ",
+                            "ɡ",
+                            "ʌ",
+                            ""
+                          ]
+                        },
+                        "start_times_seconds": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "description": "Start times for each phoneme in seconds",
+                          "example": [0, 0.092, 0.197, 0.255, 0.29, 0.58]
+                        },
+                        "durations_seconds": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "description": "Duration for each phoneme in seconds",
+                          "example": [0.092, 0.104, 0.058, 0.034, 0.29, 0.162]
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "audio_base64"
+                  ]
+                },
+                "examples": {
+                  "english-sample": {
+                    "summary": "English \"Hello\" with phoneme data",
+                    "description": "Example response for English text \"Hello\" with phoneme timing information",
+                    "value": {
+                      "audio_base64": "UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTuW1fzGfS8GI3fE8NyTQQoUXbPn7K5YFApCn+H0vWYhBTuY1vzCfiwGIXbC8d+WSAoTXLbm7K5ZEwpBnOL0vWQiBDyb1v3CfiwGIn+/8t+QSAkTW7Pp7K1XEglEM+DzvmclBTuY1fy/fysMJna/8t6WSAoSW7Lp7KlXEwhEM+H0vWQjBTub1vu/fyoLKHLA8t6UQAoOWbHo7K1ZEwpBnOL0vWMhBTyY1vy/fyoLJXfA8t+UQAoNWLPo7K1ZEwo/nOL0vWUiBDqY1vy/gCsNKHLA8t6SQgkOV7Hp7K1YEwhGm+L0vWYhBTue1vm/fyoLKHLA8t2UQgkPWLPo7KxbEgkAm+L0vWUIBD2b1fy7gCsNKHLA8tyXRAkSWbLm7K5cEglBm+DzvmUkBDya1vy+fyoLJ3fA8t2USgkMWLPo7KxbEgkAm+H0vWUIBD2b1fy8giwMJ3bB8tyXRAkSWbPm7K5bEgkBm+D0vWQkBDya1vy/fyoKKHfA8t2USgkOWLPo7KxZEgkCnODyvmUIBD2a1fy/gCsLJ3bA8t2WTAkNWLPo7KxZEggCnODyvmUJBT2a1vy/gCsKJ3bB8tyWTAkSWbPm7KxbEghCnODyvmQkBDya1v2/fyoLKHfA8t2USgkPWLPo7KtbEgkCnODyvmQkBDya1vy+fyoNKHfA8t2UTAkPWLPo7KtZEgkCnOH0vWQkBDua1vy/gCsLJ3fA8t2USwkPWLPo7KtZEgkCnOHzvWQkBDua1vy/gCsLJ3fA8t2USwkMWLPo7KtZEgkCnODyvmQkBDya1vy/gCsLJ3fA8t2UTAkMWLPo7KtZEgkCnODyvmQkBDya1vy+gCsLJ3fA8t2UTAkMWLPo7KtZEgkCnODyvmQkBDya1vy/gCsLJ3fA8t2UTAkLWLPo7KtZEgkCnOH0vWQkBDua1vy/gCsLJ3fA8t2UTAkLWLPo7KtZEgkCnOH0vWQkBDua1vy/gCsLJ3fA8t2UTAkLWLPo7KtZEgkCnOH0vWQkBDua",
+                      "phonemes": {
+                        "symbols": [
+                          "",
+                          "h",
+                          "ɐ",
+                          "ɡ",
+                          "ʌ",
+                          ""
+                        ],
+                        "start_times_seconds": [0, 0.0928798185941043, 0.197369614512472, 0.255419501133787, 0.290249433106576, 0.580498866213152],
+                        "durations_seconds": [0.0928798185941043, 0.104489795918367, 0.0580498866213152, 0.0348299319727891, 0.290249433106576, 0.162539682539683]
+                      }
+                    }
+                  },
+                  "korean-sample": {
+                    "summary": "Korean \"안녕하세요\" with phoneme data",
+                    "description": "Example response for Korean text \"안녕하세요\" with phoneme timing information",
+                    "value": {
+                      "audio_base64": "UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhY...",
+                      "phonemes": {
+                        "symbols": [
+                          "",
+                          "ɐ",
+                          "nf",
+                          "n",
+                          "iʌ",
+                          "ŋ",
+                          "ɐ",
+                          "s",
+                          "e",
+                          "io",
+                          "iʌ",
+                          ""
+                        ],
+                        "start_times_seconds": [0, 0.11609977324263, 0.174149659863946, 0.208979591836735, 0.243809523809524, 0.290249433106576, 0.325079365079365, 0.394739229024943, 0.464399092970522, 0.510839002267574, 0.626938775510204, 0.661768707482993],
+                        "durations_seconds": [0.11609977324263, 0.0580498866213152, 0.0348299319727891, 0.0348299319727891, 0.0464399092970522, 0.0348299319727891, 0.0696598639455782, 0.0696598639455782, 0.0464399092970522, 0.11609977324263, 0.0348299319727891, 0.0812698412698413]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-Audio-Length": {
+                "description": "Duration of the audio in seconds",
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Invalid request data for duration prediction or invalid request body/headers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Not Enough Credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: Permission denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: Voice not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestTimeoutErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to convert text to speech",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "text_to_speech"
+        ]
+      }
+    },
+    "/v1/text-to-speech/{voice_id}/stream": {
+      "post": {
+        "operationId": "stream_speech",
+        "summary": "Convert text to speech with streaming response",
+        "description": "Convert text to speech using the specified voice with streaming response. Returns binary audio stream.",
+        "parameters": [
+          {
+            "name": "voice_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/APIConvertTextToSpeechUsingCharacterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Streaming audio data in binary format or NDJSON format with phoneme data based on includePhonemes parameter",
+            "content": {
+              "audio/wav": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "Binary audio stream (when includePhonemes=false or omitted)"
+                }
+              },
+              "audio/mpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "Binary audio stream (when includePhonemes=false or omitted)"
+                }
+              },
+              "application/x-ndjson": {
+                "schema": {
+                  "type": "string",
+                  "description": "NDJSON stream with consistent format - each chunk contains audio_base64 and phonemes fields (one null, one populated)",
+                  "example": "{\"audio_base64\":\"UklGRnoGAABXQVZF...\",\"phonemes\":null}\n{\"audio_base64\":null,\"phonemes\":{\"symbols\":[\"\",\"h\",\"ɐ\",\"l\",\"oʊ\"],\"start_times_seconds\":[0,0.1,0.2,0.3,0.4],\"durations_seconds\":[0.1,0.1,0.1,0.1,0.2]}}\n{\"audio_base64\":\"E4ATABFAD4AMQAp...\",\"phonemes\":null}\n{\"audio_base64\":null,\"phonemes\":{\"symbols\":[\"w\",\"ɝ\",\"l\",\"d\"],\"start_times_seconds\":[0.5,0.6,0.7,0.8],\"durations_seconds\":[0.1,0.1,0.1,0.1]}}\n"
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "description": "Content type: audio/* for binary stream, application/x-ndjson for phoneme data",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "audio/wav",
+                    "audio/mpeg",
+                    "application/x-ndjson"
+                  ],
+                  "example": "audio/mpeg"
+                }
+              },
+              "Transfer-Encoding": {
+                "description": "Chunked transfer encoding",
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              },
+              "Cache-Control": {
+                "description": "No cache headers",
+                "schema": {
+                  "type": "string",
+                  "example": "no-cache"
+                }
+              },
+              "X-Content-Type-Options": {
+                "description": "Security header to prevent MIME sniffing",
+                "schema": {
+                  "type": "string",
+                  "example": "nosniff"
+                }
+              },
+              "Trailer": {
+                "description": "Announces that X-Audio-Length will be sent as a trailer header",
+                "schema": {
+                  "type": "string",
+                  "example": "X-Audio-Length"
+                }
+              },
+              "X-Audio-Length": {
+                "description": "Total duration of the audio in seconds (sent as trailer header after streaming completes)",
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Invalid request data or parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required: Not enough credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: Permission denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: Voice not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestTimeoutErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests: Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to process streaming TTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "text_to_speech"
+        ]
+      }
+    },
+    "/v1/predict-duration/{voice_id}": {
+      "post": {
+        "operationId": "predict_duration",
+        "summary": "Predict text-to-speech duration",
+        "description": "Predict the duration of text-to-speech conversion without generating audio",
+        "parameters": [
+          {
+            "name": "voice_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictTTSDurationUsingCharacterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns predicted duration of the audio in seconds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "duration": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Invalid request data for duration prediction or invalid request body/headers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Not Enough Credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequiredErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: Permission denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: Voice not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestTimeoutErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to convert text to speech",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "text_to_speech"
+        ]
+      }
+    },
+    "/v1/voices": {
+      "get": {
+        "operationId": "list_voices",
+        "summary": "Gets available voices",
+        "description": "Gets a paginated list of voices available to the user based on internal group logic, using token-based pagination.",
+        "parameters": [
+          {
+            "name": "page_size",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page (default: 20, min: 10, max: 100)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "next_page_token",
+            "required": false,
+            "in": "query",
+            "description": "Token for pagination (obtained from the previous page's response)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated available voices response with next page token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAPICharacterListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key"
+          },
+          "404": {
+            "description": "Not Found: No voices found"
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get voices"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "voices"
+        ]
+      }
+    },
+    "/v1/voices/search": {
+      "get": {
+        "operationId": "search_voices",
+        "summary": "Search voices.",
+        "description": "Search and filter voices based on various parameters.",
+        "parameters": [
+          {
+            "name": "page_size",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page (default: 20, min: 10, max: 100)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "next_page_token",
+            "required": false,
+            "in": "query",
+            "description": "Token for pagination (obtained from the previous page's response)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Search across name. Space separated.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "required": false,
+            "in": "query",
+            "description": "Search across description. Space separated.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "required": false,
+            "in": "query",
+            "description": "Filter by language (comma-separated)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "gender",
+            "required": false,
+            "in": "query",
+            "description": "Filter by gender (comma-separated)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "age",
+            "required": false,
+            "in": "query",
+            "description": "Filter by age (comma-separated)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "use_case",
+            "required": false,
+            "in": "query",
+            "description": "Filter by use case (comma-separated)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "use_cases",
+            "required": false,
+            "in": "query",
+            "description": "Filter by use cases array (comma-separated for OR logic)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "style",
+            "required": false,
+            "in": "query",
+            "description": "Filter by style (comma-separated for OR, semicolon-separated for AND). Mixing comma and semicolon is invalid and will result in 400. Note: AND semantics apply across styles on a single character; cloned voices have a single style and will only match AND when exactly one style is requested and equals the cloned voice style.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "required": false,
+            "in": "query",
+            "description": "Filter by model (comma-separated)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated available voices response with next page token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAPICharacterListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Invalid style parameter (use either comma (OR) or semicolon (AND), not both)"
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key"
+          },
+          "404": {
+            "description": "Not Found: No voices found"
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get voices"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "voices"
+        ]
+      }
+    },
+    "/v1/voices/{voice_id}": {
+      "get": {
+        "operationId": "get_voice",
+        "summary": "Get voice details by ID",
+        "description": "Gets detailed information about a specific voice by its voice ID. Only supports preset voices.",
+        "parameters": [
+          {
+            "name": "voice_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Voice details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCharacterByIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key"
+          },
+          "404": {
+            "description": "Not Found: Voice not found or not accessible with the provided API key"
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get voices"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "voices"
+        ]
+      }
+    },
+    "/v1/custom-voices/cloned-voice": {
+      "post": {
+        "operationId": "create_cloned_voice",
+        "summary": "Create cloned voice",
+        "description": "Creates a custom (cloned) voice from uploaded audio files.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Audio file and voice metadata",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Audio file to clone voice from (WAV/MP3 format, max 3MB)"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the cloned voice"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the cloned voice"
+                  }
+                },
+                "required": [
+                  "files",
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created cloned voice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateClonedVoiceUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Invalid file or request data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: Insufficient tier access (STARTER tier or higher required)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: No custom voices found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large: File size exceeds 3MB limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PayloadTooLargeErrorResponse"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type: Invalid audio file format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnsupportedMediaTypeErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded: Too many requests (10 per 60 seconds)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get custom voices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "custom_voices"
+        ]
+      }
+    },
+    "/v1/custom-voices": {
+      "get": {
+        "operationId": "list_custom_voices",
+        "summary": "Gets custom (cloned) voices",
+        "description": "Gets a paginated list of custom (cloned) voices available to the user, using token-based pagination.",
+        "parameters": [
+          {
+            "name": "page_size",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page (default: 20, min: 10, max: 100)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "next_page_token",
+            "required": false,
+            "in": "query",
+            "description": "Token for pagination (obtained from the previous page's response)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated custom voices response with next page token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCustomVoiceListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: No custom voices found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get custom voices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "custom_voices"
+        ]
+      }
+    },
+    "/v1/custom-voices/search": {
+      "get": {
+        "operationId": "search_custom_voices",
+        "summary": "Search custom (cloned) voices",
+        "description": "Search and filter custom (cloned) voices based on various parameters. Space-separated terms in name/description fields use AND condition (all terms must be present).",
+        "parameters": [
+          {
+            "name": "page_size",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page (default: 20, min: 10, max: 100)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "next_page_token",
+            "required": false,
+            "in": "query",
+            "description": "Token for pagination (obtained from the previous page's response)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Search across name. Space separated.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "required": false,
+            "in": "query",
+            "description": "Search across description. Space separated.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated custom voices search response with next page token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCustomVoiceListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: No custom voices found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to search custom voices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "custom_voices"
+        ]
+      }
+    },
+    "/v1/custom-voices/{voice_id}": {
+      "get": {
+        "operationId": "get_custom_voice",
+        "summary": "Get single cloned voice",
+        "description": "Gets details of a specific custom (cloned) voice by ID.",
+        "parameters": [
+          {
+            "name": "voice_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Custom voice details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSingleClonedVoiceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: Voice does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get cloned voice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "custom_voices"
+        ]
+      },
+      "patch": {
+        "operationId": "edit_custom_voice",
+        "summary": "Update cloned voice (partial update)",
+        "description": "Partially updates properties of a custom (cloned) voice by ID.",
+        "parameters": [
+          {
+            "name": "voice_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClonedVoiceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voice updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateClonedVoiceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: Voice does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to update cloned voice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "custom_voices"
+        ]
+      },
+      "delete": {
+        "operationId": "delete_custom_voice",
+        "summary": "Delete cloned voice",
+        "description": "Deletes a custom (cloned) voice by ID.",
+        "parameters": [
+          {
+            "name": "voice_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Voice deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: Voice does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to delete cloned voice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "custom_voices"
+        ]
+      }
+    },
+    "/v1/voice-usage": {
+      "get": {
+        "operationId": "get_voice_usage",
+        "summary": "Retrieve TTS API usage data",
+        "description": "Retrieves a list of all TTS API usage records filtered by a specified date range. All dates are in UTC+0 timezone.",
+        "parameters": [
+          {
+            "name": "start_date",
+            "required": true,
+            "in": "query",
+            "description": "The start date in YYYY-MM-DD format.",
+            "schema": {
+              "example": "2024-11-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_date",
+            "required": true,
+            "in": "query",
+            "description": "The end date in YYYY-MM-DD format.",
+            "schema": {
+              "example": "2024-11-30",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of TTS API usage records matching the specified date range.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsageListV1Response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key"
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get usages"
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "usage"
+        ]
+      }
+    },
+    "/v1/usage": {
+      "get": {
+        "operationId": "get_usage",
+        "summary": "Retrieve advanced API usage analytics",
+        "description": "Retrieves API usage data with advanced features including time bucketing, multi-dimensional breakdowns, and pagination. All timestamps should be in RFC3339 format.",
+        "parameters": [
+          {
+            "name": "start_time",
+            "required": true,
+            "in": "query",
+            "description": "Start time in RFC3339 format",
+            "schema": {
+              "example": "2024-01-01T00:00:00+09:00",
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_time",
+            "required": true,
+            "in": "query",
+            "description": "End time in RFC3339 format",
+            "schema": {
+              "example": "2024-01-31T23:59:59+09:00",
+              "type": "string"
+            }
+          },
+          {
+            "name": "bucket_width",
+            "required": false,
+            "in": "query",
+            "description": "Time bucket width for aggregation",
+            "schema": {
+              "default": "day",
+              "enum": [
+                "hour",
+                "day"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "breakdown_type",
+            "required": false,
+            "in": "query",
+            "description": "Dimensions to break down usage data",
+            "schema": {
+              "example": [
+                "voice_name"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "voice_id",
+                  "voice_name",
+                  "api_key",
+                  "model"
+                ]
+              }
+            }
+          },
+          {
+            "name": "page_size",
+            "required": false,
+            "in": "query",
+            "description": "Number of results per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 20,
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "next_page_token",
+            "required": false,
+            "in": "query",
+            "description": "Pagination token from previous response",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usage analytics data successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageAnalyticsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Invalid request parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Request Timeout: Processing took longer than 30 seconds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestTimeoutErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Failed to get usages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalServerErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "usage"
+        ]
+      }
+    },
+    "/v1/credits": {
+      "get": {
+        "operationId": "get_credit_balance",
+        "summary": "Retrieve credit balance",
+        "description": "Retrieves credit balance of the user.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Credit balance of the user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCreditBalanceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Invalid API key"
+          },
+          "404": {
+            "description": "Not Found: No user found"
+          },
+          "500": {
+            "description": "Internal Server Error: Failed with credit system."
+          }
+        },
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "tags": [
+          "usage"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Supertone Public API",
+    "description": "Supertone API is a RESTful API for using our state-of-the-art AI voice models.",
+    "version": "0.8.69",
+    "contact": {
+
+    }
+  },
+  "tags": [
+    {
+      "name": "voices",
+      "description": "Voice Library API endpoints"
+    },
+    {
+      "name": "custom_voices",
+      "description": "Custom Voice Management API endpoints"
+    },
+    {
+      "name": "text_to_speech",
+      "description": "Text-to-Speech API endpoints"
+    },
+    {
+      "name": "usage",
+      "description": "Usage Analytics API endpoints"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://supertoneapi.com",
+      "description": "Production"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-sup-api-key"
+      }
+    },
+    "schemas": {
+      "BadRequestErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Bad request error message",
+            "example": "Invalid request data"
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "ErrorMessageData": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Error message",
+            "example": "Invalid API Key"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type",
+            "example": "Unauthorized"
+          },
+          "status_code": {
+            "type": "number",
+            "description": "HTTP status code",
+            "example": 401
+          }
+        },
+        "required": [
+          "message",
+          "error",
+          "status_code"
+        ]
+      },
+      "UnauthorizedErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Unauthorized error details",
+            "example": {
+              "message": "Invalid API Key",
+              "error": "Unauthorized",
+              "statusCode": 401
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "PaymentRequiredErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Payment required error details",
+            "example": {
+              "message": "Not enough credits",
+              "error": "Payment Required",
+              "statusCode": 402
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "ForbiddenErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Forbidden error details",
+            "example": {
+              "message": "Permission denied",
+              "error": "Forbidden",
+              "statusCode": 403
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "RequestTimeoutErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Request timeout error details",
+            "example": {
+              "message": "Request timed out",
+              "error": "Request Timeout",
+              "statusCode": 408
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "TooManyRequestsErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Too many requests error details",
+            "example": {
+              "message": "rate limit exceeded",
+              "error": "Too Many Requests",
+              "statusCode": 429
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "InternalServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Internal server error details",
+            "example": {
+              "message": "Failed to convert text to speech",
+              "error": "Internal Server Error",
+              "statusCode": 500
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "ConvertTextToSpeechParameters": {
+        "type": "object",
+        "properties": {
+          "pitch_shift": {
+            "type": "number",
+            "default": 0,
+            "minimum": -24,
+            "maximum": 24
+          },
+          "pitch_variance": {
+            "type": "number",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 2
+          },
+          "speed": {
+            "type": "number",
+            "default": 1,
+            "minimum": 0.5,
+            "maximum": 2
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration parameter for TTS generation",
+            "default": 0,
+            "minimum": 0,
+            "maximum": 60
+          },
+          "similarity": {
+            "type": "number",
+            "description": "Similarity parameter for voice matching",
+            "default": 3,
+            "minimum": 1,
+            "maximum": 5
+          },
+          "text_guidance": {
+            "type": "number",
+            "description": "Text guidance parameter for generation control",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 4
+          },
+          "subharmonic_amplitude_control": {
+            "type": "number",
+            "description": "Subharmonic amplitude control parameter",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 2
+          }
+        }
+      },
+      "APIConvertTextToSpeechUsingCharacterRequest": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text to convert to speech",
+            "maxLength": 300
+          },
+          "language": {
+            "type": "string",
+            "description": "The language code of the text",
+            "enum": [
+              "en",
+              "ko",
+              "ja",
+              "es",
+              "pt"
+            ]
+          },
+          "style": {
+            "type": "string",
+            "description": "The style of character to use for the text-to-speech conversion"
+          },
+          "model": {
+            "type": "string",
+            "description": "The model type to use for the text-to-speech conversion",
+            "default": "sona_speech_1"
+          },
+          "output_format": {
+            "type": "string",
+            "description": "The desired output format of the audio file (wav, mp3). Default is wav.",
+            "enum": [
+              "wav",
+              "mp3"
+            ],
+            "default": "wav"
+          },
+          "voice_settings": {
+            "$ref": "#/components/schemas/ConvertTextToSpeechParameters"
+          },
+          "include_phonemes": {
+            "type": "boolean",
+            "description": "Return phoneme timing data with the audio",
+            "default": false
+          }
+        },
+        "required": [
+          "text",
+          "language"
+        ]
+      },
+      "NotFoundErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Not found error details",
+            "example": {
+              "message": "Voice not found",
+              "error": "Not Found",
+              "statusCode": 404
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "PredictTTSDurationUsingCharacterRequest": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The text to convert to speech. Max length is 300 characters.",
+            "maxLength": 300
+          },
+          "language": {
+            "type": "string",
+            "description": "Language code of the voice",
+            "enum": [
+              "en",
+              "ko",
+              "ja",
+              "es",
+              "pt"
+            ]
+          },
+          "style": {
+            "type": "string",
+            "description": "The style of character to use for the text-to-speech conversion"
+          },
+          "model": {
+            "type": "string",
+            "description": "The model type to use for the text-to-speech conversion",
+            "default": "sona_speech_1"
+          },
+          "output_format": {
+            "type": "string",
+            "description": "The desired output format of the audio file (wav, mp3). Default is wav.",
+            "enum": [
+              "wav",
+              "mp3"
+            ],
+            "default": "wav"
+          },
+          "voice_settings": {
+            "$ref": "#/components/schemas/ConvertTextToSpeechParameters"
+          }
+        },
+        "required": [
+          "text",
+          "language"
+        ]
+      },
+      "APISampleData": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "description": "Language of the sample",
+            "example": "ko"
+          },
+          "style": {
+            "type": "string",
+            "description": "Style of the sample",
+            "example": "kind-default"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model of the sample",
+            "example": "sona_speech_1"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL to the sample audio file",
+            "example": "https://example.com/samples/sample-audio.wav"
+          }
+        },
+        "required": [
+          "language",
+          "style",
+          "model",
+          "url"
+        ]
+      },
+      "GetAPICharacterResponseData": {
+        "type": "object",
+        "properties": {
+          "voice_id": {
+            "type": "string",
+            "description": "Unique identifier for the voice",
+            "example": "\u003Cvoice-id\u003E"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the voice",
+            "example": "Agatha"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the voice",
+            "example": ""
+          },
+          "age": {
+            "type": "string",
+            "description": "Age of the voice",
+            "example": "young-adult"
+          },
+          "gender": {
+            "type": "string",
+            "description": "Gender of the voice",
+            "example": "female"
+          },
+          "use_case": {
+            "type": "string",
+            "description": "Use case of the voice",
+            "example": "narration"
+          },
+          "use_cases": {
+            "description": "Use cases of the voice (array)",
+            "example": [
+              "narration",
+              "storytelling"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "language": {
+            "description": "Languages supported by the voice",
+            "example": [
+              "ko",
+              "en",
+              "ja"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "styles": {
+            "description": "Styles available for the voice",
+            "example": [
+              "kind-default",
+              "normal",
+              "serene"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "models": {
+            "description": "Models available for the voice",
+            "example": [
+              "sona_speech_1"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "samples": {
+            "description": "URL to the sample audio file for the voice",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/APISampleData"
+            }
+          },
+          "thumbnail_image_url": {
+            "type": "string",
+            "description": "URL to the thumbnail image for the voice",
+            "example": "https://example.com/thumbnails/voice-thumbnail.png"
+          }
+        },
+        "required": [
+          "voice_id",
+          "name",
+          "description",
+          "age",
+          "gender",
+          "use_case",
+          "use_cases",
+          "language",
+          "styles",
+          "models"
+        ]
+      },
+      "GetAPICharacterListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "List of character items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetAPICharacterResponseData"
+            }
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of available characters (might be approximate or removed in future)",
+            "example": 150
+          },
+          "next_page_token": {
+            "type": "string",
+            "description": "Token for fetching the next page of results. Undefined if no more pages.",
+            "example": "some_opaque_token_string_representing_last_id"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ]
+      },
+      "GetCharacterByIdResponse": {
+        "type": "object",
+        "properties": {
+          "voice_id": {
+            "type": "string",
+            "description": "Unique identifier for the voice",
+            "example": "\u003Cvoice-id\u003E"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the voice",
+            "example": "Agatha"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the voice",
+            "example": ""
+          },
+          "age": {
+            "type": "string",
+            "description": "Age of the voice",
+            "example": "young-adult"
+          },
+          "gender": {
+            "type": "string",
+            "description": "Gender of the voice",
+            "example": "female"
+          },
+          "use_case": {
+            "type": "string",
+            "description": "Use case of the voice",
+            "example": "narration"
+          },
+          "use_cases": {
+            "description": "Use cases of the voice (array)",
+            "example": [
+              "narration",
+              "storytelling"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "language": {
+            "description": "Languages supported by the voice",
+            "example": [
+              "ko",
+              "en",
+              "ja"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "styles": {
+            "description": "Styles available for the voice",
+            "example": [
+              "kind-default",
+              "normal",
+              "serene"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "models": {
+            "description": "Models available for the voice",
+            "example": [
+              "sona_speech_1"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "samples": {
+            "description": "URL to the sample audio file for the voice",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/APISampleData"
+            }
+          },
+          "thumbnail_image_url": {
+            "type": "string",
+            "description": "URL to the thumbnail image for the voice",
+            "example": "https://example.com/thumbnails/voice-thumbnail.png"
+          }
+        },
+        "required": [
+          "voice_id",
+          "name",
+          "description",
+          "age",
+          "gender",
+          "use_case",
+          "use_cases",
+          "language",
+          "styles",
+          "models"
+        ]
+      },
+      "CreateClonedVoiceUploadResponse": {
+        "type": "object",
+        "properties": {
+          "voice_id": {
+            "type": "string",
+            "description": "Unique identifier for the created voice",
+            "example": "voice_123456789"
+          }
+        },
+        "required": [
+          "voice_id"
+        ]
+      },
+      "PayloadTooLargeErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Payload too large error details",
+            "example": {
+              "message": "File too large",
+              "error": "Payload Too Large",
+              "statusCode": 413
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "UnsupportedMediaTypeErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Unsupported media type error message",
+            "example": "Unsupported audio format. Supported formats: WAV, MP3. Received: application/json"
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "GetCustomVoiceResponseData": {
+        "type": "object",
+        "properties": {
+          "voice_id": {
+            "type": "string",
+            "description": "Unique identifier for the custom voice"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the custom voice"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the custom voice"
+          }
+        },
+        "required": [
+          "voice_id",
+          "name",
+          "description"
+        ]
+      },
+      "GetCustomVoiceListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "List of custom voice items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetCustomVoiceResponseData"
+            }
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of available custom voices",
+            "example": 25
+          },
+          "next_page_token": {
+            "type": "string",
+            "description": "Token for fetching the next page of results. A valid non-negative integer string (e.g., \"10\", \"20\"). Null if no more pages.",
+            "example": "10"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ]
+      },
+      "GetSingleClonedVoiceResponse": {
+        "type": "object",
+        "properties": {
+          "voice_id": {
+            "type": "string",
+            "description": "Unique identifier for the voice",
+            "example": "voice_123456789"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the voice",
+            "example": "My Custom Voice"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the voice",
+            "example": "A warm and friendly voice for customer service"
+          }
+        },
+        "required": [
+          "voice_id",
+          "name",
+          "description"
+        ]
+      },
+      "UpdateClonedVoiceRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the voice",
+            "example": "My Updated Voice"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the voice",
+            "example": "An updated warm and friendly voice for customer service"
+          }
+        }
+      },
+      "UpdateClonedVoiceResponse": {
+        "type": "object",
+        "properties": {
+          "voice_id": {
+            "type": "string",
+            "description": "Unique identifier for the voice",
+            "example": "voice_123456789"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the voice",
+            "example": "My Updated Voice"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the voice",
+            "example": "An updated warm and friendly voice for customer service"
+          }
+        },
+        "required": [
+          "voice_id",
+          "name",
+          "description"
+        ]
+      },
+      "GetUsageResponseV1Data": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date of the API usage in YYYY-MM-DD format."
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "The unique identifier for the voice used in the API call."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the voice used in the API call."
+          },
+          "style": {
+            "type": "string",
+            "description": "The style of the voice used in the API call."
+          },
+          "language": {
+            "type": "string",
+            "description": "The language of the voice used in the API call."
+          },
+          "total_minutes_used": {
+            "type": "number",
+            "description": "The total duration (in minutes) of API usage for the specified voice and date."
+          },
+          "model": {
+            "type": "string",
+            "description": "The model name used for text-to-speech."
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "description": "The URL to the thumbnail image for the voice."
+          }
+        },
+        "required": [
+          "date",
+          "voice_id",
+          "total_minutes_used"
+        ]
+      },
+      "GetUsageListV1Response": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetUsageResponseV1Data"
+            }
+          }
+        },
+        "required": [
+          "usages"
+        ]
+      },
+      "UsageResult": {
+        "type": "object",
+        "properties": {
+          "voice_id": {
+            "type": "string",
+            "description": "Voice identifier"
+          },
+          "voice_name": {
+            "type": "string",
+            "description": "Human-readable voice name"
+          },
+          "api_key": {
+            "type": "string",
+            "description": "API key used"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model used"
+          },
+          "minutes_used": {
+            "type": "number",
+            "description": "Total minutes of API usage"
+          }
+        },
+        "required": [
+          "minutes_used"
+        ]
+      },
+      "UsageBucket": {
+        "type": "object",
+        "properties": {
+          "starting_at": {
+            "type": "string",
+            "description": "RFC3339 timestamp for bucket start",
+            "example": "2024-01-01T00:00:00+09:00"
+          },
+          "ending_at": {
+            "type": "string",
+            "description": "RFC3339 timestamp for bucket end",
+            "example": "2024-01-01T01:00:00+09:00"
+          },
+          "results": {
+            "description": "Array of usage results within this time bucket",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageResult"
+            }
+          }
+        },
+        "required": [
+          "starting_at",
+          "ending_at",
+          "results"
+        ]
+      },
+      "UsageAnalyticsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Array of time buckets containing usage data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageBucket"
+            }
+          },
+          "next_page_token": {
+            "type": "string",
+            "description": "Pagination token for next page"
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of time buckets across all pages"
+          }
+        },
+        "required": [
+          "data",
+          "total"
+        ]
+      },
+      "GetCreditBalanceResponse": {
+        "type": "object",
+        "properties": {
+          "balance": {
+            "type": "number",
+            "description": "Credit balance of the user",
+            "nullable": true
+          }
+        },
+        "required": [
+          "balance"
+        ]
+      }
+    }
+  }
+}

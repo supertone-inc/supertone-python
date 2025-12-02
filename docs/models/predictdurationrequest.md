@@ -1,0 +1,9 @@
+# PredictDurationRequest
+
+
+## Fields
+
+| Field                                                                                                  | Type                                                                                                   | Required                                                                                               | Description                                                                                            |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `voice_id`                                                                                             | *str*                                                                                                  | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
+| `predict_tts_duration_using_character_request`                                                         | [models.PredictTTSDurationUsingCharacterRequest](../models/predictttsdurationusingcharacterrequest.md) | :heavy_check_mark:                                                                                     | N/A                                                                                                    |

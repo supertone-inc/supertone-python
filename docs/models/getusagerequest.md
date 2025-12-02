@@ -1,0 +1,13 @@
+# GetUsageRequest
+
+
+## Fields
+
+| Field                                                    | Type                                                     | Required                                                 | Description                                              | Example                                                  |
+| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
+| `start_time`                                             | *str*                                                    | :heavy_check_mark:                                       | Start time in RFC3339 format                             | 2024-01-01T00:00:00+09:00                                |
+| `end_time`                                               | *str*                                                    | :heavy_check_mark:                                       | End time in RFC3339 format                               | 2024-01-31T23:59:59+09:00                                |
+| `bucket_width`                                           | [Optional[models.BucketWidth]](../models/bucketwidth.md) | :heavy_minus_sign:                                       | Time bucket width for aggregation                        |                                                          |
+| `breakdown_type`                                         | List[[models.BreakdownType](../models/breakdowntype.md)] | :heavy_minus_sign:                                       | Dimensions to break down usage data                      | [<br/>"voice_name"<br/>]                                 |
+| `page_size`                                              | *Optional[float]*                                        | :heavy_minus_sign:                                       | Number of results per page                               |                                                          |
+| `next_page_token`                                        | *Optional[str]*                                          | :heavy_minus_sign:                                       | Pagination token from previous response                  |                                                          |
