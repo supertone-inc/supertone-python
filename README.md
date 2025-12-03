@@ -223,7 +223,7 @@ with Supertone(
 <!-- Start More Example Codes [examples] -->
 ## More Example Codes
 
-More sample code is available in the included [examples](https://github.com/supertone-inc/supertone-python/tree/main/examples) directory.
+Additional example code can be found in the [examples](https://github.com/supertone-inc/supertone-python/tree/main/examples) directory.
 
 <!-- End More Example Codes [examples] -->
 
