@@ -1,8 +1,9 @@
-# supertone-python
+# Supertone Python Library
 <!-- Start Summary [summary] -->
 ## Summary
 
-Supertone Public API: Supertone API is a RESTful API for using our state-of-the-art AI voice models.
+The official Python SDK for [Supertone API](https://www.supertone.ai/en/api)
+
 <!-- End Summary [summary] -->
 
 <!-- Start SDK Installation [installation] -->
