@@ -187,7 +187,7 @@ with Supertone(
 
 \* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
 
-### Example
+### Error Handling Example
 ```python
 from supertone import Supertone, errors, models
 
@@ -219,5 +219,13 @@ with Supertone(
 ```
 
 <!-- End Error Handling [errors] -->
+
+<!-- Start More Example Codes [examples] -->
+
+More sample code is available in the included [examples](https://github.com/supertone-inc/supertone-python/tree/main/examples) directory.
+
+<!-- End More Example Codes [examples] -->
+
+
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
