@@ -221,6 +221,7 @@ with Supertone(
 <!-- End Error Handling [errors] -->
 
 <!-- Start More Example Codes [examples] -->
+## More Example Codes
 
 More sample code is available in the included [examples](https://github.com/supertone-inc/supertone-python/tree/main/examples) directory.
 
