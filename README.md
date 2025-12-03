@@ -39,7 +39,7 @@ poetry add git+<UNSET>.git
 ```
 
 <!-- Start SDK Example [usage] -->
-## SDK Example
+## Speech Generation Example
 
 ### Example
 
@@ -111,8 +111,6 @@ with Supertone(
 
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
-
-<summary>Available methods</summary>
 
 ### [custom_voices](docs/sdks/customvoices/README.md)
 
