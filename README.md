@@ -220,12 +220,12 @@ with Supertone(
 
 <!-- End Error Handling [errors] -->
 
-<!-- Start More Example Codes [examples] -->
-## More Example Codes
+<!-- Start Additional Example Code [examples] -->
+## Additional Example Code
 
 Additional example code can be found in the [examples](https://github.com/supertone-inc/supertone-python/tree/main/examples) directory.
 
-<!-- End More Example Codes [examples] -->
+<!-- End Additional Example Code [examples] -->
 
 
 
