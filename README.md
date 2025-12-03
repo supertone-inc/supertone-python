@@ -1,6 +1,9 @@
 # Supertone Python Library
+
+![LOGO](https://github.com/supertone-inc/supertone-python/blob/main/images/hero-light.svg)
+
 <!-- Start Summary [summary] -->
-## Summary
+## API & Docs
 
 The official Python SDK for [Supertone API](https://www.supertone.ai/en/api)
 
