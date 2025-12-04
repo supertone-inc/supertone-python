@@ -1,4 +1,7 @@
-# supertone-python
+# Supertone Python Library
+
+![LOGO](https://github.com/supertone-inc/supertone-python/blob/3d19bcdad946bd3c7412f40818ef799b32b2e8e9/images/hero-light.png?raw=true)
+
 <!-- Start Summary [summary] -->
 ## Summary
 
@@ -8,21 +11,96 @@ Supertone Public API: Supertone API is a RESTful API for using our state-of-the-
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
-* [supertone-python](#supertone-python)
+* [Supertone Python Library](#supertone-python-library)
   * [SDK Installation](#sdk-installation)
-  * [IDE Support](#ide-support)
   * [SDK Example Usage](#sdk-example-usage)
+  * [SDK Installation](#sdk-installation-1)
+  * [IDE Support](#ide-support)
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [File uploads](#file-uploads)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
+  * [Additional Example Code](#additional-example-code)
   * [Server Selection](#server-selection)
   * [Custom HTTP Client](#custom-http-client)
   * [Resource Management](#resource-management)
   * [Debugging](#debugging)
 
 <!-- End Table of Contents [toc] -->
+
+<!-- Start SDK Installation [installation] -->
+
+## SDK Installation
+
+The SDK can be installed with _uv_, _pip_, or _poetry_ package managers.
+
+### uv
+
+_uv_ is a fast Python package installer and resolver, designed as a drop-in replacement for pip and pip-tools. It's recommended for its speed and modern Python tooling capabilities.
+
+```bash
+uv add supertone
+```
+
+### PIP
+
+_PIP_ is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
+
+```bash
+pip install supertone
+```
+
+### Poetry
+
+_Poetry_ is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
+
+```bash
+poetry add supertone
+```
+
+<!-- Start SDK Example Usage [usage] -->
+## SDK Example Usage
+
+### Example
+
+```python
+# Synchronous Example
+from supertone import Supertone, models
+
+
+with Supertone(
+    api_key="<YOUR_API_KEY_HERE>",
+) as s_client:
+
+    res = s_client.text_to_speech.create_speech(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model="sona_speech_1", output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
+
+    # Handle response
+    print(res)
+```
+
+</br>
+
+The same SDK client can also be used to make asynchronous requests by importing asyncio.
+```python
+# Asynchronous Example
+import asyncio
+from supertone import Supertone, models
+
+async def main():
+
+    async with Supertone(
+        api_key="<YOUR_API_KEY_HERE>",
+    ) as s_client:
+
+        res = await s_client.text_to_speech.create_speech_async(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model="sona_speech_1", output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
+
+        # Handle response
+        print(res)
+
+asyncio.run(main())
+```
+<!-- End SDK Example Usage [usage] -->
 
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
@@ -103,49 +181,6 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 
 - [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
 <!-- End IDE Support [idesupport] -->
-
-<!-- Start SDK Example Usage [usage] -->
-## SDK Example Usage
-
-### Example
-
-```python
-# Synchronous Example
-from supertone import Supertone, models
-
-
-with Supertone(
-    api_key="<YOUR_API_KEY_HERE>",
-) as s_client:
-
-    res = s_client.text_to_speech.create_speech(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model="sona_speech_1", output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
-
-    # Handle response
-    print(res)
-```
-
-</br>
-
-The same SDK client can also be used to make asynchronous requests by importing asyncio.
-```python
-# Asynchronous Example
-import asyncio
-from supertone import Supertone, models
-
-async def main():
-
-    async with Supertone(
-        api_key="<YOUR_API_KEY_HERE>",
-    ) as s_client:
-
-        res = await s_client.text_to_speech.create_speech_async(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model="sona_speech_1", output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
-
-        # Handle response
-        print(res)
-
-asyncio.run(main())
-```
-<!-- End SDK Example Usage [usage] -->
 
 <!-- Start Authentication [security] -->
 ## Authentication
@@ -359,6 +394,14 @@ with Supertone(
 
 \* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
 <!-- End Error Handling [errors] -->
+
+<!-- Start Additional Example Code [examples] -->
+
+## Additional Example Code
+
+Additional example code can be found in the [examples](https://github.com/supertone-inc/supertone-python/tree/main/examples) directory.
+
+<!-- End Additional Example Code [examples] -->
 
 <!-- Start Server Selection [server] -->
 ## Server Selection

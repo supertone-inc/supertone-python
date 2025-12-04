@@ -1375,11 +1375,9 @@ class TextToSpeech(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value=(
-                accept_header_override.value
-                if accept_header_override is not None
-                else "application/json;q=1, audio/mpeg;q=0.7, audio/wav;q=0"
-            ),
+            accept_header_value=accept_header_override.value
+            if accept_header_override is not None
+            else "application/json;q=1, audio/mpeg;q=0.7, audio/wav;q=0",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -1593,11 +1591,9 @@ class TextToSpeech(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value=(
-                accept_header_override.value
-                if accept_header_override is not None
-                else "application/json;q=1, audio/mpeg;q=0.7, audio/wav;q=0"
-            ),
+            accept_header_value=accept_header_override.value
+            if accept_header_override is not None
+            else "application/json;q=1, audio/mpeg;q=0.7, audio/wav;q=0",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -1811,11 +1807,9 @@ class TextToSpeech(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value=(
-                accept_header_override.value
-                if accept_header_override is not None
-                else "application/x-ndjson;q=1, audio/mpeg;q=0.7, audio/wav;q=0"
-            ),
+            accept_header_value=accept_header_override.value
+            if accept_header_override is not None
+            else "application/x-ndjson;q=1, audio/mpeg;q=0.7, audio/wav;q=0",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
@@ -2027,11 +2021,9 @@ class TextToSpeech(BaseSDK):
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
-            accept_header_value=(
-                accept_header_override.value
-                if accept_header_override is not None
-                else "application/x-ndjson;q=1, audio/mpeg;q=0.7, audio/wav;q=0"
-            ),
+            accept_header_value=accept_header_override.value
+            if accept_header_override is not None
+            else "application/x-ndjson;q=1, audio/mpeg;q=0.7, audio/wav;q=0",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
