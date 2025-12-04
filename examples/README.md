@@ -143,9 +143,8 @@ Convert text to speech with various options:
 ```python
 from supertone import Supertone
 
-client = Supertone()
-response = client.text_to_speech.create_speech(...)
-client.close()
+with Supertone() as client:
+    response = client.text_to_speech.create_speech(...)
 ```
 
 ### Async Examples

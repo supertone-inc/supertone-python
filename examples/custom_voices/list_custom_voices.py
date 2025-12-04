@@ -17,34 +17,30 @@ def main():
         print("   export SUPERTONE_API_KEY='your-api-key-here'")
         return
 
-    # Initialize the SDK
-    client = Supertone(api_key=api_key)
+    # Initialize the SDK with context manager
+    with Supertone(api_key=api_key) as client:
+        try:
+            # List your custom voices
+            response = client.custom_voices.list_custom_voices(page=1, page_size=10)
 
-    try:
-        # List your custom voices
-        response = client.custom_voices.list_custom_voices(page=1, page_size=10)
+            print("✅ Custom Voices Retrieved")
+            print(f"   Total Voices: {response.total_items}")
+            print(f"   Current Page: {response.page}/{response.total_pages}")
 
-        print("✅ Custom Voices Retrieved")
-        print(f"   Total Voices: {response.total_items}")
-        print(f"   Current Page: {response.page}/{response.total_pages}")
+            # Display custom voice information
+            if response.data:
+                print("\n🎭 Your Custom Voices:")
+                for i, voice in enumerate(response.data, 1):
+                    print(f"\n   {i}. {voice.name}")
+                    print(f"      ID: {voice.voice_id}")
+                    if hasattr(voice, "created_at"):
+                        print(f"      Created: {voice.created_at}")
+            else:
+                print("\n   No custom voices found.")
+                print("   💡 Create a custom voice using create_cloned_voice()")
 
-        # Display custom voice information
-        if response.data:
-            print("\n🎭 Your Custom Voices:")
-            for i, voice in enumerate(response.data, 1):
-                print(f"\n   {i}. {voice.name}")
-                print(f"      ID: {voice.voice_id}")
-                if hasattr(voice, "created_at"):
-                    print(f"      Created: {voice.created_at}")
-        else:
-            print("\n   No custom voices found.")
-            print("   💡 Create a custom voice using create_cloned_voice()")
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-
-    finally:
-        client.close()
+        except Exception as e:
+            print(f"❌ Error: {e}")
 
 
 if __name__ == "__main__":

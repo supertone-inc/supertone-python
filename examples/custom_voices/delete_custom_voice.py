@@ -18,37 +18,33 @@ def main():
         print("   export SUPERTONE_API_KEY='your-api-key-here'")
         return
 
-    # Initialize the SDK
-    client = Supertone(api_key=api_key)
+    # Initialize the SDK with context manager
+    with Supertone(api_key=api_key) as client:
+        # Replace with an actual custom voice ID from your account
+        CUSTOM_VOICE_ID = "your-custom-voice-id-here"
 
-    # Replace with an actual custom voice ID from your account
-    CUSTOM_VOICE_ID = "your-custom-voice-id-here"
+        try:
+            # ⚠️ WARNING: This will permanently delete the custom voice
+            print("⚠️  WARNING: You are about to permanently delete a custom voice!")
+            print(f"   Voice ID: {CUSTOM_VOICE_ID}")
+            
+            # Uncomment the following lines to actually delete the voice
+            # confirmation = input("\n   Type 'DELETE' to confirm: ")
+            # if confirmation != "DELETE":
+            #     print("   Deletion cancelled.")
+            #     return
 
-    try:
-        # ⚠️ WARNING: This will permanently delete the custom voice
-        print("⚠️  WARNING: You are about to permanently delete a custom voice!")
-        print(f"   Voice ID: {CUSTOM_VOICE_ID}")
-        
-        # Uncomment the following lines to actually delete the voice
-        # confirmation = input("\n   Type 'DELETE' to confirm: ")
-        # if confirmation != "DELETE":
-        #     print("   Deletion cancelled.")
-        #     return
+            # Delete the custom voice
+            client.custom_voices.delete_custom_voice(voice_id=CUSTOM_VOICE_ID)
 
-        # Delete the custom voice
-        client.custom_voices.delete_custom_voice(voice_id=CUSTOM_VOICE_ID)
+            print("✅ Custom Voice Deleted Successfully")
+            print(f"   Deleted Voice ID: {CUSTOM_VOICE_ID}")
+            print("\n⚠️  This action cannot be undone!")
 
-        print("✅ Custom Voice Deleted Successfully")
-        print(f"   Deleted Voice ID: {CUSTOM_VOICE_ID}")
-        print("\n⚠️  This action cannot be undone!")
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-        print("   Tip: Make sure to replace CUSTOM_VOICE_ID with a valid custom voice ID")
-        print("   Run: python examples/custom_voices/list_custom_voices.py")
-
-    finally:
-        client.close()
+        except Exception as e:
+            print(f"❌ Error: {e}")
+            print("   Tip: Make sure to replace CUSTOM_VOICE_ID with a valid custom voice ID")
+            print("   Run: python examples/custom_voices/list_custom_voices.py")
 
 
 if __name__ == "__main__":

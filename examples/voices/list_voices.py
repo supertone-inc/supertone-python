@@ -17,34 +17,30 @@ def main():
         print("   export SUPERTONE_API_KEY='your-api-key-here'")
         return
 
-    # Initialize the SDK
-    client = Supertone(api_key=api_key)
+    # Initialize the SDK with context manager
+    with Supertone(api_key=api_key) as client:
+        try:
+            # List available voices with pagination
+            response = client.voices.list_voices(
+                page=1, page_size=10  # Number of voices per page (10-100)
+            )
 
-    try:
-        # List available voices with pagination
-        response = client.voices.list_voices(
-            page=1, page_size=10  # Number of voices per page (10-100)
-        )
+            print("✅ Voices Retrieved")
+            print(f"   Total Voices: {response.total_items}")
+            print(f"   Current Page: {response.page}/{response.total_pages}")
 
-        print("✅ Voices Retrieved")
-        print(f"   Total Voices: {response.total_items}")
-        print(f"   Current Page: {response.page}/{response.total_pages}")
+            # Display voice information
+            if response.data:
+                print("\n🎤 Available Voices:")
+                for i, voice in enumerate(response.data, 1):
+                    print(f"\n   {i}. {voice.name}")
+                    print(f"      ID: {voice.voice_id}")
+                    print(f"      Language: {voice.language}")
+                    if hasattr(voice, "tags") and voice.tags:
+                        print(f"      Tags: {', '.join(voice.tags)}")
 
-        # Display voice information
-        if response.data:
-            print("\n🎤 Available Voices:")
-            for i, voice in enumerate(response.data, 1):
-                print(f"\n   {i}. {voice.name}")
-                print(f"      ID: {voice.voice_id}")
-                print(f"      Language: {voice.language}")
-                if hasattr(voice, "tags") and voice.tags:
-                    print(f"      Tags: {', '.join(voice.tags)}")
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-
-    finally:
-        client.close()
+        except Exception as e:
+            print(f"❌ Error: {e}")
 
 
 if __name__ == "__main__":

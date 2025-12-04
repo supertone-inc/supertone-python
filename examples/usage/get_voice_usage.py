@@ -19,45 +19,41 @@ def main():
         print("   export SUPERTONE_API_KEY='your-api-key-here'")
         return
 
-    # Initialize the SDK
-    client = Supertone(api_key=api_key)
+    # Initialize the SDK with context manager
+    with Supertone(api_key=api_key) as client:
+        try:
+            # Get usage data for the last 7 days
+            end_date = datetime.utcnow()
+            start_date = end_date - timedelta(days=7)
 
-    try:
-        # Get usage data for the last 7 days
-        end_date = datetime.utcnow()
-        start_date = end_date - timedelta(days=7)
+            response = client.usage.get_voice_usage(
+                start_date=start_date.strftime("%Y-%m-%d"),
+                end_date=end_date.strftime("%Y-%m-%d"),
+            )
 
-        response = client.usage.get_voice_usage(
-            start_date=start_date.strftime("%Y-%m-%d"),
-            end_date=end_date.strftime("%Y-%m-%d"),
-        )
+            print("✅ Voice Usage Retrieved")
+            print(f"   Date Range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
+            print(f"   Total Items: {response.total_items}")
 
-        print("✅ Voice Usage Retrieved")
-        print(f"   Date Range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
-        print(f"   Total Items: {response.total_items}")
+            # Display usage data
+            if response.data:
+                print("\n📊 Usage Details:")
+                for i, usage in enumerate(response.data[:10], 1):  # Show first 10 records
+                    print(f"\n   {i}. Date: {usage.created_at}")
+                    if hasattr(usage, "voice_id"):
+                        print(f"      Voice ID: {usage.voice_id}")
+                    if hasattr(usage, "credits_used"):
+                        print(f"      Credits Used: {usage.credits_used}")
+                    if hasattr(usage, "text_length"):
+                        print(f"      Text Length: {usage.text_length}")
 
-        # Display usage data
-        if response.data:
-            print("\n📊 Usage Details:")
-            for i, usage in enumerate(response.data[:10], 1):  # Show first 10 records
-                print(f"\n   {i}. Date: {usage.created_at}")
-                if hasattr(usage, "voice_id"):
-                    print(f"      Voice ID: {usage.voice_id}")
-                if hasattr(usage, "credits_used"):
-                    print(f"      Credits Used: {usage.credits_used}")
-                if hasattr(usage, "text_length"):
-                    print(f"      Text Length: {usage.text_length}")
+                if len(response.data) > 10:
+                    print(f"\n   ... and {len(response.data) - 10} more records")
+            else:
+                print("\n   No usage data found for the specified date range.")
 
-            if len(response.data) > 10:
-                print(f"\n   ... and {len(response.data) - 10} more records")
-        else:
-            print("\n   No usage data found for the specified date range.")
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-
-    finally:
-        client.close()
+        except Exception as e:
+            print(f"❌ Error: {e}")
 
 
 if __name__ == "__main__":

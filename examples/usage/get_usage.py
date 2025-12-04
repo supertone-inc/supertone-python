@@ -17,32 +17,28 @@ def main():
         print("   export SUPERTONE_API_KEY='your-api-key-here'")
         return
 
-    # Initialize the SDK
-    client = Supertone(api_key=api_key)
+    # Initialize the SDK with context manager
+    with Supertone(api_key=api_key) as client:
+        try:
+            # Get usage statistics with pagination
+            response = client.usage.get_usage(
+                page=1, page_size=20  # Get up to 20 records per page
+            )
 
-    try:
-        # Get usage statistics with pagination
-        response = client.usage.get_usage(
-            page=1, page_size=20  # Get up to 20 records per page
-        )
+            print("✅ Usage Statistics Retrieved")
+            print(f"   Total Items: {response.total_items}")
+            print(f"   Current Page: {response.page}")
+            print(f"   Total Pages: {response.total_pages}")
 
-        print("✅ Usage Statistics Retrieved")
-        print(f"   Total Items: {response.total_items}")
-        print(f"   Current Page: {response.page}")
-        print(f"   Total Pages: {response.total_pages}")
+            # Display first few usage records
+            if response.data:
+                print("\n📊 Recent Usage:")
+                for i, usage in enumerate(response.data[:5], 1):
+                    print(f"   {i}. Credits Used: {usage.credits_used}")
+                    print(f"      Date: {usage.created_at}")
 
-        # Display first few usage records
-        if response.data:
-            print("\n📊 Recent Usage:")
-            for i, usage in enumerate(response.data[:5], 1):
-                print(f"   {i}. Credits Used: {usage.credits_used}")
-                print(f"      Date: {usage.created_at}")
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-
-    finally:
-        client.close()
+        except Exception as e:
+            print(f"❌ Error: {e}")
 
 
 if __name__ == "__main__":

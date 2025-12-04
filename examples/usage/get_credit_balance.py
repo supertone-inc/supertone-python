@@ -17,22 +17,17 @@ def main():
         print("   export SUPERTONE_API_KEY='your-api-key-here'")
         return
 
-    # Initialize the SDK
-    client = Supertone(api_key=api_key)
+    # Initialize the SDK with context manager
+    with Supertone(api_key=api_key) as client:
+        try:
+            # Get current credit balance
+            response = client.usage.get_credit_balance()
 
-    try:
-        # Get current credit balance
-        response = client.usage.get_credit_balance()
+            print("✅ Credit Balance Retrieved")
+            print(f"   Credits: {response.credits}")
 
-        print("✅ Credit Balance Retrieved")
-        print(f"   Credits: {response.credits}")
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-
-    finally:
-        # Clean up resources
-        client.close()
+        except Exception as e:
+            print(f"❌ Error: {e}")
 
 
 if __name__ == "__main__":

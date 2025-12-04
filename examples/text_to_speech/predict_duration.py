@@ -20,40 +20,36 @@ def main():
         print("   export SUPERTONE_API_KEY='your-api-key-here'")
         return
 
-    # Initialize the SDK
-    client = Supertone(api_key=api_key)
+    # Initialize the SDK with context manager
+    with Supertone(api_key=api_key) as client:
+        # Replace with your voice ID
+        VOICE_ID = "your-voice-id-here"
 
-    # Replace with your voice ID
-    VOICE_ID = "your-voice-id-here"
+        # Text to estimate duration for
+        text = "Hello! This is a sample text to estimate the TTS duration."
 
-    # Text to estimate duration for
-    text = "Hello! This is a sample text to estimate the TTS duration."
+        try:
+            # Predict TTS duration
+            response = client.text_to_speech.predict_duration(
+                voice_id=VOICE_ID,
+                text=text,
+                language=models.PredictTTSDurationUsingCharacterRequestLanguage.EN,
+                # Format options:
+                output_format=models.PredictTTSDurationUsingCharacterRequestOutputFormat.WAV,
+                # Voice customization (optional):
+                # voice_settings=models.ConvertTextToSpeechParameters(
+                #     pitch_shift=0.95,  # Range: 0.5-2.0
+                #     speed=0.9,         # Range: 0.5-2.0
+                # ),
+            )
 
-    try:
-        # Predict TTS duration
-        response = client.text_to_speech.predict_duration(
-            voice_id=VOICE_ID,
-            text=text,
-            language=models.PredictTTSDurationUsingCharacterRequestLanguage.EN,
-            # Format options:
-            output_format=models.PredictTTSDurationUsingCharacterRequestOutputFormat.WAV,
-            # Voice customization (optional):
-            # voice_settings=models.ConvertTextToSpeechParameters(
-            #     pitch_shift=0.95,  # Range: 0.5-2.0
-            #     speed=0.9,         # Range: 0.5-2.0
-            # ),
-        )
+            print("✅ Duration Predicted Successfully")
+            print(f"   Estimated Duration: {response.duration} seconds")
+            print(f"   Text: {text[:50]}...")
+            print("\n💡 Use this to estimate processing time before actual TTS generation")
 
-        print("✅ Duration Predicted Successfully")
-        print(f"   Estimated Duration: {response.duration} seconds")
-        print(f"   Text: {text[:50]}...")
-        print("\n💡 Use this to estimate processing time before actual TTS generation")
-
-    except Exception as e:
-        print(f"❌ Error: {e}")
-
-    finally:
-        client.close()
+        except Exception as e:
+            print(f"❌ Error: {e}")
 
 
 if __name__ == "__main__":
