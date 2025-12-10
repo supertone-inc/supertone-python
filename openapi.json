@@ -1870,8 +1870,26 @@
               "en",
               "ko",
               "ja",
+              "bg",
+              "cs",
+              "da",
+              "el",
               "es",
-              "pt"
+              "et",
+              "fi",
+              "hu",
+              "it",
+              "nl",
+              "pl",
+              "pt",
+              "ro",
+              "ar",
+              "de",
+              "fr",
+              "hi",
+              "id",
+              "ru",
+              "vi"
             ]
           },
           "style": {
@@ -1881,6 +1899,12 @@
           "model": {
             "type": "string",
             "description": "The model type to use for the text-to-speech conversion",
+            "enum": [
+              "sona_speech_1",
+              "sona_speech_2",
+              "sona_speech_2t",
+              "supertonic_api_1"
+            ],
             "default": "sona_speech_1"
           },
           "output_format": {
@@ -1948,8 +1972,26 @@
               "en",
               "ko",
               "ja",
+              "bg",
+              "cs",
+              "da",
+              "el",
               "es",
-              "pt"
+              "et",
+              "fi",
+              "hu",
+              "it",
+              "nl",
+              "pl",
+              "pt",
+              "ro",
+              "ar",
+              "de",
+              "fr",
+              "hi",
+              "id",
+              "ru",
+              "vi"
             ]
           },
           "style": {
@@ -1959,6 +2001,12 @@
           "model": {
             "type": "string",
             "description": "The model type to use for the text-to-speech conversion",
+            "enum": [
+              "sona_speech_1",
+              "sona_speech_2",
+              "sona_speech_2t",
+              "supertonic_api_1"
+            ],
             "default": "sona_speech_1"
           },
           "output_format": {
@@ -1995,7 +2043,7 @@
           "model": {
             "type": "string",
             "description": "Model of the sample",
-            "example": "sona_speech_1"
+            "example": "supertonic_api_1"
           },
           "url": {
             "type": "string",
@@ -2057,9 +2105,29 @@
           "language": {
             "description": "Languages supported by the voice",
             "example": [
-              "ko",
+              "ar",
+              "bg",
+              "cs",
+              "da",
+              "de",
+              "el",
               "en",
-              "ja"
+              "es",
+              "et",
+              "fi",
+              "fr",
+              "hi",
+              "hu",
+              "id",
+              "it",
+              "ja",
+              "ko",
+              "nl",
+              "pl",
+              "pt",
+              "ro",
+              "ru",
+              "vi"
             ],
             "type": "array",
             "items": {
@@ -2081,7 +2149,9 @@
           "models": {
             "description": "Models available for the voice",
             "example": [
-              "sona_speech_1"
+              "sona_speech_1",
+              "sona_speech_2",
+              "supertonic_api_1"
             ],
             "type": "array",
             "items": {
@@ -2187,9 +2257,29 @@
           "language": {
             "description": "Languages supported by the voice",
             "example": [
-              "ko",
+              "ar",
+              "bg",
+              "cs",
+              "da",
+              "de",
+              "el",
               "en",
-              "ja"
+              "es",
+              "et",
+              "fi",
+              "fr",
+              "hi",
+              "hu",
+              "id",
+              "it",
+              "ja",
+              "ko",
+              "nl",
+              "pl",
+              "pt",
+              "ro",
+              "ru",
+              "vi"
             ],
             "type": "array",
             "items": {
@@ -2211,7 +2301,9 @@
           "models": {
             "description": "Models available for the voice",
             "example": [
-              "sona_speech_1"
+              "sona_speech_1",
+              "sona_speech_2",
+              "supertonic_api_1"
             ],
             "type": "array",
             "items": {

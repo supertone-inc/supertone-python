@@ -1305,7 +1305,9 @@ class TextToSpeech(BaseSDK):
         text: str,
         language: models.APIConvertTextToSpeechUsingCharacterRequestLanguage,
         style: Optional[str] = None,
-        model: Optional[str] = "sona_speech_1",
+        model: Optional[
+            models.APIConvertTextToSpeechUsingCharacterRequestModel
+        ] = models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
         output_format: Optional[
             models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat
         ] = models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
@@ -1521,7 +1523,9 @@ class TextToSpeech(BaseSDK):
         text: str,
         language: models.APIConvertTextToSpeechUsingCharacterRequestLanguage,
         style: Optional[str] = None,
-        model: Optional[str] = "sona_speech_1",
+        model: Optional[
+            models.APIConvertTextToSpeechUsingCharacterRequestModel
+        ] = models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
         output_format: Optional[
             models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat
         ] = models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
@@ -1737,7 +1741,9 @@ class TextToSpeech(BaseSDK):
         text: str,
         language: models.APIConvertTextToSpeechUsingCharacterRequestLanguage,
         style: Optional[str] = None,
-        model: Optional[str] = "sona_speech_1",
+        model: Optional[
+            models.APIConvertTextToSpeechUsingCharacterRequestModel
+        ] = models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
         output_format: Optional[
             models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat
         ] = models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
@@ -1951,7 +1957,9 @@ class TextToSpeech(BaseSDK):
         text: str,
         language: models.APIConvertTextToSpeechUsingCharacterRequestLanguage,
         style: Optional[str] = None,
-        model: Optional[str] = "sona_speech_1",
+        model: Optional[
+            models.APIConvertTextToSpeechUsingCharacterRequestModel
+        ] = models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
         output_format: Optional[
             models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat
         ] = models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
@@ -2165,7 +2173,9 @@ class TextToSpeech(BaseSDK):
         text: str,
         language: models.PredictTTSDurationUsingCharacterRequestLanguage,
         style: Optional[str] = None,
-        model: Optional[str] = "sona_speech_1",
+        model: Optional[
+            models.PredictTTSDurationUsingCharacterRequestModel
+        ] = models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_1,
         output_format: Optional[
             models.PredictTTSDurationUsingCharacterRequestOutputFormat
         ] = models.PredictTTSDurationUsingCharacterRequestOutputFormat.WAV,
@@ -2338,7 +2348,9 @@ class TextToSpeech(BaseSDK):
         text: str,
         language: models.PredictTTSDurationUsingCharacterRequestLanguage,
         style: Optional[str] = None,
-        model: Optional[str] = "sona_speech_1",
+        model: Optional[
+            models.PredictTTSDurationUsingCharacterRequestModel
+        ] = models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_1,
         output_format: Optional[
             models.PredictTTSDurationUsingCharacterRequestOutputFormat
         ] = models.PredictTTSDurationUsingCharacterRequestOutputFormat.WAV,

@@ -3,10 +3,10 @@
 import importlib.metadata
 
 __title__: str = "supertone"
-__version__: str = "0.1.1"
+__version__: str = "0.1.2"
 __openapi_doc_version__: str = "0.8.69"
 __gen_version__: str = "2.686.7"
-__user_agent__: str = "speakeasy-sdk/python 0.1.1 2.686.7 0.8.69 supertone"
+__user_agent__: str = "speakeasy-sdk/python 0.1.2 2.686.7 0.8.69 supertone"
 
 try:
     if __package__ is not None:

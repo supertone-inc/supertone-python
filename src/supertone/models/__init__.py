@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from .apiconverttexttospeechusingcharacterrequest import (
         APIConvertTextToSpeechUsingCharacterRequest,
         APIConvertTextToSpeechUsingCharacterRequestLanguage,
+        APIConvertTextToSpeechUsingCharacterRequestModel,
         APIConvertTextToSpeechUsingCharacterRequestOutputFormat,
         APIConvertTextToSpeechUsingCharacterRequestTypedDict,
     )
@@ -128,6 +129,7 @@ if TYPE_CHECKING:
     from .predictttsdurationusingcharacterrequest import (
         PredictTTSDurationUsingCharacterRequest,
         PredictTTSDurationUsingCharacterRequestLanguage,
+        PredictTTSDurationUsingCharacterRequestModel,
         PredictTTSDurationUsingCharacterRequestOutputFormat,
         PredictTTSDurationUsingCharacterRequestTypedDict,
     )
@@ -175,6 +177,7 @@ if TYPE_CHECKING:
 __all__ = [
     "APIConvertTextToSpeechUsingCharacterRequest",
     "APIConvertTextToSpeechUsingCharacterRequestLanguage",
+    "APIConvertTextToSpeechUsingCharacterRequestModel",
     "APIConvertTextToSpeechUsingCharacterRequestOutputFormat",
     "APIConvertTextToSpeechUsingCharacterRequestTypedDict",
     "APISampleData",
@@ -249,6 +252,7 @@ __all__ = [
     "PredictDurationResponseTypedDict",
     "PredictTTSDurationUsingCharacterRequest",
     "PredictTTSDurationUsingCharacterRequestLanguage",
+    "PredictTTSDurationUsingCharacterRequestModel",
     "PredictTTSDurationUsingCharacterRequestOutputFormat",
     "PredictTTSDurationUsingCharacterRequestTypedDict",
     "RequestTimeoutErrorResponseMessage",
@@ -284,6 +288,7 @@ __all__ = [
 _dynamic_imports: dict[str, str] = {
     "APIConvertTextToSpeechUsingCharacterRequest": ".apiconverttexttospeechusingcharacterrequest",
     "APIConvertTextToSpeechUsingCharacterRequestLanguage": ".apiconverttexttospeechusingcharacterrequest",
+    "APIConvertTextToSpeechUsingCharacterRequestModel": ".apiconverttexttospeechusingcharacterrequest",
     "APIConvertTextToSpeechUsingCharacterRequestOutputFormat": ".apiconverttexttospeechusingcharacterrequest",
     "APIConvertTextToSpeechUsingCharacterRequestTypedDict": ".apiconverttexttospeechusingcharacterrequest",
     "APISampleData": ".apisampledata",
@@ -358,6 +363,7 @@ _dynamic_imports: dict[str, str] = {
     "PredictDurationResponseTypedDict": ".predict_durationop",
     "PredictTTSDurationUsingCharacterRequest": ".predictttsdurationusingcharacterrequest",
     "PredictTTSDurationUsingCharacterRequestLanguage": ".predictttsdurationusingcharacterrequest",
+    "PredictTTSDurationUsingCharacterRequestModel": ".predictttsdurationusingcharacterrequest",
     "PredictTTSDurationUsingCharacterRequestOutputFormat": ".predictttsdurationusingcharacterrequest",
     "PredictTTSDurationUsingCharacterRequestTypedDict": ".predictttsdurationusingcharacterrequest",
     "RequestTimeoutErrorResponseMessage": ".requesttimeouterrorresponse",

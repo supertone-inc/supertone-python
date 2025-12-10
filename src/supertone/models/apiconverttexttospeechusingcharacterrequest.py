@@ -17,8 +17,35 @@ class APIConvertTextToSpeechUsingCharacterRequestLanguage(str, Enum):
     EN = "en"
     KO = "ko"
     JA = "ja"
+    BG = "bg"
+    CS = "cs"
+    DA = "da"
+    EL = "el"
     ES = "es"
+    ET = "et"
+    FI = "fi"
+    HU = "hu"
+    IT = "it"
+    NL = "nl"
+    PL = "pl"
     PT = "pt"
+    RO = "ro"
+    AR = "ar"
+    DE = "de"
+    FR = "fr"
+    HI = "hi"
+    ID = "id"
+    RU = "ru"
+    VI = "vi"
+
+
+class APIConvertTextToSpeechUsingCharacterRequestModel(str, Enum):
+    r"""The model type to use for the text-to-speech conversion"""
+
+    SONA_SPEECH_1 = "sona_speech_1"
+    SONA_SPEECH_2 = "sona_speech_2"
+    SONA_SPEECH_2T = "sona_speech_2t"
+    SUPERTONIC_API_1 = "supertonic_api_1"
 
 
 class APIConvertTextToSpeechUsingCharacterRequestOutputFormat(str, Enum):
@@ -35,7 +62,7 @@ class APIConvertTextToSpeechUsingCharacterRequestTypedDict(TypedDict):
     r"""The language code of the text"""
     style: NotRequired[str]
     r"""The style of character to use for the text-to-speech conversion"""
-    model: NotRequired[str]
+    model: NotRequired[APIConvertTextToSpeechUsingCharacterRequestModel]
     r"""The model type to use for the text-to-speech conversion"""
     output_format: NotRequired[APIConvertTextToSpeechUsingCharacterRequestOutputFormat]
     r"""The desired output format of the audio file (wav, mp3). Default is wav."""
@@ -54,7 +81,9 @@ class APIConvertTextToSpeechUsingCharacterRequest(BaseModel):
     style: Optional[str] = None
     r"""The style of character to use for the text-to-speech conversion"""
 
-    model: Optional[str] = "sona_speech_1"
+    model: Optional[APIConvertTextToSpeechUsingCharacterRequestModel] = (
+        APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1
+    )
     r"""The model type to use for the text-to-speech conversion"""
 
     output_format: Optional[APIConvertTextToSpeechUsingCharacterRequestOutputFormat] = (
