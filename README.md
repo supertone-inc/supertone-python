@@ -8,27 +8,6 @@
 Supertone Public API: Supertone API is a RESTful API for using our state-of-the-art AI voice models.
 <!-- End Summary [summary] -->
 
-<!-- Start Table of Contents [toc] -->
-## Table of Contents
-<!-- $toc-max-depth=2 -->
-* [Supertone Python Library](#supertone-python-library)
-  * [SDK Installation](#sdk-installation)
-  * [SDK Example Usage](#sdk-example-usage)
-  * [SDK Installation](#sdk-installation-1)
-  * [IDE Support](#ide-support)
-  * [Authentication](#authentication)
-  * [Available Resources and Operations](#available-resources-and-operations)
-  * [File uploads](#file-uploads)
-  * [Retries](#retries)
-  * [Error Handling](#error-handling)
-  * [Additional Example Code](#additional-example-code)
-  * [Server Selection](#server-selection)
-  * [Custom HTTP Client](#custom-http-client)
-  * [Resource Management](#resource-management)
-  * [Debugging](#debugging)
-
-<!-- End Table of Contents [toc] -->
-
 <!-- Start SDK Installation [installation] -->
 
 ## SDK Installation
@@ -105,17 +84,6 @@ asyncio.run(main())
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
 
-> [!TIP]
-> To finish publishing your SDK to PyPI you must [run your first generation action](https://www.speakeasy.com/docs/github-setup#step-by-step-guide).
-
-
-> [!NOTE]
-> **Python version upgrade policy**
->
-> Once a Python version reaches its [official end of life date](https://devguide.python.org/versions/), a 3-month grace period is provided for users to upgrade. Following this grace period, the minimum python version supported in the SDK will be updated.
-
-The SDK can be installed with *uv*, *pip*, or *poetry* package managers.
-
 ### uv
 
 *uv* is a fast Python package installer and resolver, designed as a drop-in replacement for pip and pip-tools. It's recommended for its speed and modern Python tooling capabilities.
@@ -140,47 +108,7 @@ pip install git+<UNSET>.git
 poetry add git+<UNSET>.git
 ```
 
-### Shell and script usage with `uv`
-
-You can use this SDK in a Python shell with [uv](https://docs.astral.sh/uv/) and the `uvx` command that comes with it like so:
-
-```shell
-uvx --from supertone python
-```
-
-It's also possible to write a standalone Python script without needing to set up a whole project like so:
-
-```python
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.9"
-# dependencies = [
-#     "supertone",
-# ]
-# ///
-
-from supertone import Supertone
-
-sdk = Supertone(
-  # SDK arguments
-)
-
-# Rest of script here...
-```
-
-Once that is saved to a file, you can run it with `uv run script.py` where
-`script.py` can be replaced with the actual file name.
 <!-- End SDK Installation [installation] -->
-
-<!-- Start IDE Support [idesupport] -->
-## IDE Support
-
-### PyCharm
-
-Generally, the SDK will work well with most IDEs out of the box. However, when using PyCharm, you can enjoy much better integration with Pydantic by installing an additional plugin.
-
-- [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
-<!-- End IDE Support [idesupport] -->
 
 <!-- Start Authentication [security] -->
 ## Authentication
@@ -209,6 +137,68 @@ with Supertone(
 
 ```
 <!-- End Authentication [security] -->
+
+<!-- Start Models [models] -->
+
+## Models
+
+Supertone’s Text-to-Speech API provides multiple TTS models, each with different supported languages, available voice settings, and streaming capabilities.
+
+### Model Overview
+
+| Model Name         | Identifier        | Streaming Support (`stream_speech`) | Voice Settings Support                                   |
+|--------------------|-------------------|--------------------------------------|----------------------------------------------------------|
+| **SONA Speech 1**  | `sona_speech_1`   | ✅ Supported                         | Supports **all** Voice Settings                          |
+| **Supertonic API 1** | `supertonic_api_1` | ❌ Not supported                  | Supports **only** the `speed` setting (others are ignored) |
+| **SONA Speech 2**  | `sona_speech_2`   | ❌ Not supported                     | Supports **pitch_shift**, **pitch_variance**, **speed**   |
+
+> [!NOTE]
+> **Streaming Support**
+>
+> Streaming TTS using the `stream_speech` endpoint is **only available for the `sona_speech_1` model**.
+
+---
+
+### Supported Languages by Model
+
+> [!NOTE]
+> The set of supported input languages varies depending on the TTS model.
+
+- **sona_speech_1**
+  - `en`, `ko`, `ja`
+
+- **supertonic_api_1**
+  - `en`, `ko`, `ja`, `es`, `pt`
+
+- **sona_speech_2**
+  - `en`, `ko`, `ja`, `bg`, `cs`, `da`, `el`, `es`, `et`, `fi`, `hu`, `it`, `nl`, `pl`, `pt`, `ro`,  
+    `ar`, `de`, `fr`, `hi`, `id`, `ru`, `vi`
+
+---
+
+### Voice Settings (Optional)
+
+Some TTS models support optional voice settings that allow fine control over output speech characteristics (e.g., speed, pitch, pitch variance).
+
+> [!NOTE]
+> The available Voice Settings vary depending on the TTS model.
+
+- **sona_speech_1**
+  - Supports **all** available Voice Settings.
+
+- **supertonic_api_1**
+  - Supports **only** the `speed` setting.  
+    All other settings will be ignored.
+
+- **sona_speech_2**
+  - Supports the following Voice Settings:
+    - `pitch_shift`
+    - `pitch_variance`
+    - `speed`
+
+> All Voice Settings are optional. When omitted, each model’s default values will be applied.
+
+<!-- End Models [models] -->
 
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
@@ -246,77 +236,6 @@ with Supertone(
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
-
-<!-- Start File uploads [file-upload] -->
-## File uploads
-
-Certain SDK methods accept file objects as part of a request body or multi-part request. It is possible and typically recommended to upload files as a stream rather than reading the entire contents into memory. This avoids excessive memory consumption and potentially crashing with out-of-memory errors when working with very large files. The following example demonstrates how to attach a file stream to a request.
-
-> [!TIP]
->
-> For endpoints that handle file uploads bytes arrays can also be used. However, using streams is recommended for large files.
->
-
-```python
-from supertone import Supertone
-
-
-with Supertone(
-    api_key="<YOUR_API_KEY_HERE>",
-) as s_client:
-
-    res = s_client.custom_voices.create_cloned_voice(files={
-        "file_name": "example.file",
-        "content": open("example.file", "rb"),
-    }, name="<value>")
-
-    # Handle response
-    print(res)
-
-```
-<!-- End File uploads [file-upload] -->
-
-<!-- Start Retries [retries] -->
-## Retries
-
-Some of the endpoints in this SDK support retries. If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API. However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
-
-To change the default retry strategy for a single API call, simply provide a `RetryConfig` object to the call:
-```python
-from supertone import Supertone, models
-from supertone.utils import BackoffStrategy, RetryConfig
-
-
-with Supertone(
-    api_key="<YOUR_API_KEY_HERE>",
-) as s_client:
-
-    res = s_client.text_to_speech.create_speech(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1, output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False,
-        RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
-
-    # Handle response
-    print(res)
-
-```
-
-If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
-```python
-from supertone import Supertone, models
-from supertone.utils import BackoffStrategy, RetryConfig
-
-
-with Supertone(
-    retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
-    api_key="<YOUR_API_KEY_HERE>",
-) as s_client:
-
-    res = s_client.text_to_speech.create_speech(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1, output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
-
-    # Handle response
-    print(res)
-
-```
-<!-- End Retries [retries] -->
 
 <!-- Start Error Handling [errors] -->
 ## Error Handling
@@ -402,151 +321,5 @@ with Supertone(
 Additional example code can be found in the [examples](https://github.com/supertone-inc/supertone-python/tree/main/examples) directory.
 
 <!-- End Additional Example Code [examples] -->
-
-<!-- Start Server Selection [server] -->
-## Server Selection
-
-### Override Server URL Per-Client
-
-The default server can be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
-```python
-from supertone import Supertone, models
-
-
-with Supertone(
-    server_url="https://supertoneapi.com",
-    api_key="<YOUR_API_KEY_HERE>",
-) as s_client:
-
-    res = s_client.text_to_speech.create_speech(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1, output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
-
-    # Handle response
-    print(res)
-
-```
-<!-- End Server Selection [server] -->
-
-<!-- Start Custom HTTP Client [http-client] -->
-## Custom HTTP Client
-
-The Python SDK makes API calls using the [httpx](https://www.python-httpx.org/) HTTP library.  In order to provide a convenient way to configure timeouts, cookies, proxies, custom headers, and other low-level configuration, you can initialize the SDK client with your own HTTP client instance.
-Depending on whether you are using the sync or async version of the SDK, you can pass an instance of `HttpClient` or `AsyncHttpClient` respectively, which are Protocol's ensuring that the client has the necessary methods to make API calls.
-This allows you to wrap the client with your own custom logic, such as adding custom headers, logging, or error handling, or you can just pass an instance of `httpx.Client` or `httpx.AsyncClient` directly.
-
-For example, you could specify a header for every request that this sdk makes as follows:
-```python
-from supertone import Supertone
-import httpx
-
-http_client = httpx.Client(headers={"x-custom-header": "someValue"})
-s = Supertone(client=http_client)
-```
-
-or you could wrap the client with your own custom logic:
-```python
-from supertone import Supertone
-from supertone.httpclient import AsyncHttpClient
-import httpx
-
-class CustomClient(AsyncHttpClient):
-    client: AsyncHttpClient
-
-    def __init__(self, client: AsyncHttpClient):
-        self.client = client
-
-    async def send(
-        self,
-        request: httpx.Request,
-        *,
-        stream: bool = False,
-        auth: Union[
-            httpx._types.AuthTypes, httpx._client.UseClientDefault, None
-        ] = httpx.USE_CLIENT_DEFAULT,
-        follow_redirects: Union[
-            bool, httpx._client.UseClientDefault
-        ] = httpx.USE_CLIENT_DEFAULT,
-    ) -> httpx.Response:
-        request.headers["Client-Level-Header"] = "added by client"
-
-        return await self.client.send(
-            request, stream=stream, auth=auth, follow_redirects=follow_redirects
-        )
-
-    def build_request(
-        self,
-        method: str,
-        url: httpx._types.URLTypes,
-        *,
-        content: Optional[httpx._types.RequestContent] = None,
-        data: Optional[httpx._types.RequestData] = None,
-        files: Optional[httpx._types.RequestFiles] = None,
-        json: Optional[Any] = None,
-        params: Optional[httpx._types.QueryParamTypes] = None,
-        headers: Optional[httpx._types.HeaderTypes] = None,
-        cookies: Optional[httpx._types.CookieTypes] = None,
-        timeout: Union[
-            httpx._types.TimeoutTypes, httpx._client.UseClientDefault
-        ] = httpx.USE_CLIENT_DEFAULT,
-        extensions: Optional[httpx._types.RequestExtensions] = None,
-    ) -> httpx.Request:
-        return self.client.build_request(
-            method,
-            url,
-            content=content,
-            data=data,
-            files=files,
-            json=json,
-            params=params,
-            headers=headers,
-            cookies=cookies,
-            timeout=timeout,
-            extensions=extensions,
-        )
-
-s = Supertone(async_client=CustomClient(httpx.AsyncClient()))
-```
-<!-- End Custom HTTP Client [http-client] -->
-
-<!-- Start Resource Management [resource-management] -->
-## Resource Management
-
-The `Supertone` class implements the context manager protocol and registers a finalizer function to close the underlying sync and async HTTPX clients it uses under the hood. This will close HTTP connections, release memory and free up other resources held by the SDK. In short-lived Python programs and notebooks that make a few SDK method calls, resource management may not be a concern. However, in longer-lived programs, it is beneficial to create a single SDK instance via a [context manager][context-manager] and reuse it across the application.
-
-[context-manager]: https://docs.python.org/3/reference/datamodel.html#context-managers
-
-```python
-from supertone import Supertone
-def main():
-
-    with Supertone(
-        api_key="<YOUR_API_KEY_HERE>",
-    ) as s_client:
-        # Rest of application here...
-
-
-# Or when using async:
-async def amain():
-
-    async with Supertone(
-        api_key="<YOUR_API_KEY_HERE>",
-    ) as s_client:
-        # Rest of application here...
-```
-<!-- End Resource Management [resource-management] -->
-
-<!-- Start Debugging [debug] -->
-## Debugging
-
-You can setup your SDK to emit debug logs for SDK requests and responses.
-
-You can pass your own logger class directly into your SDK.
-```python
-from supertone import Supertone
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-s = Supertone(debug_logger=logging.getLogger("supertone"))
-```
-<!-- End Debugging [debug] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
