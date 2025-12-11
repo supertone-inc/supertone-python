@@ -624,6 +624,16 @@ async def demo_realtime_streaming_scenarios():
             "text": "디지털 트랜스포메이션 시대에 접어들면서 음성 기술의 중요성이 더욱 부각되고 있습니다. 특히 코로나19 팬데믹 이후 비대면 서비스와 원격 교육이 일반화되면서 텍스트 음성 변환 기술의 수요가 폭발적으로 증가했습니다. 실시간 스트리밍 TTS는 이러한 요구에 부응하는 핵심 기술로 자리잡고 있어요. 기존의 배치 처리 방식과 달리 스트리밍 방식은 지연 시간을 최소화하고 사용자 상호작용을 극대화합니다. 자동 청킹 알고리즘을 통해 긴 텍스트도 효율적으로 처리할 수 있게 되었고, 문장 경계를 고려한 지능적 분할로 자연스러운 음성을 생성합니다. 또한 병렬 처리를 통해 전체 응답 시간을 단축시키면서도 품질을 유지할 수 있습니다. 이는 온라인 강의, 오디오북 서비스, 뉴스 브리핑, 실시간 번역 등 다양한 서비스에서 활용되고 있으며, 접근성 측면에서도 시각 장애인들에게 큰 도움을 주고 있습니다. 앞으로는 더욱 자연스러운 감정 표현과 개인화된 음성 스타일까지 지원할 것으로 기대됩니다.",
             "description": "Test maximum performance and stability with 800+ char very long text",
         },
+        {
+            "name": "Long sentence no punctuation (400+ chars, word-based splitting)",
+            "text": "This is a very long sentence without any punctuation marks that is designed to exceed the three hundred character limit so that the text chunking algorithm will need to fall back to word based splitting instead of sentence based splitting because there are no sentence ending punctuation marks like periods or exclamation points to use as natural break points in this extremely lengthy run on sentence that keeps going and going without any stops",
+            "description": "Test word-based splitting fallback when no punctuation is available",
+        },
+        {
+            "name": "Japanese long text (400+ chars, character-based splitting)",
+            "text": "これは日本語のテストです。日本語には通常スペースがありません。そのためテキストを分割するときは文字単位で分割する必要があります。このテストは三百文字を超える長いテキストを使用して文字ベースの分割アルゴリズムが正しく動作することを確認します。人工知能技術は日々進化しており音声合成の品質も向上しています。私たちは最新の技術を使用して自然な音声を生成することができます。デジタル化の進展に伴い音声技術はますます重要になってきています。リアルタイムストリーミング技術と組み合わせることで低遅延で高品質な音声体験を提供できるようになりました。",
+            "description": "Test character-based splitting for languages without word spaces like Japanese",
+        },
     ]
 
     for i, scenario in enumerate(scenarios, 1):

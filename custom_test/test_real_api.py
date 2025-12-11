@@ -3841,6 +3841,233 @@ def test_predict_duration_multilang(voice_id):
         return False, e
 
 
+def test_create_speech_long_sentence_word_split(voice_id):
+    """Test TTS with a very long sentence that exceeds 300 chars without punctuation (word-based splitting)"""
+    print("📝✂️ Long Sentence Word-Based Splitting Test")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        # Create a long sentence without punctuation (over 300 chars)
+        # This forces the chunking algorithm to split by word boundaries
+        long_sentence = (
+            "This is a very long sentence without any punctuation marks that is designed "
+            "to exceed the three hundred character limit so that the text chunking algorithm "
+            "will need to fall back to word based splitting instead of sentence based splitting "
+            "because there are no sentence ending punctuation marks like periods or exclamation "
+            "points to use as natural break points in this extremely lengthy run on sentence"
+        )
+
+        print(f"  📏 Text length: {len(long_sentence)} characters (no punctuation)")
+        print(f"  📄 Text preview: {long_sentence[:50]}...")
+
+        with Supertone(api_key=API_KEY) as client:
+            print("  🔍 Converting TTS with word-based chunking...")
+            print("  ⚠️ This test will consume credits!")
+
+            response = client.text_to_speech.create_speech(
+                voice_id=voice_id,
+                text=long_sentence,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                if len(audio_data) > 0:
+                    print(f"  ✅ Word-based chunking successful!")
+                    print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+                    return True, response
+                else:
+                    print("  ❌ Empty audio data")
+                    return False, response
+            else:
+                print(f"  ❌ Unexpected response type: {type(response)}")
+                return False, response
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_create_speech_japanese_no_spaces(voice_id):
+    """Test TTS with Japanese text (no spaces) that exceeds 300 chars (character-based splitting)"""
+    print("🇯🇵✂️ Japanese Text Character-Based Splitting Test")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        # Create a long Japanese text without spaces (over 300 chars)
+        # Japanese typically has no word spaces, forcing character-based splitting
+        # This is a repeated pattern to exceed 300 characters
+        japanese_text = (
+            "これは日本語のテストです。"
+            "日本語には通常スペースがありません。"
+            "そのため、テキストを分割するときは文字単位で分割する必要があります。"
+            "このテストは三百文字を超える長いテキストを使用して、"
+            "文字ベースの分割アルゴリズムが正しく動作することを確認します。"
+            "人工知能技術は日々進化しており、音声合成の品質も向上しています。"
+            "私たちは最新の技術を使用して、自然な音声を生成することができます。"
+        )
+
+        print(f"  📏 Text length: {len(japanese_text)} characters (no word spaces)")
+        print(f"  📄 Text preview: {japanese_text[:30]}...")
+
+        with Supertone(api_key=API_KEY) as client:
+            print("  🔍 Converting TTS with character-based chunking...")
+            print("  ⚠️ This test will consume credits!")
+
+            response = client.text_to_speech.create_speech(
+                voice_id=voice_id,
+                text=japanese_text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                if len(audio_data) > 0:
+                    print(f"  ✅ Character-based chunking successful!")
+                    print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+                    return True, response
+                else:
+                    print("  ❌ Empty audio data")
+                    return False, response
+            else:
+                print(f"  ❌ Unexpected response type: {type(response)}")
+                return False, response
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_stream_speech_long_sentence_word_split(voice_id):
+    """Test streaming TTS with a very long sentence (word-based splitting)"""
+    print("📝🔊✂️ Streaming Long Sentence Word-Based Splitting Test")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        # Create a long sentence without punctuation (over 300 chars)
+        long_sentence = (
+            "This is an extremely long sentence that has been carefully crafted without "
+            "any punctuation marks whatsoever in order to test the streaming text to speech "
+            "functionality with word based chunking which should split this text into multiple "
+            "smaller chunks at word boundaries while still producing smooth continuous audio "
+            "output that sounds natural and without any noticeable gaps or stuttering effects"
+        )
+
+        print(f"  📏 Text length: {len(long_sentence)} characters (no punctuation)")
+
+        with Supertone(api_key=API_KEY) as client:
+            print("  🔍 Streaming TTS with word-based chunking...")
+            print("  ⚠️ This test will consume credits!")
+
+            response = client.text_to_speech.stream_speech(
+                voice_id=voice_id,
+                text=long_sentence,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+            )
+
+            # Collect streaming data
+            audio_data = b""
+            if hasattr(response.result, "iter_bytes"):
+                for chunk in response.result.iter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "read"):
+                audio_data = response.result.read()
+
+            if len(audio_data) > 0:
+                print(f"  ✅ Streaming word-based chunking successful!")
+                print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+                return True, response
+            else:
+                print("  ❌ Empty audio data")
+                return False, response
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_stream_speech_japanese_no_spaces(voice_id):
+    """Test streaming TTS with Japanese text (character-based splitting)"""
+    print("🇯🇵🔊✂️ Streaming Japanese Character-Based Splitting Test")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        # Long Japanese text without spaces
+        japanese_text = (
+            "これは日本語のストリーミングテストです。"
+            "日本語のテキストは通常スペースを含まないため、"
+            "文字単位での分割が必要になります。"
+            "このテストでは三百文字を超える長い日本語テキストを使用して、"
+            "ストリーミング音声合成が正しく動作することを確認します。"
+            "最新の人工知能技術により、高品質な音声合成が可能になりました。"
+            "私たちはこの技術を活用して、より自然な音声体験を提供します。"
+        )
+
+        print(f"  📏 Text length: {len(japanese_text)} characters")
+
+        with Supertone(api_key=API_KEY) as client:
+            print("  🔍 Streaming TTS with character-based chunking...")
+            print("  ⚠️ This test will consume credits!")
+
+            response = client.text_to_speech.stream_speech(
+                voice_id=voice_id,
+                text=japanese_text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+            )
+
+            # Collect streaming data
+            audio_data = b""
+            if hasattr(response.result, "iter_bytes"):
+                for chunk in response.result.iter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "read"):
+                audio_data = response.result.read()
+
+            if len(audio_data) > 0:
+                print(f"  ✅ Streaming character-based chunking successful!")
+                print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+                return True, response
+            else:
+                print("  ❌ Empty audio data")
+                return False, response
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
 def main():
     """Main integration test execution - all sync API tests"""
     print("🧪 Real API Integration Test Start (All Sync APIs)")
@@ -4033,7 +4260,26 @@ def main():
         success, result = test_predict_duration_multilang(voice_id_for_tts)
         test_results["predict_duration_multilang"] = success
 
-    # 8. Custom Voice Deletion (run last)
+        # 8. Advanced Text Chunking Tests
+        print("\n8️⃣ Advanced Text Chunking Tests")
+
+        # Long sentence word-based splitting (TTS)
+        success, result = test_create_speech_long_sentence_word_split(voice_id_for_tts)
+        test_results["create_speech_long_sentence_word_split"] = success
+
+        # Japanese character-based splitting (TTS)
+        success, result = test_create_speech_japanese_no_spaces(voice_id_for_tts)
+        test_results["create_speech_japanese_no_spaces"] = success
+
+        # Long sentence word-based splitting (Streaming)
+        success, result = test_stream_speech_long_sentence_word_split(voice_id_for_tts)
+        test_results["stream_speech_long_sentence_word_split"] = success
+
+        # Japanese character-based splitting (Streaming)
+        success, result = test_stream_speech_japanese_no_spaces(voice_id_for_tts)
+        test_results["stream_speech_japanese_no_spaces"] = success
+
+    # 9. Custom Voice Deletion (run last)
     if created_custom_voice_id:
         print("\n🗑️ Created Custom Voice Deletion Test")
         success, result = test_delete_custom_voice(created_custom_voice_id)
@@ -4095,6 +4341,9 @@ def main():
     print("    - sona_speech_2: all languages")
     print("    - supertonic_api_1: ko, en, ja, es, pt")
     print("    - Unsupported language error tests")
+    print("  • Advanced Text Chunking Tests:")
+    print("    - Long sentence word-based splitting: create_speech, stream_speech")
+    print("    - Japanese character-based splitting: create_speech, stream_speech")
 
     if created_custom_voice_id:
         print(f"\n🎨 Custom voice created during test: {created_custom_voice_id}")
