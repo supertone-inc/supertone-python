@@ -2482,7 +2482,9 @@ async def test_create_speech_supertonic_api_1(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with supertonic_api_1 using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with supertonic_api_1 using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             response = await client.text_to_speech.create_speech_async(
@@ -2544,7 +2546,9 @@ async def test_create_speech_invalid_model(voice_id):
             return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
-        print(f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}")
+        print(
+            f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}"
+        )
         print("  ✅ API correctly rejected invalid model")
         return True, e
     except ValueError as e:
@@ -2568,7 +2572,9 @@ async def test_predict_duration_sona_speech_2(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Predicting duration with sona_speech_2 using voice '{voice_id}'...")
+            print(
+                f"  🔍 Predicting duration with sona_speech_2 using voice '{voice_id}'..."
+            )
 
             response = await client.text_to_speech.predict_duration_async(
                 voice_id=voice_id,
@@ -2601,7 +2607,9 @@ async def test_predict_duration_supertonic_api_1(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Predicting duration with supertonic_api_1 using voice '{voice_id}'...")
+            print(
+                f"  🔍 Predicting duration with supertonic_api_1 using voice '{voice_id}'..."
+            )
 
             response = await client.text_to_speech.predict_duration_async(
                 voice_id=voice_id,
@@ -2634,7 +2642,9 @@ async def test_predict_duration_invalid_model(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Attempting prediction with invalid model 'invalid_model_xyz'...")
+            print(
+                f"  🔍 Attempting prediction with invalid model 'invalid_model_xyz'..."
+            )
 
             response = await client.text_to_speech.predict_duration_async(
                 voice_id=voice_id,
@@ -2648,7 +2658,9 @@ async def test_predict_duration_invalid_model(voice_id):
             return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
-        print(f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}")
+        print(
+            f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}"
+        )
         print("  ✅ API correctly rejected invalid model")
         return True, e
     except ValueError as e:
@@ -2677,9 +2689,18 @@ async def test_create_speech_sona_speech_1_multilang(voice_id):
         from supertone import Supertone, errors, models
 
         test_cases = [
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO, "안녕하세요! 한국어 테스트입니다."),
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN, "Hello! English test."),
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, "こんにちは！日本語テストです。"),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO,
+                "안녕하세요! 한국어 테스트입니다.",
+            ),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                "Hello! English test.",
+            ),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                "こんにちは！日本語テストです。",
+            ),
         ]
 
         all_success = True
@@ -2728,9 +2749,15 @@ async def test_create_speech_sona_speech_2_multilang(voice_id):
 
         # sona_speech_2 supports all languages
         test_cases = [
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO, "안녕하세요!"),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO,
+                "안녕하세요!",
+            ),
             (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN, "Hello!"),
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, "こんにちは!"),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                "こんにちは!",
+            ),
             (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.ES, "¡Hola!"),
             (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.PT, "Olá!"),
             (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.DE, "Hallo!"),
@@ -2769,7 +2796,10 @@ async def test_create_speech_sona_speech_2_multilang(voice_id):
                     all_success = False
 
         print(f"  📊 Total: {success_count}/{len(test_cases)} languages successful")
-        return all_success, f"sona_speech_2 multilang async: {success_count}/{len(test_cases)}"
+        return (
+            all_success,
+            f"sona_speech_2 multilang async: {success_count}/{len(test_cases)}",
+        )
 
     except Exception as e:
         print(f"  ❌ Unexpected error: {e}")
@@ -2789,11 +2819,26 @@ async def test_create_speech_supertonic_api_1_multilang(voice_id):
 
         # supertonic_api_1 supports: ko, en, ja, es, pt
         test_cases = [
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO, "안녕하세요! 한국어 테스트입니다."),
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN, "Hello! English test."),
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, "こんにちは！日本語テストです。"),
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.ES, "¡Hola! Prueba en español."),
-            (models.APIConvertTextToSpeechUsingCharacterRequestLanguage.PT, "Olá! Teste em português."),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO,
+                "안녕하세요! 한국어 테스트입니다.",
+            ),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                "Hello! English test.",
+            ),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                "こんにちは！日本語テストです。",
+            ),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.ES,
+                "¡Hola! Prueba en español.",
+            ),
+            (
+                models.APIConvertTextToSpeechUsingCharacterRequestLanguage.PT,
+                "Olá! Teste em português.",
+            ),
         ]
 
         all_success = True
@@ -2856,14 +2901,18 @@ async def test_create_speech_sona_speech_1_unsupported_lang(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 print(f"  ⚠️ Unexpected success: {len(audio_data)} bytes")
-                print("  ⚠️ API accepted unsupported language (may need to verify model-language restrictions)")
+                print(
+                    "  ⚠️ API accepted unsupported language (may need to verify model-language restrictions)"
+                )
                 return False, response
             else:
                 print(f"  ⚠️ Unexpected response: {type(response)}")
                 return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
-        print(f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}")
+        print(
+            f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}"
+        )
         print("  ✅ API correctly rejected unsupported language for sona_speech_1")
         return True, e
     except Exception as e:
@@ -2898,14 +2947,18 @@ async def test_create_speech_supertonic_api_1_unsupported_lang(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 print(f"  ⚠️ Unexpected success: {len(audio_data)} bytes")
-                print("  ⚠️ API accepted unsupported language (may need to verify model-language restrictions)")
+                print(
+                    "  ⚠️ API accepted unsupported language (may need to verify model-language restrictions)"
+                )
                 return False, response
             else:
                 print(f"  ⚠️ Unexpected response: {type(response)}")
                 return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
-        print(f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}")
+        print(
+            f"  ✅ Expected error received: {e.message if hasattr(e, 'message') else e}"
+        )
         print("  ✅ API correctly rejected unsupported language for supertonic_api_1")
         return True, e
     except Exception as e:
@@ -2929,17 +2982,17 @@ async def test_predict_duration_multilang(voice_id):
             (
                 models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_1,
                 models.PredictTTSDurationUsingCharacterRequestLanguage.KO,
-                "안녕하세요!"
+                "안녕하세요!",
             ),
             (
                 models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_2,
                 models.PredictTTSDurationUsingCharacterRequestLanguage.DE,
-                "Guten Tag!"
+                "Guten Tag!",
             ),
             (
                 models.PredictTTSDurationUsingCharacterRequestModel.SUPERTONIC_API_1,
                 models.PredictTTSDurationUsingCharacterRequestLanguage.ES,
-                "¡Buenos días!"
+                "¡Buenos días!",
             ),
         ]
 
@@ -3287,7 +3340,7 @@ async def main():
     print("=" * 60)
 
     test_results = {}
-    voice_id_for_tts = None
+    voice_id_for_tts = "91992bbd4758bdcf9c9b01"  # Adam
     custom_voice_id = None
     created_custom_voice_id = None
 
@@ -3312,8 +3365,6 @@ async def main():
 
     success, result = await test_list_voices()
     test_results["list_voices_async"] = success
-    if success and result[1]:
-        voice_id_for_tts = result[1]
 
     success, result = await test_search_voices()
     test_results["search_voices_async"] = success
@@ -3452,22 +3503,32 @@ async def main():
         print("\n7️⃣ Multi-language Tests by Model (Async)")
 
         # sona_speech_1 multilang (ko, en, ja)
-        success, result = await test_create_speech_sona_speech_1_multilang(voice_id_for_tts)
+        success, result = await test_create_speech_sona_speech_1_multilang(
+            voice_id_for_tts
+        )
         test_results["create_speech_sona_speech_1_multilang_async"] = success
 
         # sona_speech_2 multilang (all languages)
-        success, result = await test_create_speech_sona_speech_2_multilang(voice_id_for_tts)
+        success, result = await test_create_speech_sona_speech_2_multilang(
+            voice_id_for_tts
+        )
         test_results["create_speech_sona_speech_2_multilang_async"] = success
 
         # supertonic_api_1 multilang (ko, en, ja, es, pt)
-        success, result = await test_create_speech_supertonic_api_1_multilang(voice_id_for_tts)
+        success, result = await test_create_speech_supertonic_api_1_multilang(
+            voice_id_for_tts
+        )
         test_results["create_speech_supertonic_api_1_multilang_async"] = success
 
         # Unsupported language error tests
-        success, result = await test_create_speech_sona_speech_1_unsupported_lang(voice_id_for_tts)
+        success, result = await test_create_speech_sona_speech_1_unsupported_lang(
+            voice_id_for_tts
+        )
         test_results["create_speech_sona_speech_1_unsupported_lang_async"] = success
 
-        success, result = await test_create_speech_supertonic_api_1_unsupported_lang(voice_id_for_tts)
+        success, result = await test_create_speech_supertonic_api_1_unsupported_lang(
+            voice_id_for_tts
+        )
         test_results["create_speech_supertonic_api_1_unsupported_lang_async"] = success
 
         # Duration prediction multilang test
@@ -3552,9 +3613,15 @@ async def main():
         "    - create_speech_long_text_with_phonemes_async, stream_speech_phoneme_chunking_wav_async"
     )
     print("  • New Model Tests:")
-    print("    - sona_speech_2: create_speech_sona_speech_2_async, predict_duration_sona_speech_2_async")
-    print("    - supertonic_api_1: create_speech_supertonic_api_1_async, predict_duration_supertonic_api_1_async")
-    print("    - Invalid model tests: create_speech_invalid_model_async, predict_duration_invalid_model_async")
+    print(
+        "    - sona_speech_2: create_speech_sona_speech_2_async, predict_duration_sona_speech_2_async"
+    )
+    print(
+        "    - supertonic_api_1: create_speech_supertonic_api_1_async, predict_duration_supertonic_api_1_async"
+    )
+    print(
+        "    - Invalid model tests: create_speech_invalid_model_async, predict_duration_invalid_model_async"
+    )
     print("  • Multi-language Tests by Model:")
     print("    - sona_speech_1: ko, en, ja")
     print("    - sona_speech_2: all languages")
