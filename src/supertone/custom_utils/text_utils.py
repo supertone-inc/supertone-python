@@ -12,6 +12,28 @@ from typing import List
 from .constants import DEFAULT_MAX_TEXT_LENGTH
 
 
+SENTENCE_SPLIT_PUNCTUATION = (
+    # Latin/basic punctuation (commonly used across English + many European languages)
+    ".!?;:"
+    # Ellipsis variants
+    "…‥"
+    # CJK punctuation (Japanese)
+    "。！？"
+    # Fullwidth forms (often appear in JP/KR text)
+    "；：．"
+    # Halfwidth ideographic full stop (sometimes used in Japanese)
+    "｡"
+    # Arabic punctuation
+    "؟؛۔،"
+    # Devanagari danda (Hindi) + double danda
+    "।॥"
+    # Greek question mark (U+037E, looks like a semicolon)
+    ";"
+)
+
+_SENTENCE_SPLIT_RE = re.compile(rf"([{re.escape(SENTENCE_SPLIT_PUNCTUATION)}]+\s*)")
+
+
 def _split_by_words(text: str, max_length: int) -> List[str]:
     """
     Split text by word boundaries when text exceeds max_length.
@@ -124,7 +146,7 @@ def chunk_text(text: str, max_length: int = DEFAULT_MAX_TEXT_LENGTH) -> List[str
     word/character boundaries when necessary.
 
     Fallback strategies:
-    1. Primary: Split by sentence punctuation (.!?;:)
+    1. Primary: Split by sentence punctuation (multilingual Unicode set)
     2. Secondary: Split by word boundaries (spaces) for long sentences
     3. Tertiary: Split by character count for languages without spaces (e.g., Japanese)
 
@@ -136,13 +158,15 @@ def chunk_text(text: str, max_length: int = DEFAULT_MAX_TEXT_LENGTH) -> List[str
         return [text]
 
     # Step 1: Split by sentence punctuation
-    sentences = re.split(r"([.!?;:]+\s*)", text)
+    sentences = _SENTENCE_SPLIT_RE.split(text)
 
     # Step 2: Combine sentence parts and accumulate
     preliminary_chunks = []
     current_chunk = ""
 
     for sentence in sentences:
+        if not sentence:
+            continue
         if len(current_chunk) + len(sentence) <= max_length:
             current_chunk += sentence
         else:
