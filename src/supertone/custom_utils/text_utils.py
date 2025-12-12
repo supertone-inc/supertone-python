@@ -18,7 +18,7 @@ SENTENCE_SPLIT_PUNCTUATION = (
     # Ellipsis variants
     "…‥"
     # CJK punctuation (Japanese)
-    "。！？"
+    "。！？、"
     # Fullwidth forms (often appear in JP/KR text)
     "；：．"
     # Halfwidth ideographic full stop (sometimes used in Japanese)
