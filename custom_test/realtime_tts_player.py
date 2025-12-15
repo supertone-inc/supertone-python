@@ -634,6 +634,16 @@ async def demo_realtime_streaming_scenarios():
             "text": "これは日本語のテストです。日本語には通常スペースがありません。そのためテキストを分割するときは文字単位で分割する必要があります。このテストは三百文字を超える長いテキストを使用して文字ベースの分割アルゴリズムが正しく動作することを確認します。人工知能技術は日々進化しており音声合成の品質も向上しています。私たちは最新の技術を使用して自然な音声を生成することができます。デジタル化の進展に伴い音声技術はますます重要になってきています。リアルタイムストリーミング技術と組み合わせることで低遅延で高品質な音声体験を提供できるようになりました。",
             "description": "Test character-based splitting for languages without word spaces like Japanese",
         },
+        {
+            "name": "Japanese with 。！？ punctuation (350+ chars, multilingual punctuation splitting)",
+            "text": "これは日本語のストリーミングテストです。音声合成技術はとても進化しています！リアルタイムストリーミングは素晴らしいですね？長いテキストでも自然に分割されます。品質がとても良いです！次の文章も続きます。これで三百文字を超えるテキストになります。人工知能の発展により音声技術も進歩しました。素晴らしいですね！最新技術を活用しています。日本語の句読点で自然に分割されることを確認します。これは非常に重要な機能です！音声合成の未来は明るいです。私たちはこの素晴らしい技術を使って世界中の人々にサービスを提供しています。テキストが長くなっても問題なく処理できます。自動チャンキング機能が正しく動作しています！これで確実に三百文字を超えました。",
+            "description": "Test multilingual punctuation splitting with Japanese 。！？ marks",
+        },
+        {
+            "name": "Korean with ellipsis … (350+ chars, multilingual punctuation splitting)",
+            "text": "안녕하세요… 오늘 날씨가 좋네요. 음성 합성 기술이 발전했습니다! 실시간 스트리밍도 가능해요… 정말 놀랍죠? 긴 텍스트도 자연스럽게 처리됩니다. 이 테스트는 삼백자를 넘는 긴 문장입니다… 다국어 구두점 분리를 확인합니다! 한국어 말줄임표도 잘 인식됩니다… 기술의 발전이 놀랍습니다. 실시간 오디오 스트리밍 테스트를 진행하고 있습니다… 품질이 정말 좋네요! 음성 합성 기술은 우리 생활을 더욱 편리하게 만들어줍니다… 앞으로도 계속 발전할 것입니다! 자동 청킹 기능이 정상적으로 동작하는지 확인합니다… 이제 삼백자를 초과했습니다! 테스트 완료!",
+            "description": "Test multilingual punctuation splitting with Korean ellipsis (…)",
+        },
     ]
 
     for i, scenario in enumerate(scenarios, 1):

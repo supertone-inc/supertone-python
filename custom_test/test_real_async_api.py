@@ -3191,6 +3191,150 @@ async def test_stream_speech_long_sentence_word_split(voice_id):
         return False, e
 
 
+async def test_create_speech_multilingual_punctuation(voice_id):
+    """Test async TTS with multilingual punctuation splitting (Japanese 。！？, Korean ellipsis, etc.)"""
+    print("🌐✂️ Async Multilingual Punctuation Splitting Test")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        # Test cases with various multilingual punctuation
+        test_cases = [
+            {
+                "name": "Japanese punctuation (。！？)",
+                "text": (
+                    "これは日本語のテストです。音声合成技術はとても進化しています！"
+                    "リアルタイムストリーミングは素晴らしいですね？"
+                    "長いテキストでも自然に分割されます。品質がとても良いです！"
+                    "次の文章も続きます。これで三百文字を超えるテキストになります。"
+                    "人工知能の発展により音声技術も進歩しました。素晴らしいですね！"
+                    "音声合成の未来は明るいです。私たちはこの素晴らしい技術を使って"
+                    "世界中の人々にサービスを提供しています。テキストが長くなっても"
+                    "問題なく処理できます。自動チャンキング機能が正しく動作しています！"
+                    "これで確実に三百文字を超えました。日本語の句読点で自然に分割されることを確認します。"
+                    "最新のAI技術を活用した音声合成システムです。"
+                ),
+                "language": models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+            },
+            {
+                "name": "Korean with ellipsis (…)",
+                "text": (
+                    "안녕하세요… 오늘 날씨가 좋네요. 음성 합성 기술이 발전했습니다!"
+                    "실시간 스트리밍도 가능해요… 정말 놀랍죠? 긴 텍스트도 자연스럽게 처리됩니다."
+                    "이 테스트는 삼백자를 넘는 긴 문장입니다… 다국어 구두점 분리를 확인합니다!"
+                    "한국어 말줄임표도 잘 인식됩니다… 기술의 발전이 놀랍습니다."
+                    "음성 합성 기술은 우리 생활을 더욱 편리하게 만들어줍니다… 앞으로도 계속 발전할 것입니다!"
+                    "자동 청킹 기능이 정상적으로 동작하는지 확인합니다… 이제 삼백자를 초과했습니다! 테스트 완료!"
+                    "최신 AI 기술을 활용한 음성 합성 시스템입니다… 품질이 매우 우수합니다! 확인했어요!"
+                ),
+                "language": models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO,
+            },
+        ]
+
+        all_success = True
+        async with Supertone(api_key=API_KEY) as client:
+            for case in test_cases:
+                print(f"  🔍 Testing {case['name']}...")
+                print(f"     📏 Text length: {len(case['text'])} characters")
+
+                try:
+                    response = await client.text_to_speech.create_speech_async(
+                        voice_id=voice_id,
+                        text=case["text"],
+                        language=case["language"],
+                        style="neutral",
+                        model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                        output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                    )
+
+                    if hasattr(response, "result") and hasattr(response.result, "read"):
+                        audio_data = response.result.read()
+                        if len(audio_data) > 0:
+                            print(f"     ✅ Success: {len(audio_data):,} bytes")
+                        else:
+                            print(f"     ❌ Empty audio data")
+                            all_success = False
+                    else:
+                        print(f"     ❌ Response structure error")
+                        all_success = False
+
+                except Exception as e:
+                    print(f"     ❌ Error: {e}")
+                    all_success = False
+
+        return all_success, "multilingual_punctuation async test"
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+async def test_stream_speech_multilingual_punctuation(voice_id):
+    """Test async streaming TTS with multilingual punctuation splitting"""
+    print("🌐🔊✂️ Async Streaming Multilingual Punctuation Splitting Test")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        # Japanese text with 。！？、 punctuation (over 300 chars)
+        japanese_text = (
+            "これは日本語のストリーミングテストです。音声合成技術はとても進化しています！"
+            "リアルタイムストリーミングは素晴らしいですね？長いテキストでも自然に分割されます。"
+            "品質がとても良いです！次の文章も続きます。これで三百文字を超えるテキストになります。"
+            "人工知能の発展により音声技術も進歩しました。素晴らしいですね！最新技術を活用しています。"
+            "テキストが長くなっても問題なく処理できます。自動チャンキング機能が正しく動作しています！"
+            "これで確実に三百文字を超えました。日本語の句読点で自然に分割されることを確認します。"
+            "最新のAI技術を活用した音声合成システムです。ストリーミング機能も完璧に動作します！テスト完了です！"
+        )
+
+        print(f"  📏 Text length: {len(japanese_text)} characters")
+        print(f"  📝 Contains: 。！？ punctuation marks")
+
+        async with Supertone(api_key=API_KEY) as client:
+            print("  🔍 Streaming TTS with Japanese punctuation splitting (async)...")
+            print("  ⚠️ This test will consume credits!")
+
+            response = await client.text_to_speech.stream_speech_async(
+                voice_id=voice_id,
+                text=japanese_text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+            )
+
+            # Collect streaming data
+            audio_data = b""
+            if hasattr(response.result, "aiter_bytes"):
+                async for chunk in response.result.aiter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "iter_bytes"):
+                for chunk in response.result.iter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "read"):
+                audio_data = response.result.read()
+
+            if len(audio_data) > 0:
+                print(f"  ✅ Streaming multilingual punctuation splitting successful!")
+                print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+                return True, response
+            else:
+                print("  ❌ Empty audio data")
+                return False, response
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
 async def test_stream_speech_japanese_no_spaces(voice_id):
     """Test async streaming TTS with Japanese text (character-based splitting)"""
     print("🇯🇵🔊✂️ Async Streaming Japanese Character-Based Splitting Test")
@@ -3788,6 +3932,17 @@ async def main():
         success, result = await test_stream_speech_japanese_no_spaces(voice_id_for_tts)
         test_results["stream_speech_japanese_no_spaces_async"] = success
 
+        # Multilingual punctuation splitting tests
+        success, result = await test_create_speech_multilingual_punctuation(
+            voice_id_for_tts
+        )
+        test_results["create_speech_multilingual_punctuation_async"] = success
+
+        success, result = await test_stream_speech_multilingual_punctuation(
+            voice_id_for_tts
+        )
+        test_results["stream_speech_multilingual_punctuation_async"] = success
+
         # 12. Concurrent/Parallel Tests (Async Power!)
         print("\n🚀 Concurrent/Parallel Tests (Async Power!)")
         success, result = await test_concurrent_api_calls(voice_id_for_tts)
@@ -3883,6 +4038,9 @@ async def main():
     print("  • Advanced Text Chunking Tests:")
     print("    - Long sentence word-based splitting: create_speech, stream_speech")
     print("    - Japanese character-based splitting: create_speech, stream_speech")
+    print(
+        "    - Multilingual punctuation splitting (。！？…): create_speech, stream_speech"
+    )
     print("  • Concurrent/Parallel Tests (Async Power!):")
     print("    - concurrent_api_calls_async (5 different APIs in parallel)")
     print("    - parallel_tts_conversion_async (3 texts converted simultaneously)")
