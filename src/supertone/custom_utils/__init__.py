@@ -8,6 +8,7 @@ are designed to be stateless, reusable, and easily testable.
 Modules:
     - constants: Audio format and text processing constants
     - text_utils: Text segmentation and NDJSON processing
+    - pronunciation_utils: Pronunciation dictionary substitutions
     - audio_utils: WAV and MP3 audio binary manipulation
 """
 
@@ -27,6 +28,12 @@ from .constants import (
 from .text_utils import (
     chunk_text,
     extract_audio_from_ndjson,
+)
+
+# Pronunciation utilities
+from .pronunciation_utils import (
+    apply_pronunciation_dictionary,
+    PronunciationDictionaryValidationError,
 )
 
 # Audio utilities
@@ -69,6 +76,9 @@ __all__ = [
     # Text utilities
     "chunk_text",
     "extract_audio_from_ndjson",
+    # Pronunciation utilities
+    "apply_pronunciation_dictionary",
+    "PronunciationDictionaryValidationError",
     # Audio utilities
     "merge_wav_binary",
     "merge_mp3_binary",
