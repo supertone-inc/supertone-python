@@ -34,7 +34,7 @@ def apply_pronunciation_dictionary(
       partial_match(bool). Empty strings are invalid.
     """
 
-    if pronunciation_dictionary is None:
+    if not pronunciation_dictionary:
         return text
 
     if not isinstance(text, str):
@@ -58,9 +58,6 @@ def apply_pronunciation_dictionary(
         dst = entry["pronunciation"]
         partial_match = entry["partial_match"]
 
-        token = _make_unique_token(idx, working, token_to_pronunciation)
-        token_to_pronunciation[token] = dst
-
         if partial_match:
             pattern = re.escape(src)
         else:
@@ -69,13 +66,15 @@ def apply_pronunciation_dictionary(
 
         compiled = re.compile(pattern)
 
-        if compiled.search(working) is None:
-            token_to_pronunciation.pop(token, None)
+        # Generate token only after confirming a match exists.
+        # Use subn() to replace and count matches in a single pass.
+        token = _make_unique_token(idx, working, token_to_pronunciation)
+        working, count = compiled.subn(token, working)
+
+        if count == 0:
             continue
 
-        # Replace matched segments with the token so later rules cannot match
-        # inside already-replaced pronunciations.
-        working = compiled.sub(token, working)
+        token_to_pronunciation[token] = dst
 
     # Expand tokens into pronunciations.
     for token, pronunciation in token_to_pronunciation.items():
@@ -90,7 +89,9 @@ def _validate_dictionary_entry(raw_entry: Any, idx: int) -> Dict[str, Any]:
             f"pronunciation_dictionary[{idx}] must be an object, got {type(raw_entry).__name__}"
         )
 
-    missing = [k for k in ("text", "pronunciation", "partial_match") if k not in raw_entry]
+    missing = [
+        k for k in ("text", "pronunciation", "partial_match") if k not in raw_entry
+    ]
     if missing:
         raise PronunciationDictionaryValidationError(
             f"pronunciation_dictionary[{idx}] missing required field(s): {', '.join(missing)}"
@@ -127,11 +128,10 @@ def _validate_dictionary_entry(raw_entry: Any, idx: int) -> Dict[str, Any]:
 
 def _make_unique_token(idx: int, working: str, existing: Mapping[str, str]) -> str:
     # Use Private Use Area characters to avoid collisions with normal text.
-    base = f"\uE000PD{idx}\uE001"
+    base = f"\ue000PD{idx}\ue001"
     if base not in working and base not in existing:
         return base
     while True:
-        token = f"\uE000PD{idx}_{uuid.uuid4().hex}\uE001"
+        token = f"\ue000PD{idx}_{uuid.uuid4().hex}\ue001"
         if token not in working and token not in existing:
             return token
-
