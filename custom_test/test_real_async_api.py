@@ -3706,6 +3706,310 @@ async def test_mixed_parallel_operations(voice_id):
         return False, e
 
 
+async def test_create_speech_with_pronunciation_dictionary(voice_id):
+    """Test async TTS with pronunciation dictionary substitution"""
+    print("📖🎤 Pronunciation Dictionary TTS Test (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            # Note: "TTSAPI" tests partial_match=True (substring replacement)
+            text = "Hello, I work at Supertone Inc. The TTSAPI is amazing!"
+
+            # Pronunciation dictionary: mix of partial_match=True and False
+            pronunciation_dictionary = [
+                # partial_match=False: only matches standalone "Supertone"
+                {"text": "Supertone", "pronunciation": "Super-tone", "partial_match": False},
+                # partial_match=True: matches "TTS" inside "TTSAPI" as well
+                {"text": "TTS", "pronunciation": "Text-to-Speech", "partial_match": True},
+                # partial_match=False: exact word boundary match
+                {"text": "Inc", "pronunciation": "Incorporated", "partial_match": False},
+            ]
+
+            print(f"  📝 Original text: {text}")
+            print(f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}")
+            for entry in pronunciation_dictionary:
+                print(f"    - '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})")
+            print("  ⚠️ This test consumes credits!")
+
+            response = await client.text_to_speech.create_speech_async(
+                voice_id=voice_id,
+                text=text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                pronunciation_dictionary=pronunciation_dictionary,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                print(f"  ✅ Pronunciation dictionary TTS successful!")
+                print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+
+                output_file = "test_async_pronunciation_dictionary_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Saved: {output_file}")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure verification needed: {type(response)}")
+                return False, response
+
+    except Exception as e:
+        import traceback
+
+        print(f"  ❌ Unexpected error: {e}")
+        print(f"  📋 Traceback:")
+        traceback.print_exc()
+        return False, e
+
+
+async def test_create_speech_pronunciation_dictionary_long_text(voice_id):
+    """Test async TTS with pronunciation dictionary that expands text beyond 300 chars (triggers auto-chunking)"""
+    print("📖📜🎤 Pronunciation Dictionary Long Text TTS Test (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            # Short text that expands to 300+ chars after pronunciation substitution
+            # Note: Contains "AIML" and "TTSAPI" to test partial_match behavior
+            text = (
+                "AI and AIML power modern TTS systems. "
+                "The TTSAPI enables voice synthesis via SDK. "
+                "Our AI SDK supports real-time API calls. "
+                "Use the TTS API to integrate AI into your app."
+            )
+
+            # Pronunciation dictionary that significantly expands the text
+            # Mix of partial_match=True and False to demonstrate both behaviors
+            pronunciation_dictionary = [
+                # partial_match=False: "AI" won't match inside "AIML"
+                {"text": "AI", "pronunciation": "Artificial Intelligence System", "partial_match": False},
+                # partial_match=True: "TTS" will match inside "TTSAPI"
+                {"text": "TTS", "pronunciation": "Text-to-Speech Engine", "partial_match": True},
+                # partial_match=False: exact word match only
+                {"text": "SDK", "pronunciation": "Software Development Kit", "partial_match": False},
+                # partial_match=True: "API" will match inside "TTSAPI" (after TTS replaced)
+                {"text": "API", "pronunciation": "Application Programming Interface", "partial_match": True},
+            ]
+
+            print(f"  📏 Original text length: {len(text)} characters")
+            print(f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}")
+            for entry in pronunciation_dictionary:
+                print(f"    - '{entry['text']}' → '{entry['pronunciation']}'")
+
+            # Calculate expanded length
+            expanded_text = text
+            for entry in pronunciation_dictionary:
+                expanded_text = expanded_text.replace(entry["text"], entry["pronunciation"])
+            print(f"  📏 Expanded text length: {len(expanded_text)} characters")
+            print(f"  {'✅' if len(expanded_text) > 300 else '⚠️'} {'Exceeds' if len(expanded_text) > 300 else 'Does not exceed'} 300 chars (auto-chunking threshold)")
+            print("  ⚠️ This test consumes credits!")
+
+            response = await client.text_to_speech.create_speech_async(
+                voice_id=voice_id,
+                text=text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                pronunciation_dictionary=pronunciation_dictionary,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                print(f"  ✅ Pronunciation dictionary long text TTS successful!")
+                print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+
+                output_file = "test_async_pronunciation_dictionary_long_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Saved: {output_file}")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure verification needed: {type(response)}")
+                return False, response
+
+    except Exception as e:
+        import traceback
+
+        print(f"  ❌ Unexpected error: {e}")
+        print(f"  📋 Traceback:")
+        traceback.print_exc()
+        return False, e
+
+
+async def test_stream_speech_with_pronunciation_dictionary(voice_id):
+    """Test async streaming TTS with pronunciation dictionary"""
+    print("📖🔊 Pronunciation Dictionary Streaming TTS Test (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            # Note: "TTSAPI" tests partial_match=True behavior
+            text = "Welcome to Supertone. Our AI TTSAPI delivers high-quality voice synthesis."
+
+            pronunciation_dictionary = [
+                # partial_match=False: exact word boundary match
+                {"text": "Supertone", "pronunciation": "Super-tone Korea", "partial_match": False},
+                {"text": "AI", "pronunciation": "Artificial Intelligence", "partial_match": False},
+                # partial_match=True: matches "TTS" inside "TTSAPI"
+                {"text": "TTS", "pronunciation": "Text-to-Speech", "partial_match": True},
+                {"text": "API", "pronunciation": "A-P-I", "partial_match": True},
+            ]
+
+            print(f"  📝 Original text: {text}")
+            print(f"  📖 Dictionary entries: {len(pronunciation_dictionary)}")
+            print("  ⚠️ This test consumes credits!")
+
+            response = await client.text_to_speech.stream_speech_async(
+                voice_id=voice_id,
+                text=text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                pronunciation_dictionary=pronunciation_dictionary,
+            )
+
+            # Collect streaming data
+            audio_data = b""
+            if hasattr(response.result, "aiter_bytes"):
+                async for chunk in response.result.aiter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "iter_bytes"):
+                for chunk in response.result.iter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "read"):
+                audio_data = response.result.read()
+
+            if len(audio_data) > 0:
+                print(f"  ✅ Pronunciation dictionary streaming successful!")
+                print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+
+                output_file = "test_async_pronunciation_dictionary_stream_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Saved: {output_file}")
+
+                return True, response
+            else:
+                print("  ❌ Empty audio data")
+                return False, response
+
+    except Exception as e:
+        import traceback
+
+        print(f"  ❌ Unexpected error: {e}")
+        print(f"  📋 Traceback:")
+        traceback.print_exc()
+        return False, e
+
+
+async def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
+    """Test async streaming TTS with pronunciation dictionary that expands text beyond 300 chars"""
+    print("📖📜🔊 Pronunciation Dictionary Long Text Streaming TTS Test (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            # Short text that expands to 300+ chars
+            # Contains "AIML" and compound words to test partial_match behavior
+            text = (
+                "Our AI and AIML SDK provides seamless TTSAPI integration. "
+                "The AI analyzes text and the TTS engine generates speech. "
+                "Use our SDK to access the API. AI-powered TTS is the future."
+            )
+
+            pronunciation_dictionary = [
+                # partial_match=False: "AI" won't match inside "AIML" or "AI-powered"
+                {"text": "AI", "pronunciation": "Artificial Intelligence System", "partial_match": False},
+                # partial_match=True: "TTS" matches inside "TTSAPI"
+                {"text": "TTS", "pronunciation": "Text-to-Speech Voice Engine", "partial_match": True},
+                {"text": "SDK", "pronunciation": "Software Development Kit", "partial_match": False},
+                # partial_match=True: "API" matches inside "TTSAPI"
+                {"text": "API", "pronunciation": "Application Programming Interface", "partial_match": True},
+            ]
+
+            print(f"  📏 Original text length: {len(text)} characters")
+            for entry in pronunciation_dictionary:
+                print(f"    - '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})")
+
+            # Calculate expanded length
+            expanded_text = text
+            for entry in pronunciation_dictionary:
+                expanded_text = expanded_text.replace(entry["text"], entry["pronunciation"])
+            print(f"  📏 Expanded text length: {len(expanded_text)} characters")
+            print(f"  ✅ Triggers auto-chunking: {len(expanded_text) > 300}")
+            print("  ⚠️ This test consumes credits!")
+
+            response = await client.text_to_speech.stream_speech_async(
+                voice_id=voice_id,
+                text=text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                pronunciation_dictionary=pronunciation_dictionary,
+            )
+
+            # Collect streaming data
+            audio_data = b""
+            if hasattr(response.result, "aiter_bytes"):
+                async for chunk in response.result.aiter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "iter_bytes"):
+                for chunk in response.result.iter_bytes():
+                    audio_data += chunk
+            elif hasattr(response.result, "read"):
+                audio_data = response.result.read()
+
+            if len(audio_data) > 0:
+                print(f"  ✅ Pronunciation dictionary long text streaming successful!")
+                print(f"  📦 Audio data size: {len(audio_data):,} bytes")
+
+                output_file = "test_async_pronunciation_dictionary_stream_long_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Saved: {output_file}")
+
+                return True, response
+            else:
+                print("  ❌ Empty audio data")
+                return False, response
+
+    except Exception as e:
+        import traceback
+
+        print(f"  ❌ Unexpected error: {e}")
+        print(f"  📋 Traceback:")
+        traceback.print_exc()
+        return False, e
+
+
 async def main():
     """Main async integration test runner - all async API tests"""
     print("🧪 Async API Integration Test Started (All Async APIs)")
@@ -3943,7 +4247,34 @@ async def main():
         )
         test_results["stream_speech_multilingual_punctuation_async"] = success
 
-        # 12. Concurrent/Parallel Tests (Async Power!)
+        # 12. Pronunciation Dictionary Tests
+        print("\n📖 Pronunciation Dictionary Tests (Async)")
+
+        # Basic pronunciation dictionary test
+        success, result = await test_create_speech_with_pronunciation_dictionary(
+            voice_id_for_tts
+        )
+        test_results["create_speech_with_pronunciation_dictionary_async"] = success
+
+        # Pronunciation dictionary with long text (triggers auto-chunking)
+        success, result = await test_create_speech_pronunciation_dictionary_long_text(
+            voice_id_for_tts
+        )
+        test_results["create_speech_pronunciation_dictionary_long_text_async"] = success
+
+        # Streaming with pronunciation dictionary
+        success, result = await test_stream_speech_with_pronunciation_dictionary(
+            voice_id_for_tts
+        )
+        test_results["stream_speech_with_pronunciation_dictionary_async"] = success
+
+        # Streaming with pronunciation dictionary long text
+        success, result = await test_stream_speech_pronunciation_dictionary_long_text(
+            voice_id_for_tts
+        )
+        test_results["stream_speech_pronunciation_dictionary_long_text_async"] = success
+
+        # 13. Concurrent/Parallel Tests (Async Power!)
         print("\n🚀 Concurrent/Parallel Tests (Async Power!)")
         success, result = await test_concurrent_api_calls(voice_id_for_tts)
         test_results["concurrent_api_calls_async"] = success
@@ -4041,6 +4372,9 @@ async def main():
     print(
         "    - Multilingual punctuation splitting (。！？…): create_speech, stream_speech"
     )
+    print("  • Pronunciation Dictionary Tests:")
+    print("    - Basic: create_speech_async, stream_speech_async")
+    print("    - Long text (auto-chunking): create_speech_async, stream_speech_async")
     print("  • Concurrent/Parallel Tests (Async Power!):")
     print("    - concurrent_api_calls_async (5 different APIs in parallel)")
     print("    - parallel_tts_conversion_async (3 texts converted simultaneously)")
