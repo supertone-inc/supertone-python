@@ -27,6 +27,8 @@ from supertone.custom_utils import (
     # Text utilities
     chunk_text,
     extract_audio_from_ndjson,
+    # Pronunciation utilities
+    apply_pronunciation_dictionary,
     # Audio utilities
     merge_wav_binary,
     merge_mp3_binary,
@@ -86,6 +88,21 @@ class TextToSpeech(BaseSDK):
         self.stream_speech_async = self._auto_chunk_text_streaming_async(
             max_length=DEFAULT_MAX_TEXT_LENGTH
         )(self.stream_speech_async)
+
+    def _apply_pronunciation_dictionary(
+        self,
+        text: str,
+        pronunciation_dictionary: Optional[List[Mapping[str, Any]]] = None,
+    ) -> str:
+        """
+        Apply pronunciation dictionary substitutions when provided.
+
+        This is a lightweight wrapper around the custom_utils helper to keep
+        decorator wrappers concise.
+        """
+        if pronunciation_dictionary is None:
+            return text
+        return apply_pronunciation_dictionary(text, pronunciation_dictionary)
 
     def _chunk_text(
         self, text: str, max_length: int = DEFAULT_MAX_TEXT_LENGTH
@@ -340,6 +357,11 @@ class TextToSpeech(BaseSDK):
         def decorator(original_method):
             def wrapper(*args, **kwargs):
                 text = kwargs.get("text", "")
+                pronunciation_dictionary = kwargs.pop("pronunciation_dictionary", None)
+                text = self._apply_pronunciation_dictionary(
+                    text, pronunciation_dictionary
+                )
+                kwargs["text"] = text
 
                 # Short text: call original method directly
                 if not self._should_chunk_text(text, max_length):
@@ -366,6 +388,11 @@ class TextToSpeech(BaseSDK):
         def decorator(original_method):
             async def wrapper(*args, **kwargs):
                 text = kwargs.get("text", "")
+                pronunciation_dictionary = kwargs.pop("pronunciation_dictionary", None)
+                text = self._apply_pronunciation_dictionary(
+                    text, pronunciation_dictionary
+                )
+                kwargs["text"] = text
 
                 # Short text: call original method and cache content
                 if not self._should_chunk_text(text, max_length):
@@ -401,6 +428,11 @@ class TextToSpeech(BaseSDK):
         def decorator(original_method):
             def wrapper(*args, **kwargs):
                 text = kwargs.get("text", "")
+                pronunciation_dictionary = kwargs.pop("pronunciation_dictionary", None)
+                text = self._apply_pronunciation_dictionary(
+                    text, pronunciation_dictionary
+                )
+                kwargs["text"] = text
 
                 # Short text: call original method directly
                 if not self._should_chunk_text(text, max_length):
@@ -458,6 +490,11 @@ class TextToSpeech(BaseSDK):
         def decorator(original_method):
             async def wrapper(*args, **kwargs):
                 text = kwargs.get("text", "")
+                pronunciation_dictionary = kwargs.pop("pronunciation_dictionary", None)
+                text = self._apply_pronunciation_dictionary(
+                    text, pronunciation_dictionary
+                )
+                kwargs["text"] = text
 
                 # Short text: call original method directly
                 if not self._should_chunk_text(text, max_length):

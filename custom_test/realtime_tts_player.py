@@ -396,11 +396,16 @@ class RealTimeAudioPlayer:
         print("✅ Playback completed")
 
 
-async def streaming_tts_with_realtime_playback(voice_id, text):
+async def streaming_tts_with_realtime_playback(
+    voice_id, text, pronunciation_dictionary=None, language="EN"
+):
     """Streaming TTS + Real-time automatic playback"""
     print(f"🚀 Real-time playback streaming TTS started")
     print(f"🎤 Voice ID: {voice_id}")
+    print(f"🌐 Language: {language}")
     print(f"📝 Text: {text[:50]}...")
+    if pronunciation_dictionary:
+        print(f"📖 Pronunciation dictionary: {len(pronunciation_dictionary)} entries")
 
     if not voice_id:
         print("❌ Valid voice ID required")
@@ -415,13 +420,24 @@ async def streaming_tts_with_realtime_playback(voice_id, text):
             print("📡 Requesting streaming TTS...")
             start_time = time.time()
 
+            # Map language string to enum
+            language_map = {
+                "KO": models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO,
+                "EN": models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                "JA": models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+            }
+            lang_enum = language_map.get(
+                language, models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN
+            )
+
             # Fixed API call structure
             response = await client.text_to_speech.stream_speech_async(
                 voice_id=voice_id,
                 text=text,
-                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.KO,
+                language=lang_enum,
                 style="neutral",
                 model="sona_speech_1",
+                pronunciation_dictionary=pronunciation_dictionary,
             )
 
             request_time = time.time() - start_time
@@ -597,52 +613,168 @@ async def demo_realtime_streaming_scenarios():
         {
             "name": "Short message (70 chars)",
             "text": "안녕하세요! 실시간 스트리밍 TTS 기술을 테스트하고 있습니다. 빠른 응답성을 확인해보겠습니다.",
+            "language": "KO",
             "description": "Measure immediate responsiveness and initial latency with short text",
         },
         {
             "name": "Regular sentence (150 chars)",
             "text": "오늘은 날씨가 참 좋네요. 실시간 음성 합성 기술이 발달하면서 다양한 애플리케이션에서 활용되고 있습니다. 특히 교육 분야에서는 접근성을 크게 향상시키는 중요한 역할을 하고 있어요. 기술의 발전이 정말 놀랍습니다.",
+            "language": "KO",
             "description": "Check natural voice synthesis quality with typical conversation length",
         },
         {
             "name": "Medium explanation (280 chars)",
             "text": "실시간 스트리밍 TTS 기술은 전통적인 배치 처리 방식과는 다릅니다. 사용자가 텍스트를 입력하면 즉시 처리가 시작되고, 첫 번째 청크가 준비되는 즉시 오디오 스트림이 시작됩니다. 이를 통해 전체 텍스트 처리를 기다릴 필요 없이 빠른 피드백을 받을 수 있습니다. 특히 긴 문서를 읽을 때 사용자 경험이 크게 개선되며, 실시간 상호작용이 가능해집니다. 이는 현대적인 AI 서비스의 핵심 요소 중 하나입니다.",
+            "language": "KO",
             "description": "Test chunking and performance near 300 character boundary",
         },
         {
             "name": "Long explanation (400 chars)",
             "text": "인공지능과 머신러닝 기술의 발전은 우리 사회의 많은 영역을 변화시키고 있습니다. 특히 자연어 처리와 음성 기술 분야에서는 놀라운 발전이 이루어지고 있어요. 텍스트를 자연스러운 음성으로 변환하는 TTS 기술은 이제 사람의 목소리와 구별하기 어려울 정도로 발전했습니다. 실시간 스트리밍 처리가 가능해지면서 사용자 경험도 크게 향상되었죠. 교육, 엔터테인먼트, 접근성 개선 등 다양한 분야에서 활용되고 있으며, 앞으로도 더 많은 혁신이 기대됩니다. 이러한 기술적 진보는 디지털 콘텐츠 소비 패턴까지 바꾸고 있습니다.",
+            "language": "KO",
             "description": "Test auto-chunking feature and continuous streaming with 400 chars",
         },
         {
             "name": "Long document (600 chars)",
             "text": "현대 사회에서 인공지능 기술은 우리 일상생활의 모든 영역에 스며들고 있습니다. 특히 음성 합성 기술은 시각 장애인을 위한 접근성 도구에서부터 엔터테인먼트 산업의 콘텐츠 제작까지 광범위하게 활용되고 있습니다. 실시간 스트리밍 기술과 결합된 텍스트 음성 변환 시스템은 사용자 경험을 혁신적으로 개선합니다. 사용자는 전체 텍스트의 음성 변환이 완료되기를 기다릴 필요 없이, 첫 번째 청크가 처리되는 즉시 오디오를 들을 수 있습니다. 자동 청킹 알고리즘은 텍스트를 문맥과 문장 구조를 고려하여 적절한 크기로 분할하며, 각 청크는 병렬로 처리되어 전체 응답 시간을 대폭 단축시킵니다. 이러한 기술적 혁신은 교육 플랫폼의 강의 자료 음성화, 뉴스 기사의 실시간 읽기 서비스, 소셜 미디어 게시물의 오디오 변환 등 다양한 응용 분야에서 그 진가를 발휘하고 있습니다.",
+            "language": "KO",
             "description": "Verify multi-chunking and memory efficiency with 600 char long document",
         },
         {
             "name": "Very long document (800+ chars)",
             "text": "디지털 트랜스포메이션 시대에 접어들면서 음성 기술의 중요성이 더욱 부각되고 있습니다. 특히 코로나19 팬데믹 이후 비대면 서비스와 원격 교육이 일반화되면서 텍스트 음성 변환 기술의 수요가 폭발적으로 증가했습니다. 실시간 스트리밍 TTS는 이러한 요구에 부응하는 핵심 기술로 자리잡고 있어요. 기존의 배치 처리 방식과 달리 스트리밍 방식은 지연 시간을 최소화하고 사용자 상호작용을 극대화합니다. 자동 청킹 알고리즘을 통해 긴 텍스트도 효율적으로 처리할 수 있게 되었고, 문장 경계를 고려한 지능적 분할로 자연스러운 음성을 생성합니다. 또한 병렬 처리를 통해 전체 응답 시간을 단축시키면서도 품질을 유지할 수 있습니다. 이는 온라인 강의, 오디오북 서비스, 뉴스 브리핑, 실시간 번역 등 다양한 서비스에서 활용되고 있으며, 접근성 측면에서도 시각 장애인들에게 큰 도움을 주고 있습니다. 앞으로는 더욱 자연스러운 감정 표현과 개인화된 음성 스타일까지 지원할 것으로 기대됩니다.",
+            "language": "KO",
             "description": "Test maximum performance and stability with 800+ char very long text",
         },
         {
             "name": "Long sentence no punctuation (400+ chars, word-based splitting)",
             "text": "This is a very long sentence without any punctuation marks that is designed to exceed the three hundred character limit so that the text chunking algorithm will need to fall back to word based splitting instead of sentence based splitting because there are no sentence ending punctuation marks like periods or exclamation points to use as natural break points in this extremely lengthy run on sentence that keeps going and going without any stops",
+            "language": "EN",
             "description": "Test word-based splitting fallback when no punctuation is available",
         },
         {
             "name": "Japanese long text (400+ chars, character-based splitting)",
             "text": "これは日本語のテストです。日本語には通常スペースがありません。そのためテキストを分割するときは文字単位で分割する必要があります。このテストは三百文字を超える長いテキストを使用して文字ベースの分割アルゴリズムが正しく動作することを確認します。人工知能技術は日々進化しており音声合成の品質も向上しています。私たちは最新の技術を使用して自然な音声を生成することができます。デジタル化の進展に伴い音声技術はますます重要になってきています。リアルタイムストリーミング技術と組み合わせることで低遅延で高品質な音声体験を提供できるようになりました。",
+            "language": "JA",
             "description": "Test character-based splitting for languages without word spaces like Japanese",
         },
         {
             "name": "Japanese with 。！？ punctuation (350+ chars, multilingual punctuation splitting)",
             "text": "これは日本語のストリーミングテストです。音声合成技術はとても進化しています！リアルタイムストリーミングは素晴らしいですね？長いテキストでも自然に分割されます。品質がとても良いです！次の文章も続きます。これで三百文字を超えるテキストになります。人工知能の発展により音声技術も進歩しました。素晴らしいですね！最新技術を活用しています。日本語の句読点で自然に分割されることを確認します。これは非常に重要な機能です！音声合成の未来は明るいです。私たちはこの素晴らしい技術を使って世界中の人々にサービスを提供しています。テキストが長くなっても問題なく処理できます。自動チャンキング機能が正しく動作しています！これで確実に三百文字を超えました。",
+            "language": "JA",
             "description": "Test multilingual punctuation splitting with Japanese 。！？ marks",
         },
         {
             "name": "Korean with ellipsis … (350+ chars, multilingual punctuation splitting)",
             "text": "안녕하세요… 오늘 날씨가 좋네요. 음성 합성 기술이 발전했습니다! 실시간 스트리밍도 가능해요… 정말 놀랍죠? 긴 텍스트도 자연스럽게 처리됩니다. 이 테스트는 삼백자를 넘는 긴 문장입니다… 다국어 구두점 분리를 확인합니다! 한국어 말줄임표도 잘 인식됩니다… 기술의 발전이 놀랍습니다. 실시간 오디오 스트리밍 테스트를 진행하고 있습니다… 품질이 정말 좋네요! 음성 합성 기술은 우리 생활을 더욱 편리하게 만들어줍니다… 앞으로도 계속 발전할 것입니다! 자동 청킹 기능이 정상적으로 동작하는지 확인합니다… 이제 삼백자를 초과했습니다! 테스트 완료!",
+            "language": "KO",
             "description": "Test multilingual punctuation splitting with Korean ellipsis (…)",
+        },
+        # ============================================================
+        # Pronunciation Dictionary Scenarios
+        # ============================================================
+        {
+            "name": "Pronunciation Dictionary - Basic (partial_match mixed)",
+            "text": "Welcome to Supertone Inc. Our TTSAPI provides high-quality voice synthesis.",
+            "language": "EN",
+            "pronunciation_dictionary": [
+                # partial_match=False: exact word boundary match only
+                {
+                    "text": "Supertone",
+                    "pronunciation": "Super-tone",
+                    "partial_match": False,
+                },
+                {
+                    "text": "Inc",
+                    "pronunciation": "Incorporated",
+                    "partial_match": False,
+                },
+                # partial_match=True: matches "TTS" inside "TTSAPI"
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech",
+                    "partial_match": True,
+                },
+                {"text": "API", "pronunciation": "A-P-I", "partial_match": True},
+            ],
+            "description": "Test pronunciation dictionary with mixed partial_match settings",
+        },
+        {
+            "name": "Pronunciation Dictionary - Long text with expansion (triggers auto-chunking)",
+            "text": (
+                "AI and AIML power modern TTS systems. "
+                "The TTSAPI enables voice synthesis via SDK. "
+                "Our AI SDK supports real-time API calls. "
+                "Use the TTS API to integrate AI into your app. "
+                "The SDK documentation covers all API endpoints."
+            ),
+            "language": "EN",
+            "pronunciation_dictionary": [
+                # partial_match=False: "AI" won't match inside "AIML"
+                {
+                    "text": "AI",
+                    "pronunciation": "Artificial Intelligence",
+                    "partial_match": False,
+                },
+                # partial_match=True: "TTS" will match inside "TTSAPI"
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech",
+                    "partial_match": True,
+                },
+                # partial_match=False: exact word match only
+                {
+                    "text": "SDK",
+                    "pronunciation": "Software Development Kit",
+                    "partial_match": False,
+                },
+                # partial_match=True: "API" will match inside "TTSAPI"
+                {
+                    "text": "API",
+                    "pronunciation": "Application Programming Interface",
+                    "partial_match": True,
+                },
+            ],
+            "description": "Test pronunciation dictionary that expands text beyond 300 chars (auto-chunking)",
+        },
+        {
+            "name": "Pronunciation Dictionary - Technical terms",
+            "text": "The CEO announced that NASA and MIT will collaborate on the new IOT project using AWS and GCP cloud services.",
+            "language": "EN",
+            "pronunciation_dictionary": [
+                {
+                    "text": "CEO",
+                    "pronunciation": "Chief Executive Officer",
+                    "partial_match": False,
+                },
+                {
+                    "text": "NASA",
+                    "pronunciation": "National Aeronautics and Space Administration",
+                    "partial_match": False,
+                },
+                {
+                    "text": "MIT",
+                    "pronunciation": "Massachusetts Institute of Technology",
+                    "partial_match": False,
+                },
+                # partial_match=True: would match "IOT" in "RIOT" if present
+                {
+                    "text": "IOT",
+                    "pronunciation": "Internet of Things",
+                    "partial_match": True,
+                },
+                {
+                    "text": "AWS",
+                    "pronunciation": "Amazon Web Services",
+                    "partial_match": False,
+                },
+                {
+                    "text": "GCP",
+                    "pronunciation": "Google Cloud Platform",
+                    "partial_match": False,
+                },
+            ],
+            "description": "Test pronunciation dictionary with technical acronyms and organization names",
         },
     ]
 
@@ -650,10 +782,24 @@ async def demo_realtime_streaming_scenarios():
         print(f"{'='*60}")
         print(f"🎬 Scenario {i}: {scenario['name']}")
         print(f"📝 Description: {scenario['description']}")
+        print(f"🌐 Language: {scenario.get('language', 'EN')}")
         print(f"📏 Text length: {len(scenario['text'])} chars")
+        if scenario.get("pronunciation_dictionary"):
+            print(
+                f"📖 Pronunciation dictionary: {len(scenario['pronunciation_dictionary'])} entries"
+            )
+            for entry in scenario["pronunciation_dictionary"]:
+                print(
+                    f"   '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})"
+                )
         print(f"{'='*60}")
 
-        success = await streaming_tts_with_realtime_playback(voice_id, scenario["text"])
+        success = await streaming_tts_with_realtime_playback(
+            voice_id,
+            scenario["text"],
+            scenario.get("pronunciation_dictionary"),
+            scenario.get("language", "EN"),
+        )
 
         if not success:
             print(f"❌ Scenario {i} failed")
