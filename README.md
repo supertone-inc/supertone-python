@@ -158,14 +158,11 @@ Some TTS models support optional voice settings that allow fine control over out
   - Supports **all** available Voice Settings.
 
 - **supertonic_api_1**
-  - Supports **only** the `speed` setting.  
+  - Supports **only** the `speed` setting.
     All other settings will be ignored.
 
 - **sona_speech_2**
-  - Supports the following Voice Settings:
-    - `pitch_shift`
-    - `pitch_variance`
-    - `speed`
+  - Supports **all** Voice Settings **except** `subharmonic_amplitude_control`.
 
 > All Voice Settings are optional. When omitted, each model’s default values will be applied.
 
