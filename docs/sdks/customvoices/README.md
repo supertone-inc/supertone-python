@@ -50,7 +50,7 @@ with Supertone(
 
 ### Response
 
-**[models.CreateClonedVoiceUploadResponse](../../models/createclonedvoiceuploadresponse.md)**
+**[models.CreateCustomVoiceResponse](../../models/createcustomvoiceresponse.md)**
 
 ### Errors
 
@@ -185,7 +185,7 @@ with Supertone(
 
 ### Response
 
-**[models.GetSingleClonedVoiceResponse](../../models/getsingleclonedvoiceresponse.md)**
+**[models.GetCustomVoiceResponse](../../models/getcustomvoiceresponse.md)**
 
 ### Errors
 
@@ -229,7 +229,7 @@ with Supertone(
 
 ### Response
 
-**[models.UpdateClonedVoiceResponse](../../models/updateclonedvoiceresponse.md)**
+**[models.UpdateCustomVoiceResponse](../../models/updatecustomvoiceresponse.md)**
 
 ### Errors
 

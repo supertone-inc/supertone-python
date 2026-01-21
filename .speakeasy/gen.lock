@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a7434ee7-004c-44b3-a7c4-1d4e3f9fb006
 management:
-  docChecksum: d83a03a47cfc199e8df77df14f9942fc
-  docVersion: 0.8.69
+  docChecksum: 44f5c7cda982240a767a63b4e8ac2452
+  docVersion: 0.8.93
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.1.4
-  configChecksum: 2027fb272aed485a5f630b42e643fff9
+  releaseVersion: 0.1.5
+  configChecksum: 3dd87723d1f40915ea0a7d5544981b4f
 features:
   python:
     acceptHeaders: 3.0.0
@@ -54,7 +54,7 @@ generatedFiles:
   - docs/models/bucketwidth.md
   - docs/models/converttexttospeechparameters.md
   - docs/models/createclonedvoicerequest.md
-  - docs/models/createclonedvoiceuploadresponse.md
+  - docs/models/createcustomvoiceresponse.md
   - docs/models/createspeechrequest.md
   - docs/models/createspeechresponse.md
   - docs/models/createspeechresponsebody.md
@@ -69,8 +69,7 @@ generatedFiles:
   - docs/models/getcreditbalanceresponse.md
   - docs/models/getcustomvoicelistresponse.md
   - docs/models/getcustomvoicerequest.md
-  - docs/models/getcustomvoiceresponsedata.md
-  - docs/models/getsingleclonedvoiceresponse.md
+  - docs/models/getcustomvoiceresponse.md
   - docs/models/getusagelistv1response.md
   - docs/models/getusagerequest.md
   - docs/models/getusageresponsev1data.md
@@ -85,10 +84,10 @@ generatedFiles:
   - docs/models/phonemes.md
   - docs/models/predictdurationrequest.md
   - docs/models/predictdurationresponse.md
-  - docs/models/predictttsdurationusingcharacterrequest.md
-  - docs/models/predictttsdurationusingcharacterrequestlanguage.md
-  - docs/models/predictttsdurationusingcharacterrequestmodel.md
-  - docs/models/predictttsdurationusingcharacterrequestoutputformat.md
+  - docs/models/predictttsdurationrequest.md
+  - docs/models/predictttsdurationrequestlanguage.md
+  - docs/models/predictttsdurationrequestmodel.md
+  - docs/models/predictttsdurationrequestoutputformat.md
   - docs/models/requesttimeouterrorresponsemessage.md
   - docs/models/searchcustomvoicesrequest.md
   - docs/models/searchvoicesrequest.md
@@ -98,8 +97,8 @@ generatedFiles:
   - docs/models/streamspeechresponseresult.md
   - docs/models/toomanyrequestserrorresponsemessage.md
   - docs/models/unauthorizederrorresponsemessage.md
-  - docs/models/updateclonedvoicerequest.md
-  - docs/models/updateclonedvoiceresponse.md
+  - docs/models/updatecustomvoicerequest.md
+  - docs/models/updatecustomvoiceresponse.md
   - docs/models/usageanalyticsresponse.md
   - docs/models/usagebucket.md
   - docs/models/usageresult.md
@@ -142,7 +141,7 @@ generatedFiles:
   - src/supertone/models/converttexttospeechparameters.py
   - src/supertone/models/create_cloned_voiceop.py
   - src/supertone/models/create_speechop.py
-  - src/supertone/models/createclonedvoiceuploadresponse.py
+  - src/supertone/models/createcustomvoiceresponse.py
   - src/supertone/models/delete_custom_voiceop.py
   - src/supertone/models/edit_custom_voiceop.py
   - src/supertone/models/forbiddenerrorresponse.py
@@ -155,8 +154,7 @@ generatedFiles:
   - src/supertone/models/getcharacterbyidresponse.py
   - src/supertone/models/getcreditbalanceresponse.py
   - src/supertone/models/getcustomvoicelistresponse.py
-  - src/supertone/models/getcustomvoiceresponsedata.py
-  - src/supertone/models/getsingleclonedvoiceresponse.py
+  - src/supertone/models/getcustomvoiceresponse.py
   - src/supertone/models/getusagelistv1response.py
   - src/supertone/models/getusageresponsev1data.py
   - src/supertone/models/internalservererrorresponse.py
@@ -166,7 +164,7 @@ generatedFiles:
   - src/supertone/models/payloadtoolargeerrorresponse.py
   - src/supertone/models/paymentrequirederrorresponse.py
   - src/supertone/models/predict_durationop.py
-  - src/supertone/models/predictttsdurationusingcharacterrequest.py
+  - src/supertone/models/predictttsdurationrequest.py
   - src/supertone/models/requesttimeouterrorresponse.py
   - src/supertone/models/search_custom_voicesop.py
   - src/supertone/models/search_voicesop.py
@@ -174,8 +172,8 @@ generatedFiles:
   - src/supertone/models/stream_speechop.py
   - src/supertone/models/toomanyrequestserrorresponse.py
   - src/supertone/models/unauthorizederrorresponse.py
-  - src/supertone/models/updateclonedvoicerequest.py
-  - src/supertone/models/updateclonedvoiceresponse.py
+  - src/supertone/models/updatecustomvoicerequest.py
+  - src/supertone/models/updatecustomvoiceresponse.py
   - src/supertone/models/usageanalyticsresponse.py
   - src/supertone/models/usagebucket.py
   - src/supertone/models/usageresult.py
@@ -295,7 +293,7 @@ examples:
           voice_id: "<id>"
       responses:
         "200":
-          application/json: {"voice_id": "<voice-id>", "name": "Agatha", "description": "", "age": "young-adult", "gender": "female", "use_case": "narration", "use_cases": ["narration", "storytelling"], "language": ["ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "hi", "hu", "id", "it", "ja", "ko", "nl", "pl", "pt", "ro", "ru", "vi"], "styles": ["kind-default", "normal", "serene"], "models": ["sona_speech_1", "sona_speech_2", "supertonic_api_1"], "samples": [{"language": "ko", "style": "kind-default", "model": "sona_speech_1", "url": "https://example.com/samples/sample-audio.wav"}], "thumbnail_image_url": "https://example.com/thumbnails/voice-thumbnail.png"}
+          application/json: {"voice_id": "<voice-id>", "name": "Agatha", "description": "", "age": "young-adult", "gender": "female", "use_case": "narration", "use_cases": ["narration", "storytelling"], "language": ["ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "hi", "hu", "id", "it", "ja", "ko", "nl", "pl", "pt", "ro", "ru", "vi"], "styles": ["kind-default", "normal", "serene"], "models": ["sona_speech_1", "sona_speech_2", "sona_speech_2_flash", "sona_speech_2t", "supertonic_api_1"], "samples": [{"language": "ko", "style": "kind-default", "model": "sona_speech_1", "url": "https://example.com/samples/sample-audio.wav"}], "thumbnail_image_url": "https://example.com/thumbnails/voice-thumbnail.png"}
   create_cloned_voice:
     speakeasy-default-create-cloned-voice:
       requestBody:

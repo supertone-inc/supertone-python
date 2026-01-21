@@ -1,4 +1,4 @@
-# GetSingleClonedVoiceResponse
+# GetCustomVoiceResponse
 
 
 ## Fields

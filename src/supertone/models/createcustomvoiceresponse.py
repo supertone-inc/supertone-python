@@ -5,11 +5,11 @@ from supertone.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class CreateClonedVoiceUploadResponseTypedDict(TypedDict):
+class CreateCustomVoiceResponseTypedDict(TypedDict):
     voice_id: str
     r"""Unique identifier for the created voice"""
 
 
-class CreateClonedVoiceUploadResponse(BaseModel):
+class CreateCustomVoiceResponse(BaseModel):
     voice_id: str
     r"""Unique identifier for the created voice"""

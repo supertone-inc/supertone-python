@@ -21,7 +21,7 @@ class CustomVoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateClonedVoiceUploadResponse:
+    ) -> models.CreateCustomVoiceResponse:
         r"""Create cloned voice
 
         Creates a custom (cloned) voice from uploaded audio files.
@@ -103,9 +103,7 @@ class CustomVoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateClonedVoiceUploadResponse, http_res
-            )
+            return unmarshal_json_response(models.CreateCustomVoiceResponse, http_res)
         if utils.match_response(http_res, "400", "application/json"):
             response_data = unmarshal_json_response(
                 errors.BadRequestErrorResponseData, http_res
@@ -169,7 +167,7 @@ class CustomVoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateClonedVoiceUploadResponse:
+    ) -> models.CreateCustomVoiceResponse:
         r"""Create cloned voice
 
         Creates a custom (cloned) voice from uploaded audio files.
@@ -251,9 +249,7 @@ class CustomVoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateClonedVoiceUploadResponse, http_res
-            )
+            return unmarshal_json_response(models.CreateCustomVoiceResponse, http_res)
         if utils.match_response(http_res, "400", "application/json"):
             response_data = unmarshal_json_response(
                 errors.BadRequestErrorResponseData, http_res
@@ -743,7 +739,7 @@ class CustomVoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSingleClonedVoiceResponse:
+    ) -> models.GetCustomVoiceResponse:
         r"""Get single cloned voice
 
         Gets details of a specific custom (cloned) voice by ID.
@@ -807,9 +803,7 @@ class CustomVoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetSingleClonedVoiceResponse, http_res
-            )
+            return unmarshal_json_response(models.GetCustomVoiceResponse, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(
                 errors.UnauthorizedErrorResponseData, http_res
@@ -846,7 +840,7 @@ class CustomVoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetSingleClonedVoiceResponse:
+    ) -> models.GetCustomVoiceResponse:
         r"""Get single cloned voice
 
         Gets details of a specific custom (cloned) voice by ID.
@@ -910,9 +904,7 @@ class CustomVoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetSingleClonedVoiceResponse, http_res
-            )
+            return unmarshal_json_response(models.GetCustomVoiceResponse, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(
                 errors.UnauthorizedErrorResponseData, http_res
@@ -951,7 +943,7 @@ class CustomVoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateClonedVoiceResponse:
+    ) -> models.UpdateCustomVoiceResponse:
         r"""Update cloned voice (partial update)
 
         Partially updates properties of a custom (cloned) voice by ID.
@@ -976,7 +968,7 @@ class CustomVoices(BaseSDK):
 
         request = models.EditCustomVoiceRequest(
             voice_id=voice_id,
-            update_cloned_voice_request=models.UpdateClonedVoiceRequest(
+            update_custom_voice_request=models.UpdateCustomVoiceRequest(
                 name=name,
                 description=description,
             ),
@@ -996,11 +988,11 @@ class CustomVoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.update_cloned_voice_request,
+                request.update_custom_voice_request,
                 False,
                 False,
                 "json",
-                models.UpdateClonedVoiceRequest,
+                models.UpdateCustomVoiceRequest,
             ),
             timeout_ms=timeout_ms,
         )
@@ -1028,7 +1020,7 @@ class CustomVoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.UpdateClonedVoiceResponse, http_res)
+            return unmarshal_json_response(models.UpdateCustomVoiceResponse, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(
                 errors.UnauthorizedErrorResponseData, http_res
@@ -1067,7 +1059,7 @@ class CustomVoices(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateClonedVoiceResponse:
+    ) -> models.UpdateCustomVoiceResponse:
         r"""Update cloned voice (partial update)
 
         Partially updates properties of a custom (cloned) voice by ID.
@@ -1092,7 +1084,7 @@ class CustomVoices(BaseSDK):
 
         request = models.EditCustomVoiceRequest(
             voice_id=voice_id,
-            update_cloned_voice_request=models.UpdateClonedVoiceRequest(
+            update_custom_voice_request=models.UpdateCustomVoiceRequest(
                 name=name,
                 description=description,
             ),
@@ -1112,11 +1104,11 @@ class CustomVoices(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.update_cloned_voice_request,
+                request.update_custom_voice_request,
                 False,
                 False,
                 "json",
-                models.UpdateClonedVoiceRequest,
+                models.UpdateCustomVoiceRequest,
             ),
             timeout_ms=timeout_ms,
         )
@@ -1144,7 +1136,7 @@ class CustomVoices(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.UpdateClonedVoiceResponse, http_res)
+            return unmarshal_json_response(models.UpdateCustomVoiceResponse, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(
                 errors.UnauthorizedErrorResponseData, http_res

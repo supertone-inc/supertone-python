@@ -6,14 +6,14 @@ from typing import Optional
 from typing_extensions import NotRequired, TypedDict
 
 
-class UpdateClonedVoiceRequestTypedDict(TypedDict):
+class UpdateCustomVoiceRequestTypedDict(TypedDict):
     name: NotRequired[str]
     r"""Name of the voice"""
     description: NotRequired[str]
     r"""Description of the voice"""
 
 
-class UpdateClonedVoiceRequest(BaseModel):
+class UpdateCustomVoiceRequest(BaseModel):
     name: Optional[str] = None
     r"""Name of the voice"""
 

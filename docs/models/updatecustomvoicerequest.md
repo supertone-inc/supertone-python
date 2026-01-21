@@ -1,4 +1,4 @@
-# UpdateClonedVoiceRequest
+# UpdateCustomVoiceRequest
 
 
 ## Fields

@@ -5,7 +5,7 @@ from supertone.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class UpdateClonedVoiceResponseTypedDict(TypedDict):
+class GetCustomVoiceResponseTypedDict(TypedDict):
     voice_id: str
     r"""Unique identifier for the voice"""
     name: str
@@ -14,7 +14,7 @@ class UpdateClonedVoiceResponseTypedDict(TypedDict):
     r"""Description of the voice"""
 
 
-class UpdateClonedVoiceResponse(BaseModel):
+class GetCustomVoiceResponse(BaseModel):
     voice_id: str
     r"""Unique identifier for the voice"""
 

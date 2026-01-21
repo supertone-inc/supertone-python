@@ -44,6 +44,7 @@ class APIConvertTextToSpeechUsingCharacterRequestModel(str, Enum):
 
     SONA_SPEECH_1 = "sona_speech_1"
     SONA_SPEECH_2 = "sona_speech_2"
+    SONA_SPEECH_2_FLASH = "sona_speech_2_flash"
     SONA_SPEECH_2T = "sona_speech_2t"
     SUPERTONIC_API_1 = "supertonic_api_1"
 

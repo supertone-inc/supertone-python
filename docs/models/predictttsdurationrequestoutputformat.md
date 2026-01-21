@@ -1,4 +1,4 @@
-# PredictTTSDurationUsingCharacterRequestOutputFormat
+# PredictTTSDurationRequestOutputFormat
 
 The desired output format of the audio file (wav, mp3). Default is wav.
 

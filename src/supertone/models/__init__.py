@@ -35,9 +35,9 @@ if TYPE_CHECKING:
         Phonemes,
         PhonemesTypedDict,
     )
-    from .createclonedvoiceuploadresponse import (
-        CreateClonedVoiceUploadResponse,
-        CreateClonedVoiceUploadResponseTypedDict,
+    from .createcustomvoiceresponse import (
+        CreateCustomVoiceResponse,
+        CreateCustomVoiceResponseTypedDict,
     )
     from .delete_custom_voiceop import (
         DeleteCustomVoiceRequest,
@@ -83,13 +83,9 @@ if TYPE_CHECKING:
         GetCustomVoiceListResponse,
         GetCustomVoiceListResponseTypedDict,
     )
-    from .getcustomvoiceresponsedata import (
-        GetCustomVoiceResponseData,
-        GetCustomVoiceResponseDataTypedDict,
-    )
-    from .getsingleclonedvoiceresponse import (
-        GetSingleClonedVoiceResponse,
-        GetSingleClonedVoiceResponseTypedDict,
+    from .getcustomvoiceresponse import (
+        GetCustomVoiceResponse,
+        GetCustomVoiceResponseTypedDict,
     )
     from .getusagelistv1response import (
         GetUsageListV1Response,
@@ -126,12 +122,12 @@ if TYPE_CHECKING:
         PredictDurationResponse,
         PredictDurationResponseTypedDict,
     )
-    from .predictttsdurationusingcharacterrequest import (
-        PredictTTSDurationUsingCharacterRequest,
-        PredictTTSDurationUsingCharacterRequestLanguage,
-        PredictTTSDurationUsingCharacterRequestModel,
-        PredictTTSDurationUsingCharacterRequestOutputFormat,
-        PredictTTSDurationUsingCharacterRequestTypedDict,
+    from .predictttsdurationrequest import (
+        PredictTTSDurationRequest,
+        PredictTTSDurationRequestLanguage,
+        PredictTTSDurationRequestModel,
+        PredictTTSDurationRequestOutputFormat,
+        PredictTTSDurationRequestTypedDict,
     )
     from .requesttimeouterrorresponse import (
         RequestTimeoutErrorResponseMessage,
@@ -159,13 +155,13 @@ if TYPE_CHECKING:
         UnauthorizedErrorResponseMessage,
         UnauthorizedErrorResponseMessageTypedDict,
     )
-    from .updateclonedvoicerequest import (
-        UpdateClonedVoiceRequest,
-        UpdateClonedVoiceRequestTypedDict,
+    from .updatecustomvoicerequest import (
+        UpdateCustomVoiceRequest,
+        UpdateCustomVoiceRequestTypedDict,
     )
-    from .updateclonedvoiceresponse import (
-        UpdateClonedVoiceResponse,
-        UpdateClonedVoiceResponseTypedDict,
+    from .updatecustomvoiceresponse import (
+        UpdateCustomVoiceResponse,
+        UpdateCustomVoiceResponseTypedDict,
     )
     from .usageanalyticsresponse import (
         UsageAnalyticsResponse,
@@ -188,8 +184,8 @@ __all__ = [
     "ConvertTextToSpeechParametersTypedDict",
     "CreateClonedVoiceRequest",
     "CreateClonedVoiceRequestTypedDict",
-    "CreateClonedVoiceUploadResponse",
-    "CreateClonedVoiceUploadResponseTypedDict",
+    "CreateCustomVoiceResponse",
+    "CreateCustomVoiceResponseTypedDict",
     "CreateSpeechRequest",
     "CreateSpeechRequestTypedDict",
     "CreateSpeechResponse",
@@ -218,10 +214,8 @@ __all__ = [
     "GetCustomVoiceListResponseTypedDict",
     "GetCustomVoiceRequest",
     "GetCustomVoiceRequestTypedDict",
-    "GetCustomVoiceResponseData",
-    "GetCustomVoiceResponseDataTypedDict",
-    "GetSingleClonedVoiceResponse",
-    "GetSingleClonedVoiceResponseTypedDict",
+    "GetCustomVoiceResponse",
+    "GetCustomVoiceResponseTypedDict",
     "GetUsageListV1Response",
     "GetUsageListV1ResponseTypedDict",
     "GetUsageRequest",
@@ -250,11 +244,11 @@ __all__ = [
     "PredictDurationRequestTypedDict",
     "PredictDurationResponse",
     "PredictDurationResponseTypedDict",
-    "PredictTTSDurationUsingCharacterRequest",
-    "PredictTTSDurationUsingCharacterRequestLanguage",
-    "PredictTTSDurationUsingCharacterRequestModel",
-    "PredictTTSDurationUsingCharacterRequestOutputFormat",
-    "PredictTTSDurationUsingCharacterRequestTypedDict",
+    "PredictTTSDurationRequest",
+    "PredictTTSDurationRequestLanguage",
+    "PredictTTSDurationRequestModel",
+    "PredictTTSDurationRequestOutputFormat",
+    "PredictTTSDurationRequestTypedDict",
     "RequestTimeoutErrorResponseMessage",
     "RequestTimeoutErrorResponseMessageTypedDict",
     "SearchCustomVoicesRequest",
@@ -273,10 +267,10 @@ __all__ = [
     "TooManyRequestsErrorResponseMessageTypedDict",
     "UnauthorizedErrorResponseMessage",
     "UnauthorizedErrorResponseMessageTypedDict",
-    "UpdateClonedVoiceRequest",
-    "UpdateClonedVoiceRequestTypedDict",
-    "UpdateClonedVoiceResponse",
-    "UpdateClonedVoiceResponseTypedDict",
+    "UpdateCustomVoiceRequest",
+    "UpdateCustomVoiceRequestTypedDict",
+    "UpdateCustomVoiceResponse",
+    "UpdateCustomVoiceResponseTypedDict",
     "UsageAnalyticsResponse",
     "UsageAnalyticsResponseTypedDict",
     "UsageBucket",
@@ -309,8 +303,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateSpeechResponseTypedDict": ".create_speechop",
     "Phonemes": ".create_speechop",
     "PhonemesTypedDict": ".create_speechop",
-    "CreateClonedVoiceUploadResponse": ".createclonedvoiceuploadresponse",
-    "CreateClonedVoiceUploadResponseTypedDict": ".createclonedvoiceuploadresponse",
+    "CreateCustomVoiceResponse": ".createcustomvoiceresponse",
+    "CreateCustomVoiceResponseTypedDict": ".createcustomvoiceresponse",
     "DeleteCustomVoiceRequest": ".delete_custom_voiceop",
     "DeleteCustomVoiceRequestTypedDict": ".delete_custom_voiceop",
     "EditCustomVoiceRequest": ".edit_custom_voiceop",
@@ -337,10 +331,8 @@ _dynamic_imports: dict[str, str] = {
     "GetCreditBalanceResponseTypedDict": ".getcreditbalanceresponse",
     "GetCustomVoiceListResponse": ".getcustomvoicelistresponse",
     "GetCustomVoiceListResponseTypedDict": ".getcustomvoicelistresponse",
-    "GetCustomVoiceResponseData": ".getcustomvoiceresponsedata",
-    "GetCustomVoiceResponseDataTypedDict": ".getcustomvoiceresponsedata",
-    "GetSingleClonedVoiceResponse": ".getsingleclonedvoiceresponse",
-    "GetSingleClonedVoiceResponseTypedDict": ".getsingleclonedvoiceresponse",
+    "GetCustomVoiceResponse": ".getcustomvoiceresponse",
+    "GetCustomVoiceResponseTypedDict": ".getcustomvoiceresponse",
     "GetUsageListV1Response": ".getusagelistv1response",
     "GetUsageListV1ResponseTypedDict": ".getusagelistv1response",
     "GetUsageResponseV1Data": ".getusageresponsev1data",
@@ -361,11 +353,11 @@ _dynamic_imports: dict[str, str] = {
     "PredictDurationRequestTypedDict": ".predict_durationop",
     "PredictDurationResponse": ".predict_durationop",
     "PredictDurationResponseTypedDict": ".predict_durationop",
-    "PredictTTSDurationUsingCharacterRequest": ".predictttsdurationusingcharacterrequest",
-    "PredictTTSDurationUsingCharacterRequestLanguage": ".predictttsdurationusingcharacterrequest",
-    "PredictTTSDurationUsingCharacterRequestModel": ".predictttsdurationusingcharacterrequest",
-    "PredictTTSDurationUsingCharacterRequestOutputFormat": ".predictttsdurationusingcharacterrequest",
-    "PredictTTSDurationUsingCharacterRequestTypedDict": ".predictttsdurationusingcharacterrequest",
+    "PredictTTSDurationRequest": ".predictttsdurationrequest",
+    "PredictTTSDurationRequestLanguage": ".predictttsdurationrequest",
+    "PredictTTSDurationRequestModel": ".predictttsdurationrequest",
+    "PredictTTSDurationRequestOutputFormat": ".predictttsdurationrequest",
+    "PredictTTSDurationRequestTypedDict": ".predictttsdurationrequest",
     "RequestTimeoutErrorResponseMessage": ".requesttimeouterrorresponse",
     "RequestTimeoutErrorResponseMessageTypedDict": ".requesttimeouterrorresponse",
     "SearchCustomVoicesRequest": ".search_custom_voicesop",
@@ -384,10 +376,10 @@ _dynamic_imports: dict[str, str] = {
     "TooManyRequestsErrorResponseMessageTypedDict": ".toomanyrequestserrorresponse",
     "UnauthorizedErrorResponseMessage": ".unauthorizederrorresponse",
     "UnauthorizedErrorResponseMessageTypedDict": ".unauthorizederrorresponse",
-    "UpdateClonedVoiceRequest": ".updateclonedvoicerequest",
-    "UpdateClonedVoiceRequestTypedDict": ".updateclonedvoicerequest",
-    "UpdateClonedVoiceResponse": ".updateclonedvoiceresponse",
-    "UpdateClonedVoiceResponseTypedDict": ".updateclonedvoiceresponse",
+    "UpdateCustomVoiceRequest": ".updatecustomvoicerequest",
+    "UpdateCustomVoiceRequestTypedDict": ".updatecustomvoicerequest",
+    "UpdateCustomVoiceResponse": ".updatecustomvoiceresponse",
+    "UpdateCustomVoiceResponseTypedDict": ".updatecustomvoiceresponse",
     "UsageAnalyticsResponse": ".usageanalyticsresponse",
     "UsageAnalyticsResponseTypedDict": ".usageanalyticsresponse",
     "UsageBucket": ".usagebucket",

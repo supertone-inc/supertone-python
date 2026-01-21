@@ -2208,14 +2208,14 @@ class TextToSpeech(BaseSDK):
         *,
         voice_id: str,
         text: str,
-        language: models.PredictTTSDurationUsingCharacterRequestLanguage,
+        language: models.PredictTTSDurationRequestLanguage,
         style: Optional[str] = None,
         model: Optional[
-            models.PredictTTSDurationUsingCharacterRequestModel
-        ] = models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_1,
+            models.PredictTTSDurationRequestModel
+        ] = models.PredictTTSDurationRequestModel.SONA_SPEECH_1,
         output_format: Optional[
-            models.PredictTTSDurationUsingCharacterRequestOutputFormat
-        ] = models.PredictTTSDurationUsingCharacterRequestOutputFormat.WAV,
+            models.PredictTTSDurationRequestOutputFormat
+        ] = models.PredictTTSDurationRequestOutputFormat.WAV,
         voice_settings: Optional[
             Union[
                 models.ConvertTextToSpeechParameters,
@@ -2255,7 +2255,7 @@ class TextToSpeech(BaseSDK):
 
         request = models.PredictDurationRequest(
             voice_id=voice_id,
-            predict_tts_duration_using_character_request=models.PredictTTSDurationUsingCharacterRequest(
+            predict_tts_duration_request=models.PredictTTSDurationRequest(
                 text=text,
                 language=language,
                 style=style,
@@ -2281,11 +2281,11 @@ class TextToSpeech(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.predict_tts_duration_using_character_request,
+                request.predict_tts_duration_request,
                 False,
                 False,
                 "json",
-                models.PredictTTSDurationUsingCharacterRequest,
+                models.PredictTTSDurationRequest,
             ),
             timeout_ms=timeout_ms,
         )
@@ -2383,14 +2383,14 @@ class TextToSpeech(BaseSDK):
         *,
         voice_id: str,
         text: str,
-        language: models.PredictTTSDurationUsingCharacterRequestLanguage,
+        language: models.PredictTTSDurationRequestLanguage,
         style: Optional[str] = None,
         model: Optional[
-            models.PredictTTSDurationUsingCharacterRequestModel
-        ] = models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_1,
+            models.PredictTTSDurationRequestModel
+        ] = models.PredictTTSDurationRequestModel.SONA_SPEECH_1,
         output_format: Optional[
-            models.PredictTTSDurationUsingCharacterRequestOutputFormat
-        ] = models.PredictTTSDurationUsingCharacterRequestOutputFormat.WAV,
+            models.PredictTTSDurationRequestOutputFormat
+        ] = models.PredictTTSDurationRequestOutputFormat.WAV,
         voice_settings: Optional[
             Union[
                 models.ConvertTextToSpeechParameters,
@@ -2430,7 +2430,7 @@ class TextToSpeech(BaseSDK):
 
         request = models.PredictDurationRequest(
             voice_id=voice_id,
-            predict_tts_duration_using_character_request=models.PredictTTSDurationUsingCharacterRequest(
+            predict_tts_duration_request=models.PredictTTSDurationRequest(
                 text=text,
                 language=language,
                 style=style,
@@ -2456,11 +2456,11 @@ class TextToSpeech(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.predict_tts_duration_using_character_request,
+                request.predict_tts_duration_request,
                 False,
                 False,
                 "json",
-                models.PredictTTSDurationUsingCharacterRequest,
+                models.PredictTTSDurationRequest,
             ),
             timeout_ms=timeout_ms,
         )

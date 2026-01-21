@@ -1,4 +1,4 @@
-# UpdateClonedVoiceResponse
+# UpdateCustomVoiceResponse
 
 
 ## Fields

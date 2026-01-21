@@ -13,10 +13,11 @@ Supertone Public API: Supertone API is a RESTful API for using our state-of-the-
 <!-- $toc-max-depth=2 -->
 * [Supertone Python Library](#supertone-python-library)
   * [SDK Installation](#sdk-installation)
-  * [SDK Example Usage](#sdk-example-usage)
   * [SDK Installation](#sdk-installation-1)
   * [IDE Support](#ide-support)
+  * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
+  * [Models](#models)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [File uploads](#file-uploads)
   * [Retries](#retries)
@@ -58,49 +59,6 @@ _Poetry_ is a modern tool that simplifies dependency management and package publ
 ```bash
 poetry add supertone
 ```
-
-<!-- Start SDK Example Usage [usage] -->
-## SDK Example Usage
-
-### Example
-
-```python
-# Synchronous Example
-from supertone import Supertone, models
-
-
-with Supertone(
-    api_key="<YOUR_API_KEY_HERE>",
-) as s_client:
-
-    res = s_client.text_to_speech.create_speech(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1, output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
-
-    # Handle response
-    print(res)
-```
-
-</br>
-
-The same SDK client can also be used to make asynchronous requests by importing asyncio.
-```python
-# Asynchronous Example
-import asyncio
-from supertone import Supertone, models
-
-async def main():
-
-    async with Supertone(
-        api_key="<YOUR_API_KEY_HERE>",
-    ) as s_client:
-
-        res = await s_client.text_to_speech.create_speech_async(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1, output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
-
-        # Handle response
-        print(res)
-
-asyncio.run(main())
-```
-<!-- End SDK Example Usage [usage] -->
 
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
@@ -182,6 +140,49 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 - [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
 <!-- End IDE Support [idesupport] -->
 
+<!-- Start SDK Example Usage [usage] -->
+## SDK Example Usage
+
+### Example
+
+```python
+# Synchronous Example
+from supertone import Supertone, models
+
+
+with Supertone(
+    api_key="<YOUR_API_KEY_HERE>",
+) as s_client:
+
+    res = s_client.text_to_speech.create_speech(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1, output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
+
+    # Handle response
+    print(res)
+```
+
+</br>
+
+The same SDK client can also be used to make asynchronous requests by importing asyncio.
+```python
+# Asynchronous Example
+import asyncio
+from supertone import Supertone, models
+
+async def main():
+
+    async with Supertone(
+        api_key="<YOUR_API_KEY_HERE>",
+    ) as s_client:
+
+        res = await s_client.text_to_speech.create_speech_async(voice_id="<id>", text="<value>", language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA, model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_1, output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV, include_phonemes=False)
+
+        # Handle response
+        print(res)
+
+asyncio.run(main())
+```
+<!-- End SDK Example Usage [usage] -->
+
 <!-- Start Authentication [security] -->
 ## Authentication
 
@@ -209,6 +210,65 @@ with Supertone(
 
 ```
 <!-- End Authentication [security] -->
+
+<!-- Start Models [models] -->
+
+## Models
+
+Supertone’s Text-to-Speech API provides multiple TTS models, each with different supported languages, available voice settings, and streaming capabilities.
+
+### Model Overview
+
+| Model Name         | Identifier        | Streaming Support (`stream_speech`) | Voice Settings Support                                   |
+|--------------------|-------------------|--------------------------------------|----------------------------------------------------------|
+| **SONA Speech 1**  | `sona_speech_1`   | ✅ Supported                         | Supports **all** Voice Settings                          |
+| **Supertonic API 1** | `supertonic_api_1` | ❌ Not supported                  | Supports **only** the `speed` setting (others are ignored) |
+| **SONA Speech 2**  | `sona_speech_2`   | ❌ Not supported                     | Supports **all** Voice Settings **except** `subharmonic_amplitude_control` |
+
+> [!NOTE]
+> **Streaming Support**
+>
+> Streaming TTS using the `stream_speech` endpoint is **only available for the `sona_speech_1` model**.
+
+---
+
+### Supported Languages by Model
+
+> [!NOTE]
+> The set of supported input languages varies depending on the TTS model.
+
+- **sona_speech_1**
+  - `en`, `ko`, `ja`
+
+- **supertonic_api_1**
+  - `en`, `ko`, `ja`, `es`, `pt`
+
+- **sona_speech_2**
+  - `en`, `ko`, `ja`, `bg`, `cs`, `da`, `el`, `es`, `et`, `fi`, `hu`, `it`, `nl`, `pl`, `pt`, `ro`,  
+    `ar`, `de`, `fr`, `hi`, `id`, `ru`, `vi`
+
+---
+
+### Voice Settings (Optional)
+
+Some TTS models support optional voice settings that allow fine control over output speech characteristics (e.g., speed, pitch, pitch variance).
+
+> [!NOTE]
+> The available Voice Settings vary depending on the TTS model.
+
+- **sona_speech_1**
+  - Supports **all** available Voice Settings.
+
+- **supertonic_api_1**
+  - Supports **only** the `speed` setting.
+    All other settings will be ignored.
+
+- **sona_speech_2**
+  - Supports **all** Voice Settings **except** `subharmonic_amplitude_control`.
+
+> All Voice Settings are optional. When omitted, each model’s default values will be applied.
+
+<!-- End Models [models] -->
 
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations

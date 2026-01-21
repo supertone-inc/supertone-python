@@ -11,7 +11,7 @@ from typing import Optional
 from typing_extensions import NotRequired, TypedDict
 
 
-class PredictTTSDurationUsingCharacterRequestLanguage(str, Enum):
+class PredictTTSDurationRequestLanguage(str, Enum):
     r"""Language code of the voice"""
 
     EN = "en"
@@ -39,53 +39,54 @@ class PredictTTSDurationUsingCharacterRequestLanguage(str, Enum):
     VI = "vi"
 
 
-class PredictTTSDurationUsingCharacterRequestModel(str, Enum):
+class PredictTTSDurationRequestModel(str, Enum):
     r"""The model type to use for the text-to-speech conversion"""
 
     SONA_SPEECH_1 = "sona_speech_1"
     SONA_SPEECH_2 = "sona_speech_2"
     SONA_SPEECH_2T = "sona_speech_2t"
+    SONA_SPEECH_2_FLASH = "sona_speech_2_flash"
     SUPERTONIC_API_1 = "supertonic_api_1"
 
 
-class PredictTTSDurationUsingCharacterRequestOutputFormat(str, Enum):
+class PredictTTSDurationRequestOutputFormat(str, Enum):
     r"""The desired output format of the audio file (wav, mp3). Default is wav."""
 
     WAV = "wav"
     MP3 = "mp3"
 
 
-class PredictTTSDurationUsingCharacterRequestTypedDict(TypedDict):
+class PredictTTSDurationRequestTypedDict(TypedDict):
     text: str
     r"""The text to convert to speech. Max length is 300 characters."""
-    language: PredictTTSDurationUsingCharacterRequestLanguage
+    language: PredictTTSDurationRequestLanguage
     r"""Language code of the voice"""
     style: NotRequired[str]
     r"""The style of character to use for the text-to-speech conversion"""
-    model: NotRequired[PredictTTSDurationUsingCharacterRequestModel]
+    model: NotRequired[PredictTTSDurationRequestModel]
     r"""The model type to use for the text-to-speech conversion"""
-    output_format: NotRequired[PredictTTSDurationUsingCharacterRequestOutputFormat]
+    output_format: NotRequired[PredictTTSDurationRequestOutputFormat]
     r"""The desired output format of the audio file (wav, mp3). Default is wav."""
     voice_settings: NotRequired[ConvertTextToSpeechParametersTypedDict]
 
 
-class PredictTTSDurationUsingCharacterRequest(BaseModel):
+class PredictTTSDurationRequest(BaseModel):
     text: str
     r"""The text to convert to speech. Max length is 300 characters."""
 
-    language: PredictTTSDurationUsingCharacterRequestLanguage
+    language: PredictTTSDurationRequestLanguage
     r"""Language code of the voice"""
 
     style: Optional[str] = None
     r"""The style of character to use for the text-to-speech conversion"""
 
-    model: Optional[PredictTTSDurationUsingCharacterRequestModel] = (
-        PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_1
+    model: Optional[PredictTTSDurationRequestModel] = (
+        PredictTTSDurationRequestModel.SONA_SPEECH_1
     )
     r"""The model type to use for the text-to-speech conversion"""
 
-    output_format: Optional[PredictTTSDurationUsingCharacterRequestOutputFormat] = (
-        PredictTTSDurationUsingCharacterRequestOutputFormat.WAV
+    output_format: Optional[PredictTTSDurationRequestOutputFormat] = (
+        PredictTTSDurationRequestOutputFormat.WAV
     )
     r"""The desired output format of the audio file (wav, mp3). Default is wav."""
 

@@ -79,7 +79,14 @@
                             "type": "number"
                           },
                           "description": "Start times for each phoneme in seconds",
-                          "example": [0, 0.092, 0.197, 0.255, 0.29, 0.58]
+                          "example": [
+                            0,
+                            0.092,
+                            0.197,
+                            0.255,
+                            0.29,
+                            0.58
+                          ]
                         },
                         "durations_seconds": {
                           "type": "array",
@@ -87,7 +94,14 @@
                             "type": "number"
                           },
                           "description": "Duration for each phoneme in seconds",
-                          "example": [0.092, 0.104, 0.058, 0.034, 0.29, 0.162]
+                          "example": [
+                            0.092,
+                            0.104,
+                            0.058,
+                            0.034,
+                            0.29,
+                            0.162
+                          ]
                         }
                       }
                     }
@@ -111,8 +125,22 @@
                           "ʌ",
                           ""
                         ],
-                        "start_times_seconds": [0, 0.0928798185941043, 0.197369614512472, 0.255419501133787, 0.290249433106576, 0.580498866213152],
-                        "durations_seconds": [0.0928798185941043, 0.104489795918367, 0.0580498866213152, 0.0348299319727891, 0.290249433106576, 0.162539682539683]
+                        "start_times_seconds": [
+                          0,
+                          0.0928798185941043,
+                          0.197369614512472,
+                          0.255419501133787,
+                          0.290249433106576,
+                          0.580498866213152
+                        ],
+                        "durations_seconds": [
+                          0.0928798185941043,
+                          0.104489795918367,
+                          0.0580498866213152,
+                          0.0348299319727891,
+                          0.290249433106576,
+                          0.162539682539683
+                        ]
                       }
                     }
                   },
@@ -136,8 +164,34 @@
                           "iʌ",
                           ""
                         ],
-                        "start_times_seconds": [0, 0.11609977324263, 0.174149659863946, 0.208979591836735, 0.243809523809524, 0.290249433106576, 0.325079365079365, 0.394739229024943, 0.464399092970522, 0.510839002267574, 0.626938775510204, 0.661768707482993],
-                        "durations_seconds": [0.11609977324263, 0.0580498866213152, 0.0348299319727891, 0.0348299319727891, 0.0464399092970522, 0.0348299319727891, 0.0696598639455782, 0.0696598639455782, 0.0464399092970522, 0.11609977324263, 0.0348299319727891, 0.0812698412698413]
+                        "start_times_seconds": [
+                          0,
+                          0.11609977324263,
+                          0.174149659863946,
+                          0.208979591836735,
+                          0.243809523809524,
+                          0.290249433106576,
+                          0.325079365079365,
+                          0.394739229024943,
+                          0.464399092970522,
+                          0.510839002267574,
+                          0.626938775510204,
+                          0.661768707482993
+                        ],
+                        "durations_seconds": [
+                          0.11609977324263,
+                          0.0580498866213152,
+                          0.0348299319727891,
+                          0.0348299319727891,
+                          0.0464399092970522,
+                          0.0348299319727891,
+                          0.0696598639455782,
+                          0.0696598639455782,
+                          0.0464399092970522,
+                          0.11609977324263,
+                          0.0348299319727891,
+                          0.0812698412698413
+                        ]
                       }
                     }
                   }
@@ -455,7 +509,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PredictTTSDurationUsingCharacterRequest"
+                "$ref": "#/components/schemas/PredictTTSDurationRequest"
               }
             }
           }
@@ -851,7 +905,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateClonedVoiceUploadResponse"
+                  "$ref": "#/components/schemas/CreateCustomVoiceResponse"
                 }
               }
             }
@@ -1140,7 +1194,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetSingleClonedVoiceResponse"
+                  "$ref": "#/components/schemas/GetCustomVoiceResponse"
                 }
               }
             }
@@ -1204,7 +1258,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateClonedVoiceRequest"
+                "$ref": "#/components/schemas/UpdateCustomVoiceRequest"
               }
             }
           }
@@ -1215,7 +1269,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateClonedVoiceResponse"
+                  "$ref": "#/components/schemas/UpdateCustomVoiceResponse"
                 }
               }
             }
@@ -1560,10 +1614,8 @@
   "info": {
     "title": "Supertone Public API",
     "description": "Supertone API is a RESTful API for using our state-of-the-art AI voice models.",
-    "version": "0.8.69",
-    "contact": {
-
-    }
+    "version": "0.8.93",
+    "contact": {}
   },
   "tags": [
     {
@@ -1902,6 +1954,7 @@
             "enum": [
               "sona_speech_1",
               "sona_speech_2",
+              "sona_speech_2_flash",
               "sona_speech_2t",
               "supertonic_api_1"
             ],
@@ -1957,7 +2010,7 @@
           "message"
         ]
       },
-      "PredictTTSDurationUsingCharacterRequest": {
+      "PredictTTSDurationRequest": {
         "type": "object",
         "properties": {
           "text": {
@@ -2005,6 +2058,7 @@
               "sona_speech_1",
               "sona_speech_2",
               "sona_speech_2t",
+              "sona_speech_2_flash",
               "supertonic_api_1"
             ],
             "default": "sona_speech_1"
@@ -2151,6 +2205,8 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
+              "sona_speech_2_flash",
+              "sona_speech_2t",
               "supertonic_api_1"
             ],
             "type": "array",
@@ -2303,6 +2359,8 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
+              "sona_speech_2_flash",
+              "sona_speech_2t",
               "supertonic_api_1"
             ],
             "type": "array",
@@ -2336,7 +2394,7 @@
           "models"
         ]
       },
-      "CreateClonedVoiceUploadResponse": {
+      "CreateCustomVoiceResponse": {
         "type": "object",
         "properties": {
           "voice_id": {
@@ -2395,55 +2453,7 @@
           "message"
         ]
       },
-      "GetCustomVoiceResponseData": {
-        "type": "object",
-        "properties": {
-          "voice_id": {
-            "type": "string",
-            "description": "Unique identifier for the custom voice"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the custom voice"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the custom voice"
-          }
-        },
-        "required": [
-          "voice_id",
-          "name",
-          "description"
-        ]
-      },
-      "GetCustomVoiceListResponse": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "description": "List of custom voice items",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetCustomVoiceResponseData"
-            }
-          },
-          "total": {
-            "type": "number",
-            "description": "Total number of available custom voices",
-            "example": 25
-          },
-          "next_page_token": {
-            "type": "string",
-            "description": "Token for fetching the next page of results. A valid non-negative integer string (e.g., \"10\", \"20\"). Null if no more pages.",
-            "example": "10"
-          }
-        },
-        "required": [
-          "items",
-          "total"
-        ]
-      },
-      "GetSingleClonedVoiceResponse": {
+      "GetCustomVoiceResponse": {
         "type": "object",
         "properties": {
           "voice_id": {
@@ -2468,7 +2478,33 @@
           "description"
         ]
       },
-      "UpdateClonedVoiceRequest": {
+      "GetCustomVoiceListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "List of custom voice items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetCustomVoiceResponse"
+            }
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of available custom voices",
+            "example": 25
+          },
+          "next_page_token": {
+            "type": "string",
+            "description": "Token for fetching the next page of results. A valid non-negative integer string (e.g., \"10\", \"20\"). Null if no more pages.",
+            "example": "10"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ]
+      },
+      "UpdateCustomVoiceRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -2483,7 +2519,7 @@
           }
         }
       },
-      "UpdateClonedVoiceResponse": {
+      "UpdateCustomVoiceResponse": {
         "type": "object",
         "properties": {
           "voice_id": {

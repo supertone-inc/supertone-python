@@ -1,4 +1,4 @@
-# PredictTTSDurationUsingCharacterRequestLanguage
+# PredictTTSDurationRequestLanguage
 
 Language code of the voice
 

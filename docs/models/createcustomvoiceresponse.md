@@ -1,4 +1,4 @@
-# CreateClonedVoiceUploadResponse
+# CreateCustomVoiceResponse
 
 
 ## Fields
