@@ -1604,7 +1604,7 @@ def test_predict_duration_with_voice_settings(voice_id):
             response = client.text_to_speech.predict_duration(
                 voice_id=voice_id,
                 text="Hello world! This is a voice settings prediction test.",
-                language=models.PredictTTSDurationUsingCharacterRequestLanguage.EN,
+                language=models.PredictTTSDurationRequestLanguage.EN,
                 style="neutral",
                 model="sona_speech_1",
                 voice_settings=voice_settings,  # Include Voice Settings
@@ -3287,7 +3287,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
 
 
 # =============================================================================
-# NEW MODEL TESTS (sona_speech_2, supertonic_api_1)
+# NEW MODEL TESTS (sona_speech_2, sona_speech_2_flash, supertonic_api_1)
 # =============================================================================
 
 
@@ -3321,6 +3321,53 @@ def test_create_speech_sona_speech_2(voice_id):
                 print(f"  ✅ sona_speech_2 TTS successful: {audio_size} bytes")
 
                 output_file = "test_sona_speech_2_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Audio saved: {output_file}")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure error: {type(response)}")
+                return False, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_create_speech_sona_speech_2_flash(voice_id):
+    """Test TTS with sona_speech_2_flash model (faster, lower latency)"""
+    print("⚡ TTS Test with sona_speech_2_flash Model (Low Latency)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        with Supertone(api_key=API_KEY) as client:
+            print(f"  🔍 Converting TTS with sona_speech_2_flash using voice '{voice_id}'...")
+            print("  ⚠️ This test will consume credits!")
+
+            response = client.text_to_speech.create_speech(
+                voice_id=voice_id,
+                text="Hello! This is a test with the new sona_speech_2_flash model. It offers lower latency for real-time applications.",
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_2_FLASH,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                audio_size = len(audio_data)
+                print(f"  ✅ sona_speech_2_flash TTS successful: {audio_size} bytes")
+
+                output_file = "test_sona_speech_2_flash_output.wav"
                 with open(output_file, "wb") as f:
                     f.write(audio_data)
                 print(f"  💾 Audio saved: {output_file}")
@@ -3450,12 +3497,47 @@ def test_predict_duration_sona_speech_2(voice_id):
             response = client.text_to_speech.predict_duration(
                 voice_id=voice_id,
                 text="Hello! This is a duration prediction test with sona_speech_2.",
-                language=models.PredictTTSDurationUsingCharacterRequestLanguage.EN,
+                language=models.PredictTTSDurationRequestLanguage.EN,
                 style="neutral",
-                model=models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_2,
+                model=models.PredictTTSDurationRequestModel.SONA_SPEECH_2,
             )
 
             print(f"  ✅ sona_speech_2 prediction complete: {response} seconds")
+            return True, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_predict_duration_sona_speech_2_flash(voice_id):
+    """Test duration prediction with sona_speech_2_flash model"""
+    print("⚡⏱️ Duration Prediction Test with sona_speech_2_flash Model")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Predicting duration with sona_speech_2_flash using voice '{voice_id}'..."
+            )
+
+            response = client.text_to_speech.predict_duration(
+                voice_id=voice_id,
+                text="Hello! This is a duration prediction test with sona_speech_2_flash.",
+                language=models.PredictTTSDurationRequestLanguage.EN,
+                style="neutral",
+                model=models.PredictTTSDurationRequestModel.SONA_SPEECH_2_FLASH,
+            )
+
+            print(f"  ✅ sona_speech_2_flash prediction complete: {response} seconds")
             return True, response
 
     except errors.SupertoneError as e:
@@ -3485,9 +3567,9 @@ def test_predict_duration_supertonic_api_1(voice_id):
             response = client.text_to_speech.predict_duration(
                 voice_id=voice_id,
                 text="Hello! This is a duration prediction test with supertonic_api_1.",
-                language=models.PredictTTSDurationUsingCharacterRequestLanguage.EN,
+                language=models.PredictTTSDurationRequestLanguage.EN,
                 style="neutral",
-                model=models.PredictTTSDurationUsingCharacterRequestModel.SUPERTONIC_API_1,
+                model=models.PredictTTSDurationRequestModel.SUPERTONIC_API_1,
             )
 
             print(f"  ✅ supertonic_api_1 prediction complete: {response} seconds")
@@ -3520,7 +3602,7 @@ def test_predict_duration_invalid_model(voice_id):
             response = client.text_to_speech.predict_duration(
                 voice_id=voice_id,
                 text="This should fail with invalid model.",
-                language=models.PredictTTSDurationUsingCharacterRequestLanguage.EN,
+                language=models.PredictTTSDurationRequestLanguage.EN,
                 style="neutral",
                 model="invalid_model_xyz",  # Invalid model
             )
@@ -3852,18 +3934,18 @@ def test_predict_duration_multilang(voice_id):
         test_cases = [
             # (model, language, text)
             (
-                models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_1,
-                models.PredictTTSDurationUsingCharacterRequestLanguage.KO,
+                models.PredictTTSDurationRequestModel.SONA_SPEECH_1,
+                models.PredictTTSDurationRequestLanguage.KO,
                 "안녕하세요!",
             ),
             (
-                models.PredictTTSDurationUsingCharacterRequestModel.SONA_SPEECH_2,
-                models.PredictTTSDurationUsingCharacterRequestLanguage.DE,
+                models.PredictTTSDurationRequestModel.SONA_SPEECH_2,
+                models.PredictTTSDurationRequestLanguage.DE,
                 "Guten Tag!",
             ),
             (
-                models.PredictTTSDurationUsingCharacterRequestModel.SUPERTONIC_API_1,
-                models.PredictTTSDurationUsingCharacterRequestLanguage.ES,
+                models.PredictTTSDurationRequestModel.SUPERTONIC_API_1,
+                models.PredictTTSDurationRequestLanguage.ES,
                 "¡Buenos días!",
             ),
         ]
@@ -4749,12 +4831,16 @@ def main():
         success, result = test_stream_speech_phoneme_chunking_wav(voice_id_for_tts)
         test_results["stream_speech_phoneme_chunking_wav"] = success
 
-        # 6. New Model Tests (sona_speech_2, supertonic_api_1)
-        print("\n6️⃣ New Model Tests (sona_speech_2, supertonic_api_1)")
+        # 6. New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1)
+        print("\n6️⃣ New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1)")
 
         # TTS with sona_speech_2
         success, result = test_create_speech_sona_speech_2(voice_id_for_tts)
         test_results["create_speech_sona_speech_2"] = success
+
+        # TTS with sona_speech_2_flash (low latency)
+        success, result = test_create_speech_sona_speech_2_flash(voice_id_for_tts)
+        test_results["create_speech_sona_speech_2_flash"] = success
 
         # TTS with supertonic_api_1
         success, result = test_create_speech_supertonic_api_1(voice_id_for_tts)
@@ -4767,6 +4853,10 @@ def main():
         # Duration prediction with new models
         success, result = test_predict_duration_sona_speech_2(voice_id_for_tts)
         test_results["predict_duration_sona_speech_2"] = success
+
+        # Duration prediction with sona_speech_2_flash
+        success, result = test_predict_duration_sona_speech_2_flash(voice_id_for_tts)
+        test_results["predict_duration_sona_speech_2_flash"] = success
 
         success, result = test_predict_duration_supertonic_api_1(voice_id_for_tts)
         test_results["predict_duration_supertonic_api_1"] = success
@@ -4916,6 +5006,9 @@ def main():
     print("  • New Model Tests:")
     print(
         "    - sona_speech_2: create_speech_sona_speech_2, predict_duration_sona_speech_2"
+    )
+    print(
+        "    - sona_speech_2_flash: create_speech_sona_speech_2_flash, predict_duration_sona_speech_2_flash"
     )
     print(
         "    - supertonic_api_1: create_speech_supertonic_api_1, predict_duration_supertonic_api_1"
