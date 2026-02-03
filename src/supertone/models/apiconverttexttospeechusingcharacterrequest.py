@@ -70,6 +70,8 @@ class APIConvertTextToSpeechUsingCharacterRequestTypedDict(TypedDict):
     voice_settings: NotRequired[ConvertTextToSpeechParametersTypedDict]
     include_phonemes: NotRequired[bool]
     r"""Return phoneme timing data with the audio"""
+    normalized_text: NotRequired[str]
+    r"""Pre-normalized text for TTS. Only used with sona_speech_2 and sona_speech_2_flash models."""
 
 
 class APIConvertTextToSpeechUsingCharacterRequest(BaseModel):
@@ -96,3 +98,6 @@ class APIConvertTextToSpeechUsingCharacterRequest(BaseModel):
 
     include_phonemes: Optional[bool] = False
     r"""Return phoneme timing data with the audio"""
+
+    normalized_text: Optional[str] = None
+    r"""Pre-normalized text for TTS. Only used with sona_speech_2 and sona_speech_2_flash models."""

@@ -1355,6 +1355,7 @@ class TextToSpeech(BaseSDK):
             ]
         ] = None,
         include_phonemes: Optional[bool] = False,
+        normalized_text: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1373,6 +1374,7 @@ class TextToSpeech(BaseSDK):
         :param output_format: The desired output format of the audio file (wav, mp3). Default is wav.
         :param voice_settings:
         :param include_phonemes: Return phoneme timing data with the audio
+        :param normalized_text: Pre-normalized text for TTS. Only used with sona_speech_2 and sona_speech_2_flash models.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1401,6 +1403,7 @@ class TextToSpeech(BaseSDK):
                     voice_settings, Optional[models.ConvertTextToSpeechParameters]
                 ),
                 include_phonemes=include_phonemes,
+                normalized_text=normalized_text,
             ),
         )
 
@@ -1573,6 +1576,7 @@ class TextToSpeech(BaseSDK):
             ]
         ] = None,
         include_phonemes: Optional[bool] = False,
+        normalized_text: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1591,6 +1595,7 @@ class TextToSpeech(BaseSDK):
         :param output_format: The desired output format of the audio file (wav, mp3). Default is wav.
         :param voice_settings:
         :param include_phonemes: Return phoneme timing data with the audio
+        :param normalized_text: Pre-normalized text for TTS. Only used with sona_speech_2 and sona_speech_2_flash models.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1619,6 +1624,7 @@ class TextToSpeech(BaseSDK):
                     voice_settings, Optional[models.ConvertTextToSpeechParameters]
                 ),
                 include_phonemes=include_phonemes,
+                normalized_text=normalized_text,
             ),
         )
 
@@ -1791,6 +1797,7 @@ class TextToSpeech(BaseSDK):
             ]
         ] = None,
         include_phonemes: Optional[bool] = False,
+        normalized_text: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1809,6 +1816,7 @@ class TextToSpeech(BaseSDK):
         :param output_format: The desired output format of the audio file (wav, mp3). Default is wav.
         :param voice_settings:
         :param include_phonemes: Return phoneme timing data with the audio
+        :param normalized_text: Pre-normalized text for TTS. Only used with sona_speech_2 and sona_speech_2_flash models.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1837,6 +1845,7 @@ class TextToSpeech(BaseSDK):
                     voice_settings, Optional[models.ConvertTextToSpeechParameters]
                 ),
                 include_phonemes=include_phonemes,
+                normalized_text=normalized_text,
             ),
         )
 
@@ -2007,6 +2016,7 @@ class TextToSpeech(BaseSDK):
             ]
         ] = None,
         include_phonemes: Optional[bool] = False,
+        normalized_text: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -2025,6 +2035,7 @@ class TextToSpeech(BaseSDK):
         :param output_format: The desired output format of the audio file (wav, mp3). Default is wav.
         :param voice_settings:
         :param include_phonemes: Return phoneme timing data with the audio
+        :param normalized_text: Pre-normalized text for TTS. Only used with sona_speech_2 and sona_speech_2_flash models.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -2053,6 +2064,7 @@ class TextToSpeech(BaseSDK):
                     voice_settings, Optional[models.ConvertTextToSpeechParameters]
                 ),
                 include_phonemes=include_phonemes,
+                normalized_text=normalized_text,
             ),
         )
 

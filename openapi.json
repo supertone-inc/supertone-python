@@ -1614,7 +1614,7 @@
   "info": {
     "title": "Supertone Public API",
     "description": "Supertone API is a RESTful API for using our state-of-the-art AI voice models.",
-    "version": "0.8.93",
+    "version": "0.9.0",
     "contact": {}
   },
   "tags": [
@@ -1976,6 +1976,10 @@
             "type": "boolean",
             "description": "Return phoneme timing data with the audio",
             "default": false
+          },
+          "normalized_text": {
+            "type": "string",
+            "description": "Pre-normalized text for TTS. Only used with sona_speech_2 and sona_speech_2_flash models."
           }
         },
         "required": [

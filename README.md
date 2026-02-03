@@ -13,7 +13,6 @@ Supertone Public API: Supertone API is a RESTful API for using our state-of-the-
 <!-- $toc-max-depth=2 -->
 * [Supertone Python Library](#supertone-python-library)
   * [SDK Installation](#sdk-installation)
-  * [SDK Installation](#sdk-installation-1)
   * [IDE Support](#ide-support)
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
@@ -29,36 +28,6 @@ Supertone Public API: Supertone API is a RESTful API for using our state-of-the-
   * [Debugging](#debugging)
 
 <!-- End Table of Contents [toc] -->
-
-<!-- Start SDK Installation [installation] -->
-
-## SDK Installation
-
-The SDK can be installed with _uv_, _pip_, or _poetry_ package managers.
-
-### uv
-
-_uv_ is a fast Python package installer and resolver, designed as a drop-in replacement for pip and pip-tools. It's recommended for its speed and modern Python tooling capabilities.
-
-```bash
-uv add supertone
-```
-
-### PIP
-
-_PIP_ is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
-
-```bash
-pip install supertone
-```
-
-### Poetry
-
-_Poetry_ is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
-
-```bash
-poetry add supertone
-```
 
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation

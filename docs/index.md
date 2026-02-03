@@ -13,7 +13,6 @@ Supertone Public API: Supertone API is a RESTful API for using our state-of-the-
 <!-- $toc-max-depth=2 -->
 * [Supertone Python Library](#supertone-python-library)
   * [SDK Installation](#sdk-installation)
-  * [SDK Installation](#sdk-installation-1)
   * [IDE Support](#ide-support)
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
@@ -29,36 +28,6 @@ Supertone Public API: Supertone API is a RESTful API for using our state-of-the-
   * [Debugging](#debugging)
 
 <!-- End Table of Contents [toc] -->
-
-<!-- Start SDK Installation [installation] -->
-
-## SDK Installation
-
-The SDK can be installed with _uv_, _pip_, or _poetry_ package managers.
-
-### uv
-
-_uv_ is a fast Python package installer and resolver, designed as a drop-in replacement for pip and pip-tools. It's recommended for its speed and modern Python tooling capabilities.
-
-```bash
-uv add supertone
-```
-
-### PIP
-
-_PIP_ is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
-
-```bash
-pip install supertone
-```
-
-### Poetry
-
-_Poetry_ is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
-
-```bash
-poetry add supertone
-```
 
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
@@ -224,6 +193,8 @@ Supertone’s Text-to-Speech API provides multiple TTS models, each with differe
 | **SONA Speech 1**  | `sona_speech_1`   | ✅ Supported                         | Supports **all** Voice Settings                          |
 | **Supertonic API 1** | `supertonic_api_1` | ❌ Not supported                  | Supports **only** the `speed` setting (others are ignored) |
 | **SONA Speech 2**  | `sona_speech_2`   | ❌ Not supported                     | Supports **all** Voice Settings **except** `subharmonic_amplitude_control` |
+| **SONA Speech 2 Flash**  | `sona_speech_2_flash`   | ❌ Not supported | Supports **all** Voice Settings **except** `similarity`, `text_guidance`,`subharmonic_amplitude_control` |
+
 
 > [!NOTE]
 > **Streaming Support**
@@ -246,6 +217,9 @@ Supertone’s Text-to-Speech API provides multiple TTS models, each with differe
 - **sona_speech_2**
   - `en`, `ko`, `ja`, `bg`, `cs`, `da`, `el`, `es`, `et`, `fi`, `hu`, `it`, `nl`, `pl`, `pt`, `ro`,  
     `ar`, `de`, `fr`, `hi`, `id`, `ru`, `vi`
+- **sona_speech_2_flash**
+  - `en`, `ko`, `ja`, `bg`, `cs`, `da`, `el`, `es`, `et`, `fi`, `hu`, `it`, `nl`, `pl`, `pt`, `ro`,  
+    `ar`, `de`, `fr`, `hi`, `id`, `ru`, `vi`
 
 ---
 
@@ -265,6 +239,10 @@ Some TTS models support optional voice settings that allow fine control over out
 
 - **sona_speech_2**
   - Supports **all** Voice Settings **except** `subharmonic_amplitude_control`.
+
+- **sona_speech_2_flash**
+  - Supports **all** Voice Settings **except** `similarity`, `text_guidance`, `subharmonic_amplitude_control`.
+
 
 > All Voice Settings are optional. When omitted, each model’s default values will be applied.
 
