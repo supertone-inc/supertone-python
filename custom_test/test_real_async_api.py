@@ -2517,6 +2517,118 @@ async def test_create_speech_sona_speech_2_flash(voice_id):
         return False, e
 
 
+async def test_create_speech_sona_speech_2_with_normalized_text(voice_id):
+    """Test TTS with sona_speech_2 model using normalized_text for Japanese pronunciation (Async)"""
+    print("🇯🇵 TTS Test with sona_speech_2 Model + normalized_text (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            print(f"  🔍 Converting TTS with sona_speech_2 + normalized_text using voice '{voice_id}'...")
+            print("  ⚠️ This test will consume credits!")
+
+            # Japanese text with kanji and its reading (hiragana)
+            original_text = "今日はどんな一日だったの？"
+            normalized_text = "きょうはどんないちにちだったの？"
+
+            print(f"  📝 Original text (with kanji): {original_text}")
+            print(f"  📖 Normalized text (hiragana): {normalized_text}")
+
+            response = await client.text_to_speech.create_speech_async(
+                voice_id=voice_id,
+                text=original_text,
+                normalized_text=normalized_text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_2,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                audio_size = len(audio_data)
+                print(f"  ✅ sona_speech_2 + normalized_text TTS successful: {audio_size} bytes")
+
+                output_file = "test_async_sona_speech_2_normalized_text_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Audio saved: {output_file}")
+                print(f"  🎯 The TTS engine used normalized_text for pronunciation!")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure error: {type(response)}")
+                return False, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+async def test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id):
+    """Test TTS with sona_speech_2_flash model using normalized_text for Japanese pronunciation (Async)"""
+    print("⚡🇯🇵 TTS Test with sona_speech_2_flash Model + normalized_text (Async) (Low Latency)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            print(f"  🔍 Converting TTS with sona_speech_2_flash + normalized_text using voice '{voice_id}'...")
+            print("  ⚠️ This test will consume credits!")
+
+            # Japanese text with kanji and its reading (hiragana)
+            original_text = "今日はどんな一日だったの？"
+            normalized_text = "きょうはどんないちにちだったの？"
+
+            print(f"  📝 Original text (with kanji): {original_text}")
+            print(f"  📖 Normalized text (hiragana): {normalized_text}")
+
+            response = await client.text_to_speech.create_speech_async(
+                voice_id=voice_id,
+                text=original_text,
+                normalized_text=normalized_text,
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.JA,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_2_FLASH,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                audio_size = len(audio_data)
+                print(f"  ✅ sona_speech_2_flash + normalized_text TTS successful: {audio_size} bytes")
+
+                output_file = "test_async_sona_speech_2_flash_normalized_text_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Audio saved: {output_file}")
+                print(f"  🎯 The TTS engine used normalized_text for pronunciation!")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure error: {type(response)}")
+                return False, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
 async def test_create_speech_supertonic_api_1(voice_id):
     """Test TTS with supertonic_api_1 model (Async)"""
     print("🎤 TTS Test with supertonic_api_1 Model (Async)")
@@ -4244,6 +4356,14 @@ async def main():
         success, result = await test_create_speech_sona_speech_2_flash(voice_id_for_tts)
         test_results["create_speech_sona_speech_2_flash_async"] = success
 
+        # TTS with sona_speech_2 + normalized_text (Japanese pronunciation)
+        success, result = await test_create_speech_sona_speech_2_with_normalized_text(voice_id_for_tts)
+        test_results["create_speech_sona_speech_2_with_normalized_text_async"] = success
+
+        # TTS with sona_speech_2_flash + normalized_text (Japanese pronunciation)
+        success, result = await test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id_for_tts)
+        test_results["create_speech_sona_speech_2_flash_with_normalized_text_async"] = success
+
         # TTS with supertonic_api_1
         success, result = await test_create_speech_supertonic_api_1(voice_id_for_tts)
         test_results["create_speech_supertonic_api_1_async"] = success
@@ -4447,6 +4567,9 @@ async def main():
     )
     print(
         "    - sona_speech_2_flash: create_speech_sona_speech_2_flash_async, predict_duration_sona_speech_2_flash_async"
+    )
+    print(
+        "    - normalized_text: create_speech_sona_speech_2_with_normalized_text_async, create_speech_sona_speech_2_flash_with_normalized_text_async"
     )
     print(
         "    - supertonic_api_1: create_speech_supertonic_api_1_async, predict_duration_supertonic_api_1_async"
