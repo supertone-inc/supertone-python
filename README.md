@@ -200,6 +200,11 @@ Supertone’s Text-to-Speech API provides multiple TTS models, each with differe
 > **Streaming Support**
 >
 > Streaming TTS using the `stream_speech` endpoint is **only available for the `sona_speech_1` model**.
+>
+> **Normalized Text Support**
+>
+> The `normalized_text` parameter is supported **only with the `sona_speech_2` and `sona_speech_2_flash` models**.  
+> It is ignored when used with other models.
 
 ---
 
