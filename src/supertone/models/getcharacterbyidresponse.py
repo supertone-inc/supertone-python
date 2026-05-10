@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 from .apisampledata import APISampleData, APISampleDataTypedDict
-from supertone.types import BaseModel
+from pydantic import model_serializer
+from supertone.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
 from typing import List, Optional
 from typing_extensions import NotRequired, TypedDict
 
@@ -12,8 +13,6 @@ class GetCharacterByIDResponseTypedDict(TypedDict):
     r"""Unique identifier for the voice"""
     name: str
     r"""Name of the voice"""
-    description: str
-    r"""Description of the voice"""
     age: str
     r"""Age of the voice"""
     gender: str
@@ -28,6 +27,8 @@ class GetCharacterByIDResponseTypedDict(TypedDict):
     r"""Styles available for the voice"""
     models: List[str]
     r"""Models available for the voice"""
+    description: NotRequired[Nullable[str]]
+    r"""Description of the voice"""
     samples: NotRequired[List[APISampleDataTypedDict]]
     r"""URL to the sample audio file for the voice"""
     thumbnail_image_url: NotRequired[str]
@@ -41,9 +42,6 @@ class GetCharacterByIDResponse(BaseModel):
     name: str
     r"""Name of the voice"""
 
-    description: str
-    r"""Description of the voice"""
-
     age: str
     r"""Age of the voice"""
 
@@ -65,8 +63,41 @@ class GetCharacterByIDResponse(BaseModel):
     models: List[str]
     r"""Models available for the voice"""
 
+    description: OptionalNullable[str] = UNSET
+    r"""Description of the voice"""
+
     samples: Optional[List[APISampleData]] = None
     r"""URL to the sample audio file for the voice"""
 
     thumbnail_image_url: Optional[str] = None
     r"""URL to the thumbnail image for the voice"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["description", "samples", "thumbnail_image_url"]
+        nullable_fields = ["description"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

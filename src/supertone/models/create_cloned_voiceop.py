@@ -37,7 +37,7 @@ class CreateClonedVoiceRequestTypedDict(TypedDict):
     r"""Audio file and voice metadata"""
 
     files: FilesTypedDict
-    r"""Audio file to clone voice from (WAV/MP3 format, max 3MB)"""
+    r"""Audio file to clone voice from (all common audio formats accepted, max 3MB)"""
     name: str
     r"""Name of the cloned voice"""
     description: NotRequired[str]
@@ -48,7 +48,7 @@ class CreateClonedVoiceRequest(BaseModel):
     r"""Audio file and voice metadata"""
 
     files: Annotated[Files, FieldMetadata(multipart=MultipartFormMetadata(file=True))]
-    r"""Audio file to clone voice from (WAV/MP3 format, max 3MB)"""
+    r"""Audio file to clone voice from (all common audio formats accepted, max 3MB)"""
 
     name: Annotated[str, FieldMetadata(multipart=True)]
     r"""Name of the cloned voice"""

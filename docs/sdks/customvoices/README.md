@@ -41,12 +41,12 @@ with Supertone(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `files`                                                             | [models.Files](../../models/files.md)                               | :heavy_check_mark:                                                  | Audio file to clone voice from (WAV/MP3 format, max 3MB)            |
-| `name`                                                              | *str*                                                               | :heavy_check_mark:                                                  | Name of the cloned voice                                            |
-| `description`                                                       | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Description of the cloned voice                                     |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `files`                                                                     | [models.Files](../../models/files.md)                                       | :heavy_check_mark:                                                          | Audio file to clone voice from (all common audio formats accepted, max 3MB) |
+| `name`                                                                      | *str*                                                                       | :heavy_check_mark:                                                          | Name of the cloned voice                                                    |
+| `description`                                                               | *Optional[str]*                                                             | :heavy_minus_sign:                                                          | Description of the cloned voice                                             |
+| `retries`                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)            | :heavy_minus_sign:                                                          | Configuration to override the default retry behavior of the client.         |
 
 ### Response
 

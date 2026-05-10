@@ -3,19 +3,22 @@
 ![LOGO](https://github.com/supertone-inc/supertone-python/blob/3d19bcdad946bd3c7412f40818ef799b32b2e8e9/images/hero-light.png?raw=true)
 
 <!-- Start Summary [summary] -->
+
 ## Summary
 
 Supertone Public API: Supertone API is a RESTful API for using our state-of-the-art AI voice models.
+
 <!-- End Summary [summary] -->
 
 <!-- Start SDK Installation [installation] -->
+
 ## SDK Installation
 
-The SDK can be installed with *uv*, *pip*, or *poetry* package managers.
+The SDK can be installed with _uv_, _pip_, or _poetry_ package managers.
 
 ### uv
 
-*uv* is a fast Python package installer and resolver, designed as a drop-in replacement for pip and pip-tools. It's recommended for its speed and modern Python tooling capabilities.
+_uv_ is a fast Python package installer and resolver, designed as a drop-in replacement for pip and pip-tools. It's recommended for its speed and modern Python tooling capabilities.
 
 ```bash
 uv add supertone
@@ -23,7 +26,7 @@ uv add supertone
 
 ### PIP
 
-*PIP* is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
+_PIP_ is the default package installer for Python, enabling easy installation and management of packages from PyPI via the command line.
 
 ```bash
 pip install supertone
@@ -31,14 +34,16 @@ pip install supertone
 
 ### Poetry
 
-*Poetry* is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
+_Poetry_ is a modern tool that simplifies dependency management and package publishing by using a single `pyproject.toml` file to handle project metadata and dependencies.
 
 ```bash
 poetry add supertone
 ```
+
 <!-- End SDK Installation [installation] -->
 
 <!-- Start SDK Example Usage [usage] -->
+
 ## SDK Example Usage
 
 ### Example
@@ -61,6 +66,7 @@ with Supertone(
 </br>
 
 The same SDK client can also be used to make asynchronous requests by importing asyncio.
+
 ```python
 # Asynchronous Example
 import asyncio
@@ -79,9 +85,11 @@ async def main():
 
 asyncio.run(main())
 ```
+
 <!-- End SDK Example Usage [usage] -->
 
 <!-- Start Authentication [security] -->
+
 ## Authentication
 
 ### Per-Client Security Schemes
@@ -93,6 +101,7 @@ This SDK supports the following security scheme globally:
 | `api_key` | apiKey | API key |
 
 To authenticate with the API the `api_key` parameter must be set when initializing the SDK client instance. For example:
+
 ```python
 from supertone import Supertone, models
 
@@ -107,6 +116,7 @@ with Supertone(
     print(res)
 
 ```
+
 <!-- End Authentication [security] -->
 
 <!-- Start Models [models] -->
@@ -117,13 +127,12 @@ Supertone’s Text-to-Speech API provides multiple TTS models, each with differe
 
 ### Model Overview
 
-| Model Name         | Identifier        | Streaming Support (`stream_speech`) | Voice Settings Support                                   |
-|--------------------|-------------------|--------------------------------------|----------------------------------------------------------|
-| **SONA Speech 1**  | `sona_speech_1`   | ✅ Supported                         | Supports **all** Voice Settings                          |
-| **Supertonic API 1** | `supertonic_api_1` | ❌ Not supported                  | Supports **only** the `speed` setting (others are ignored) |
-| **SONA Speech 2**  | `sona_speech_2`   | ❌ Not supported                     | Supports **all** Voice Settings **except** `subharmonic_amplitude_control` |
-| **SONA Speech 2 Flash**  | `sona_speech_2_flash`   | ❌ Not supported | Supports **all** Voice Settings **except** `similarity`, `text_guidance`,`subharmonic_amplitude_control` |
-
+| Model Name              | Identifier            | Streaming Support (`stream_speech`) | Voice Settings Support                                                                                   |
+| ----------------------- | --------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **SONA Speech 1**       | `sona_speech_1`       | ✅ Supported                        | Supports **all** Voice Settings                                                                          |
+| **Supertonic API 1**    | `supertonic_api_1`    | ❌ Not supported                    | Supports **only** the `speed` setting (others are ignored)                                               |
+| **SONA Speech 2**       | `sona_speech_2`       | ❌ Not supported                    | Supports **all** Voice Settings **except** `subharmonic_amplitude_control`                               |
+| **SONA Speech 2 Flash** | `sona_speech_2_flash` | ❌ Not supported                    | Supports **all** Voice Settings **except** `similarity`, `text_guidance`,`subharmonic_amplitude_control` |
 
 > [!NOTE]
 > **Streaming Support**
@@ -177,12 +186,12 @@ Some TTS models support optional voice settings that allow fine control over out
 - **sona_speech_2_flash**
   - Supports **all** Voice Settings **except** `similarity`, `text_guidance`, `subharmonic_amplitude_control`.
 
-
 > All Voice Settings are optional. When omitted, each model’s default values will be applied.
 
 <!-- End Models [models] -->
 
 <!-- Start Error Handling [errors] -->
+
 ## Error Handling
 
 [`SupertoneError`](./src/supertone/errors/supertoneerror.py) is the base class for all HTTP error responses. It has the following properties:
@@ -197,6 +206,7 @@ Some TTS models support optional voice settings that allow fine control over out
 | `err.data`         |                  | Optional. Some errors may contain structured data. [See Error Classes](#error-classes). |
 
 ### Example
+
 ```python
 from supertone import Supertone, errors, models
 
@@ -228,35 +238,39 @@ with Supertone(
 ```
 
 ### Error Classes
+
 **Primary error:**
-* [`SupertoneError`](./src/supertone/errors/supertoneerror.py): The base class for HTTP error responses.
+
+- [`SupertoneError`](./src/supertone/errors/supertoneerror.py): The base class for HTTP error responses.
 
 <details><summary>Less common errors (15)</summary>
 
 <br />
 
 **Network errors:**
-* [`httpx.RequestError`](https://www.python-httpx.org/exceptions/#httpx.RequestError): Base class for request errors.
-    * [`httpx.ConnectError`](https://www.python-httpx.org/exceptions/#httpx.ConnectError): HTTP client was unable to make a request to a server.
-    * [`httpx.TimeoutException`](https://www.python-httpx.org/exceptions/#httpx.TimeoutException): HTTP request timed out.
 
+- [`httpx.RequestError`](https://www.python-httpx.org/exceptions/#httpx.RequestError): Base class for request errors.
+  - [`httpx.ConnectError`](https://www.python-httpx.org/exceptions/#httpx.ConnectError): HTTP client was unable to make a request to a server.
+  - [`httpx.TimeoutException`](https://www.python-httpx.org/exceptions/#httpx.TimeoutException): HTTP request timed out.
 
 **Inherit from [`SupertoneError`](./src/supertone/errors/supertoneerror.py)**:
-* [`UnauthorizedErrorResponse`](./src/supertone/errors/unauthorizederrorresponse.py): Unauthorized: Invalid API key. Status code `401`. Applicable to 10 of 15 methods.*
-* [`InternalServerErrorResponse`](./src/supertone/errors/internalservererrorresponse.py): Status code `500`. Applicable to 10 of 15 methods.*
-* [`NotFoundErrorResponse`](./src/supertone/errors/notfounderrorresponse.py): Status code `404`. Applicable to 9 of 15 methods.*
-* [`BadRequestErrorResponse`](./src/supertone/errors/badrequesterrorresponse.py): Status code `400`. Applicable to 5 of 15 methods.*
-* [`ForbiddenErrorResponse`](./src/supertone/errors/forbiddenerrorresponse.py): Status code `403`. Applicable to 4 of 15 methods.*
-* [`RequestTimeoutErrorResponse`](./src/supertone/errors/requesttimeouterrorresponse.py): Status code `408`. Applicable to 4 of 15 methods.*
-* [`TooManyRequestsErrorResponse`](./src/supertone/errors/toomanyrequestserrorresponse.py): Status code `429`. Applicable to 4 of 15 methods.*
-* [`PaymentRequiredErrorResponse`](./src/supertone/errors/paymentrequirederrorresponse.py): Status code `402`. Applicable to 3 of 15 methods.*
-* [`PayloadTooLargeErrorResponse`](./src/supertone/errors/payloadtoolargeerrorresponse.py): Payload Too Large: File size exceeds 3MB limit. Status code `413`. Applicable to 1 of 15 methods.*
-* [`UnsupportedMediaTypeErrorResponse`](./src/supertone/errors/unsupportedmediatypeerrorresponse.py): Unsupported Media Type: Invalid audio file format. Status code `415`. Applicable to 1 of 15 methods.*
-* [`ResponseValidationError`](./src/supertone/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
+
+- [`UnauthorizedErrorResponse`](./src/supertone/errors/unauthorizederrorresponse.py): Unauthorized: Invalid API key. Status code `401`. Applicable to 10 of 15 methods.\*
+- [`InternalServerErrorResponse`](./src/supertone/errors/internalservererrorresponse.py): Status code `500`. Applicable to 10 of 15 methods.\*
+- [`NotFoundErrorResponse`](./src/supertone/errors/notfounderrorresponse.py): Status code `404`. Applicable to 9 of 15 methods.\*
+- [`BadRequestErrorResponse`](./src/supertone/errors/badrequesterrorresponse.py): Status code `400`. Applicable to 5 of 15 methods.\*
+- [`ForbiddenErrorResponse`](./src/supertone/errors/forbiddenerrorresponse.py): Status code `403`. Applicable to 4 of 15 methods.\*
+- [`RequestTimeoutErrorResponse`](./src/supertone/errors/requesttimeouterrorresponse.py): Status code `408`. Applicable to 4 of 15 methods.\*
+- [`TooManyRequestsErrorResponse`](./src/supertone/errors/toomanyrequestserrorresponse.py): Status code `429`. Applicable to 4 of 15 methods.\*
+- [`PaymentRequiredErrorResponse`](./src/supertone/errors/paymentrequirederrorresponse.py): Status code `402`. Applicable to 3 of 15 methods.\*
+- [`PayloadTooLargeErrorResponse`](./src/supertone/errors/payloadtoolargeerrorresponse.py): Payload Too Large: File size exceeds 3MB limit. Status code `413`. Applicable to 1 of 15 methods.\*
+- [`UnsupportedMediaTypeErrorResponse`](./src/supertone/errors/unsupportedmediatypeerrorresponse.py): Unsupported Media Type: Invalid audio file format. Status code `415`. Applicable to 1 of 15 methods.\*
+- [`ResponseValidationError`](./src/supertone/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>
 
 \* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
+
 <!-- End Error Handling [errors] -->
 
 <!-- Start Additional Example Code [examples] -->

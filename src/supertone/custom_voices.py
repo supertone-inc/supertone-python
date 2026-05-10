@@ -26,7 +26,7 @@ class CustomVoices(BaseSDK):
 
         Creates a custom (cloned) voice from uploaded audio files.
 
-        :param files: Audio file to clone voice from (WAV/MP3 format, max 3MB)
+        :param files: Audio file to clone voice from (all common audio formats accepted, max 3MB)
         :param name: Name of the cloned voice
         :param description: Description of the cloned voice
         :param retries: Override the default retry configuration for this method
@@ -172,7 +172,7 @@ class CustomVoices(BaseSDK):
 
         Creates a custom (cloned) voice from uploaded audio files.
 
-        :param files: Audio file to clone voice from (WAV/MP3 format, max 3MB)
+        :param files: Audio file to clone voice from (all common audio formats accepted, max 3MB)
         :param name: Name of the cloned voice
         :param description: Description of the cloned voice
         :param retries: Override the default retry configuration for this method

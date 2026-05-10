@@ -79,14 +79,7 @@
                             "type": "number"
                           },
                           "description": "Start times for each phoneme in seconds",
-                          "example": [
-                            0,
-                            0.092,
-                            0.197,
-                            0.255,
-                            0.29,
-                            0.58
-                          ]
+                          "example": [0, 0.092, 0.197, 0.255, 0.29, 0.58]
                         },
                         "durations_seconds": {
                           "type": "array",
@@ -94,14 +87,7 @@
                             "type": "number"
                           },
                           "description": "Duration for each phoneme in seconds",
-                          "example": [
-                            0.092,
-                            0.104,
-                            0.058,
-                            0.034,
-                            0.29,
-                            0.162
-                          ]
+                          "example": [0.092, 0.104, 0.058, 0.034, 0.29, 0.162]
                         }
                       }
                     }
@@ -125,22 +111,8 @@
                           "ʌ",
                           ""
                         ],
-                        "start_times_seconds": [
-                          0,
-                          0.0928798185941043,
-                          0.197369614512472,
-                          0.255419501133787,
-                          0.290249433106576,
-                          0.580498866213152
-                        ],
-                        "durations_seconds": [
-                          0.0928798185941043,
-                          0.104489795918367,
-                          0.0580498866213152,
-                          0.0348299319727891,
-                          0.290249433106576,
-                          0.162539682539683
-                        ]
+                        "start_times_seconds": [0, 0.0928798185941043, 0.197369614512472, 0.255419501133787, 0.290249433106576, 0.580498866213152],
+                        "durations_seconds": [0.0928798185941043, 0.104489795918367, 0.0580498866213152, 0.0348299319727891, 0.290249433106576, 0.162539682539683]
                       }
                     }
                   },
@@ -164,34 +136,8 @@
                           "iʌ",
                           ""
                         ],
-                        "start_times_seconds": [
-                          0,
-                          0.11609977324263,
-                          0.174149659863946,
-                          0.208979591836735,
-                          0.243809523809524,
-                          0.290249433106576,
-                          0.325079365079365,
-                          0.394739229024943,
-                          0.464399092970522,
-                          0.510839002267574,
-                          0.626938775510204,
-                          0.661768707482993
-                        ],
-                        "durations_seconds": [
-                          0.11609977324263,
-                          0.0580498866213152,
-                          0.0348299319727891,
-                          0.0348299319727891,
-                          0.0464399092970522,
-                          0.0348299319727891,
-                          0.0696598639455782,
-                          0.0696598639455782,
-                          0.0464399092970522,
-                          0.11609977324263,
-                          0.0348299319727891,
-                          0.0812698412698413
-                        ]
+                        "start_times_seconds": [0, 0.11609977324263, 0.174149659863946, 0.208979591836735, 0.243809523809524, 0.290249433106576, 0.325079365079365, 0.394739229024943, 0.464399092970522, 0.510839002267574, 0.626938775510204, 0.661768707482993],
+                        "durations_seconds": [0.11609977324263, 0.0580498866213152, 0.0348299319727891, 0.0348299319727891, 0.0464399092970522, 0.0348299319727891, 0.0696598639455782, 0.0696598639455782, 0.0464399092970522, 0.11609977324263, 0.0348299319727891, 0.0812698412698413]
                       }
                     }
                   }
@@ -880,7 +826,7 @@
                   "files": {
                     "type": "string",
                     "format": "binary",
-                    "description": "Audio file to clone voice from (WAV/MP3 format, max 3MB)"
+                    "description": "Audio file to clone voice from (all common audio formats accepted, max 3MB)"
                   },
                   "name": {
                     "type": "string",
@@ -1614,8 +1560,10 @@
   "info": {
     "title": "Supertone Public API",
     "description": "Supertone API is a RESTful API for using our state-of-the-art AI voice models.",
-    "version": "0.9.0",
-    "contact": {}
+    "version": "0.9.6",
+    "contact": {
+
+    }
   },
   "tags": [
     {
@@ -2132,7 +2080,8 @@
           "description": {
             "type": "string",
             "description": "Description of the voice",
-            "example": ""
+            "example": "",
+            "nullable": true
           },
           "age": {
             "type": "string",
@@ -2234,7 +2183,6 @@
         "required": [
           "voice_id",
           "name",
-          "description",
           "age",
           "gender",
           "use_case",
@@ -2286,7 +2234,8 @@
           "description": {
             "type": "string",
             "description": "Description of the voice",
-            "example": ""
+            "example": "",
+            "nullable": true
           },
           "age": {
             "type": "string",
@@ -2388,7 +2337,6 @@
         "required": [
           "voice_id",
           "name",
-          "description",
           "age",
           "gender",
           "use_case",
@@ -2473,13 +2421,13 @@
           "description": {
             "type": "string",
             "description": "Description of the voice",
-            "example": "A warm and friendly voice for customer service"
+            "example": "A warm and friendly voice for customer service",
+            "nullable": true
           }
         },
         "required": [
           "voice_id",
-          "name",
-          "description"
+          "name"
         ]
       },
       "GetCustomVoiceListResponse": {
@@ -2539,13 +2487,13 @@
           "description": {
             "type": "string",
             "description": "Description of the voice",
-            "example": "An updated warm and friendly voice for customer service"
+            "example": "An updated warm and friendly voice for customer service",
+            "nullable": true
           }
         },
         "required": [
           "voice_id",
-          "name",
-          "description"
+          "name"
         ]
       },
       "GetUsageResponseV1Data": {
