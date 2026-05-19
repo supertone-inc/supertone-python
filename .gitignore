@@ -60,3 +60,9 @@ custom_test/*.json
 # Backup files
 *_backup_*/
 *.backup
+# Claude / claude-dev-kit
+.claude/
+.claude-kit/
+.gitmodules
+.prettierrc.json
+ruff.toml
