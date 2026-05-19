@@ -1889,7 +1889,15 @@
               "hi",
               "id",
               "ru",
-              "vi"
+              "vi",
+              "hr",
+              "lt",
+              "lv",
+              "sk",
+              "sl",
+              "sv",
+              "tr",
+              "uk"
             ]
           },
           "style": {
@@ -1902,9 +1910,11 @@
             "enum": [
               "sona_speech_1",
               "sona_speech_2",
-              "sona_speech_2_flash",
               "sona_speech_2t",
-              "supertonic_api_1"
+              "sona_speech_2_flash",
+              "supertonic_api_1",
+              "sona_speech_3t",
+              "supertonic_api_3"
             ],
             "default": "sona_speech_1"
           },
@@ -1996,7 +2006,15 @@
               "hi",
               "id",
               "ru",
-              "vi"
+              "vi",
+              "hr",
+              "lt",
+              "lv",
+              "sk",
+              "sl",
+              "sv",
+              "tr",
+              "uk"
             ]
           },
           "style": {
@@ -2011,7 +2029,9 @@
               "sona_speech_2",
               "sona_speech_2t",
               "sona_speech_2_flash",
-              "supertonic_api_1"
+              "supertonic_api_1",
+              "sona_speech_3t",
+              "supertonic_api_3"
             ],
             "default": "sona_speech_1"
           },
@@ -2158,9 +2178,11 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
-              "sona_speech_2_flash",
               "sona_speech_2t",
-              "supertonic_api_1"
+              "sona_speech_2_flash",
+              "supertonic_api_1",
+              "sona_speech_3t",
+              "supertonic_api_3"
             ],
             "type": "array",
             "items": {
@@ -2312,9 +2334,11 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
-              "sona_speech_2_flash",
               "sona_speech_2t",
-              "supertonic_api_1"
+              "sona_speech_2_flash",
+              "supertonic_api_1",
+              "sona_speech_3t",
+              "supertonic_api_3"
             ],
             "type": "array",
             "items": {
