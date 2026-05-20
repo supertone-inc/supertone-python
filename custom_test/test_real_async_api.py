@@ -3,12 +3,13 @@
 Async API Integration Test Script
 Tests all async SDK functionality with real Supertone API calls.
 """
-import sys
-import os
-import json
-from datetime import datetime, timedelta
-import time
+
 import asyncio
+import json
+import os
+import sys
+import time
+from datetime import datetime, timedelta
 
 # Load environment variables from .env file
 try:
@@ -52,7 +53,7 @@ async def test_credit_balance():
             return True, response
 
     except errors.UnauthorizedErrorResponse as e:
-        print(f"  ❌ Authentication failed: Invalid API key")
+        print("  ❌ Authentication failed: Invalid API key")
         print(f"     Status code: {e.status_code}")
         return False, e
     except errors.SupertoneError as e:
@@ -63,7 +64,7 @@ async def test_credit_balance():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -122,7 +123,7 @@ async def test_get_usage():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -170,7 +171,7 @@ async def test_get_voice_usage():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -192,7 +193,7 @@ async def test_list_voices():
 
             if response.items:
                 first_voice = response.items[0]
-                print(f"  🎤 First voice:")
+                print("  🎤 First voice:")
                 print(f"     ID: {first_voice.voice_id}")
                 print(f"     Name: {first_voice.name}")
                 print(f"     Description: {first_voice.description[:50]}...")
@@ -205,7 +206,7 @@ async def test_list_voices():
                 return True, (response, None)
 
     except errors.UnauthorizedErrorResponse as e:
-        print(f"  ❌ Authentication failed: Invalid API key")
+        print("  ❌ Authentication failed: Invalid API key")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -214,7 +215,7 @@ async def test_list_voices():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -251,7 +252,7 @@ async def test_search_voices():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -272,7 +273,7 @@ async def test_get_voice(voice_id):
 
             response = await client.voices.get_voice_async(voice_id=voice_id)
 
-            print(f"  ✅ Success:")
+            print("  ✅ Success:")
             print(f"     Name: {response.name}")
             print(f"     ID: {response.voice_id}")
             print(f"     Description: {response.description}")
@@ -291,7 +292,7 @@ async def test_get_voice(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -327,7 +328,7 @@ async def test_list_custom_voices():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -361,7 +362,7 @@ async def test_search_custom_voices():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -384,7 +385,7 @@ async def test_get_custom_voice(voice_id):
                 voice_id=voice_id
             )
 
-            print(f"  ✅ Success:")
+            print("  ✅ Success:")
             print(f"     Name: {response.name}")
             print(f"     ID: {response.voice_id}")
             print(f"     Description: {response.description}")
@@ -401,7 +402,7 @@ async def test_get_custom_voice(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -419,10 +420,10 @@ async def test_create_cloned_voice():
     file_size = os.path.getsize(audio_file_path)
     max_size = 3 * 1024 * 1024  # 3MB
 
-    print(f"  📏 File size: {file_size:,} bytes ({file_size/1024/1024:.2f} MB)")
+    print(f"  📏 File size: {file_size:,} bytes ({file_size / 1024 / 1024:.2f} MB)")
 
     if file_size > max_size:
-        print(f"  ❌ File exceeds 3MB limit: {file_size/1024/1024:.2f} MB")
+        print(f"  ❌ File exceeds 3MB limit: {file_size / 1024 / 1024:.2f} MB")
         return False, None
 
     try:
@@ -433,7 +434,7 @@ async def test_create_cloned_voice():
             voice_name = f"Test Sample Voice {timestamp} (Async)"
             voice_description = f"Test async custom voice created at {timestamp}"
 
-            print(f"  🔍 Creating custom voice...")
+            print("  🔍 Creating custom voice...")
             print(f"     File: {audio_file_path}")
             print(f"     Name: {voice_name}")
             print(f"     Description: {voice_description}")
@@ -454,20 +455,20 @@ async def test_create_cloned_voice():
                     description=voice_description,
                 )
 
-            print(f"  ✅ Custom voice creation request successful!")
+            print("  ✅ Custom voice creation request successful!")
             print(f"     Voice ID: {response.voice_id}")
             print(f"     Status: {getattr(response, 'status', 'Unknown')}")
 
             return True, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.PayloadTooLargeErrorResponse as e:
-        print(f"  ❌ File too large: Exceeds 3MB limit")
+        print("  ❌ File too large: Exceeds 3MB limit")
         return False, e
     except errors.UnsupportedMediaTypeErrorResponse as e:
-        print(f"  ❌ Unsupported format: Use WAV or MP3")
+        print("  ❌ Unsupported format: Use WAV or MP3")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -476,7 +477,7 @@ async def test_create_cloned_voice():
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -507,7 +508,7 @@ async def test_edit_custom_voice(voice_id):
                 description=test_description,
             )
 
-            print(f"  ✅ Update successful:")
+            print("  ✅ Update successful:")
             print(f"     Updated name: {response.name}")
             print(f"     Updated description: {response.description}")
 
@@ -523,7 +524,7 @@ async def test_edit_custom_voice(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -549,7 +550,7 @@ async def test_delete_custom_voice(voice_id):
                 voice_id=voice_id
             )
 
-            print(f"  ✅ Deletion successful:")
+            print("  ✅ Deletion successful:")
             print(f"     Response: {response}")
 
             return True, response
@@ -564,7 +565,7 @@ async def test_delete_custom_voice(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -604,7 +605,7 @@ async def test_predict_duration(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -652,7 +653,7 @@ async def test_create_speech(voice_id):
                 with open(output_file, "rb") as f:
                     header = f.read(12)
                     if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                        print(f"  ✅ Valid WAV file generated")
+                        print("  ✅ Valid WAV file generated")
                     else:
                         print(f"  ⚠️ WAV header needs verification: {header[:12]}")
 
@@ -662,7 +663,7 @@ async def test_create_speech(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -674,7 +675,7 @@ async def test_create_speech(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -702,7 +703,7 @@ async def test_create_speech_long_text(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (exceeds 300)")
-        print(f"  🔧 Auto-chunking enabled for text segmentation")
+        print("  🔧 Auto-chunking enabled for text segmentation")
 
         async with Supertone(api_key=API_KEY) as client:
             print(f"  🔍 Converting long text with voice '{voice_id}' (async)...")
@@ -725,7 +726,7 @@ async def test_create_speech_long_text(voice_id):
                 print(
                     f"  ✅ Auto-chunking TTS success: {audio_size} bytes audio generated"
                 )
-                print(f"  🎯 Long text successfully chunked and processed!")
+                print("  🎯 Long text successfully chunked and processed!")
 
                 output_file = "test_async_auto_chunking_speech_output.wav"
                 with open(output_file, "wb") as f:
@@ -738,7 +739,7 @@ async def test_create_speech_long_text(voice_id):
                 with open(output_file, "rb") as f:
                     header = f.read(12)
                     if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                        print(f"  ✅ Valid auto-chunked WAV file generated")
+                        print("  ✅ Valid auto-chunked WAV file generated")
                     else:
                         print(f"  ⚠️ WAV header needs verification: {header[:12]}")
 
@@ -746,7 +747,7 @@ async def test_create_speech_long_text(voice_id):
                 print(
                     f"  📊 Estimated chunks: {estimated_chunks} (based on text length)"
                 )
-                print(f"  🔀 Parallel processing applied to each chunk")
+                print("  🔀 Parallel processing applied to each chunk")
 
                 return True, {
                     "audio_size": audio_size,
@@ -759,7 +760,7 @@ async def test_create_speech_long_text(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -780,7 +781,7 @@ async def test_create_speech_long_text(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -833,7 +834,7 @@ async def test_stream_speech(voice_id):
                         if chunk_count <= 20:
                             print(f"     Chunk {chunk_count}: {chunk_size} bytes")
                         elif chunk_count == 21:
-                            print(f"     ... (more chunks - log truncated)")
+                            print("     ... (more chunks - log truncated)")
                         elif chunk_count % 50 == 0:
                             print(
                                 f"     Chunk {chunk_count}: {chunk_size} bytes (in progress...)"
@@ -872,20 +873,20 @@ async def test_stream_speech(voice_id):
                     with open(output_file, "rb") as f:
                         header = f.read(12)
                         if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                            print(f"  ✅ Valid streaming WAV file generated")
+                            print("  ✅ Valid streaming WAV file generated")
                         else:
                             print(f"  📄 File header: {header[:12]} (may not be WAV)")
 
                     return True, f"{chunk_count} chunks, {total_bytes} bytes"
                 else:
-                    print(f"  ⚠️ No audio data received")
+                    print("  ⚠️ No audio data received")
                     return False, "No audio data received"
             else:
                 print(f"  ❌ Response missing iter_bytes attribute: {type(response)}")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -897,7 +898,7 @@ async def test_stream_speech(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -926,7 +927,7 @@ async def test_stream_speech_long_text(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (exceeds 300)")
-        print(f"  🔧 Auto-chunking + WAV streaming enabled")
+        print("  🔧 Auto-chunking + WAV streaming enabled")
 
         async with Supertone(api_key=API_KEY) as client:
             print(
@@ -1024,7 +1025,7 @@ async def test_stream_speech_long_text(voice_id):
                     import base64
 
                     result_data = json.loads(response.result)
-                    print(f"  ✅ Chunked JSON response detected")
+                    print("  ✅ Chunked JSON response detected")
                     print(f"  🔍 JSON keys: {list(result_data.keys())}")
 
                     if "audio_base64" in result_data:
@@ -1067,7 +1068,7 @@ async def test_stream_speech_long_text(voice_id):
                             header = f.read(12)
                             if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
                                 print(
-                                    f"  ✅ Valid WAV long text streaming file generated"
+                                    "  ✅ Valid WAV long text streaming file generated"
                                 )
                             else:
                                 print(
@@ -1076,7 +1077,7 @@ async def test_stream_speech_long_text(voice_id):
 
                         if "phonemes" in result_data and result_data["phonemes"]:
                             phonemes = result_data["phonemes"]
-                            print(f"  🔤 Phoneme information included:")
+                            print("  🔤 Phoneme information included:")
                             print(f"    - Symbols: {len(phonemes.get('symbols', []))}")
                             if phonemes.get("start_times_seconds"):
                                 print(
@@ -1091,7 +1092,7 @@ async def test_stream_speech_long_text(voice_id):
                         print(
                             f"  📊 Estimated text chunks: {estimated_chunks} (based on text length)"
                         )
-                        print(f"  🔀 Auto-chunked segments merged as WAV")
+                        print("  🔀 Auto-chunked segments merged as WAV")
 
                         return True, {
                             "total_bytes": total_bytes,
@@ -1161,7 +1162,7 @@ async def test_stream_speech_long_text(voice_id):
                     if streaming_time > 0:
                         throughput = total_bytes / streaming_time
                         print(f"  🚀 Average throughput: {throughput:.0f} bytes/sec")
-                    print(f"  🔧 Additional processing time due to auto-chunking")
+                    print("  🔧 Additional processing time due to auto-chunking")
 
                 if audio_chunks and total_bytes > 0:
                     output_file = "test_async_stream_speech_long_output.wav"
@@ -1182,7 +1183,7 @@ async def test_stream_speech_long_text(voice_id):
                 return False, None
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1203,7 +1204,7 @@ async def test_stream_speech_long_text(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1264,7 +1265,7 @@ async def test_create_speech_with_voice_settings(voice_id):
                 with open(output_file, "rb") as f:
                     header = f.read(12)
                     if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                        print(f"  ✅ Valid voice settings WAV file generated")
+                        print("  ✅ Valid voice settings WAV file generated")
                     else:
                         print(f"  ⚠️ WAV header needs verification: {header[:12]}")
 
@@ -1274,7 +1275,7 @@ async def test_create_speech_with_voice_settings(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1286,7 +1287,7 @@ async def test_create_speech_with_voice_settings(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1355,7 +1356,7 @@ async def test_create_speech_with_phonemes(voice_id):
             return True, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1367,7 +1368,7 @@ async def test_create_speech_with_phonemes(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1381,8 +1382,9 @@ async def test_stream_speech_with_phonemes(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
         import base64
+
+        from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
             print(f"  🔄 Phoneme streaming TTS test with voice '{voice_id}' (async)...")
@@ -1431,12 +1433,12 @@ async def test_stream_speech_with_phonemes(voice_id):
                                 )
                                 audio_chunks.append(audio_data)
                                 print(
-                                    f"     Chunk {i+1}: {len(audio_data)} bytes audio"
+                                    f"     Chunk {i + 1}: {len(audio_data)} bytes audio"
                                 )
 
                             if chunk_data.get("phonemes") and chunk_data["phonemes"]:
                                 chunk_phonemes = chunk_data["phonemes"]
-                                print(f"     Chunk {i+1}: Phoneme data found!")
+                                print(f"     Chunk {i + 1}: Phoneme data found!")
 
                                 if chunk_phonemes.get("start_times_seconds"):
                                     original_start_times = chunk_phonemes[
@@ -1466,7 +1468,7 @@ async def test_stream_speech_with_phonemes(voice_id):
 
                         except json.JSONDecodeError as e:
                             print(
-                                f"     Chunk {i+1}: JSON parsing failed - {str(e)[:50]}..."
+                                f"     Chunk {i + 1}: JSON parsing failed - {str(e)[:50]}..."
                             )
                             continue
 
@@ -1500,15 +1502,15 @@ async def test_stream_speech_with_phonemes(voice_id):
                         "phoneme_data": merged_phonemes,
                     }
                 else:
-                    print(f"  ⚠️ No audio data")
+                    print("  ⚠️ No audio data")
                     return False, "No audio data in JSON chunks"
 
             else:
-                print(f"  ❌ Unexpected response type")
+                print("  ❌ Unexpected response type")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1520,7 +1522,7 @@ async def test_stream_speech_with_phonemes(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1573,7 +1575,7 @@ async def test_predict_duration_with_voice_settings(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1632,7 +1634,7 @@ async def test_stream_speech_with_voice_settings(voice_id):
                         if chunk_count <= 15:
                             print(f"     Chunk {chunk_count}: {chunk_size} bytes")
                         elif chunk_count == 16:
-                            print(f"     ... (more chunks - log truncated)")
+                            print("     ... (more chunks - log truncated)")
 
                 except Exception as iter_error:
                     print(
@@ -1656,14 +1658,14 @@ async def test_stream_speech_with_voice_settings(voice_id):
                         "total_bytes": total_bytes,
                     }
                 else:
-                    print(f"  ⚠️ No audio data received")
+                    print("  ⚠️ No audio data received")
                     return False, "No audio data received"
             else:
                 print(f"  ❌ Response missing iter_bytes attribute: {type(response)}")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1675,7 +1677,7 @@ async def test_stream_speech_with_voice_settings(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1723,9 +1725,9 @@ async def test_create_speech_mp3(voice_id):
                 with open(output_file, "rb") as f:
                     header = f.read(10)
                     if header[:3] == b"ID3":
-                        print(f"  ✅ Valid MP3 file generated (ID3 tag)")
+                        print("  ✅ Valid MP3 file generated (ID3 tag)")
                     elif header[:2] == b"\xff\xfb" or header[:2] == b"\xff\xfa":
-                        print(f"  ✅ Valid MP3 file generated (MPEG frame)")
+                        print("  ✅ Valid MP3 file generated (MPEG frame)")
                     else:
                         print(
                             f"  📄 MP3 header: {header[:10].hex()} (needs verification)"
@@ -1737,7 +1739,7 @@ async def test_create_speech_mp3(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1749,7 +1751,7 @@ async def test_create_speech_mp3(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1777,7 +1779,7 @@ async def test_create_speech_long_text_mp3(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (exceeds 300)")
-        print(f"  🔧 Auto-chunking enabled for MP3 format")
+        print("  🔧 Auto-chunking enabled for MP3 format")
 
         async with Supertone(api_key=API_KEY) as client:
             print(f"  🔍 Long text MP3 conversion with voice '{voice_id}' (async)...")
@@ -1800,7 +1802,7 @@ async def test_create_speech_long_text_mp3(voice_id):
                 print(
                     f"  ✅ MP3 auto-chunking success: {audio_size} bytes audio generated"
                 )
-                print(f"  🎯 Long text successfully chunked and processed as MP3!")
+                print("  🎯 Long text successfully chunked and processed as MP3!")
 
                 output_file = "test_async_auto_chunking_speech_output.mp3"
                 with open(output_file, "wb") as f:
@@ -1811,7 +1813,7 @@ async def test_create_speech_long_text_mp3(voice_id):
                 print(
                     f"  📊 Estimated chunks: {estimated_chunks} (based on text length)"
                 )
-                print(f"  🔀 Parallel processing applied and merged as MP3")
+                print("  🔀 Parallel processing applied and merged as MP3")
 
                 return True, {
                     "audio_size": audio_size,
@@ -1824,7 +1826,7 @@ async def test_create_speech_long_text_mp3(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1844,7 +1846,7 @@ async def test_create_speech_long_text_mp3(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1890,7 +1892,7 @@ async def test_stream_speech_mp3(voice_id):
                         if chunk_count <= 20:
                             print(f"     Chunk {chunk_count}: {chunk_size} bytes")
                         elif chunk_count == 21:
-                            print(f"     ... (more chunks - log truncated)")
+                            print("     ... (more chunks - log truncated)")
 
                 except Exception as iter_error:
                     print(f"  ⚠️ MP3 streaming error: {str(iter_error)[:100]}...")
@@ -1911,14 +1913,14 @@ async def test_stream_speech_mp3(voice_id):
 
                     return True, f"{chunk_count} chunks, {total_bytes} bytes"
                 else:
-                    print(f"  ⚠️ No audio data received")
+                    print("  ⚠️ No audio data received")
                     return False, "No audio data received"
             else:
                 print(f"  ❌ Response missing iter_bytes attribute: {type(response)}")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1930,7 +1932,7 @@ async def test_stream_speech_mp3(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -1944,8 +1946,9 @@ async def test_stream_speech_long_text_mp3(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
         import base64
+
+        from supertone import Supertone, errors, models
 
         long_text = """
         안녕하세요! 이것은 300자를 초과하는 매우 긴 텍스트를 사용한 MP3 스트리밍 TTS 테스트입니다.
@@ -1960,7 +1963,7 @@ async def test_stream_speech_long_text_mp3(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (exceeds 300)")
-        print(f"  🔧 Auto-chunking + MP3 streaming enabled")
+        print("  🔧 Auto-chunking + MP3 streaming enabled")
 
         async with Supertone(api_key=API_KEY) as client:
             print(f"  🔍 Long text MP3 streaming with voice '{voice_id}' (async)...")
@@ -1999,7 +2002,7 @@ async def test_stream_speech_long_text_mp3(voice_id):
                         if chunk_count <= 20:
                             print(f"     Chunk {chunk_count}: {chunk_size} bytes")
                         elif chunk_count == 21:
-                            print(f"     ... (more chunks - log truncated)")
+                            print("     ... (more chunks - log truncated)")
 
                 except Exception as iter_error:
                     print(
@@ -2036,7 +2039,7 @@ async def test_stream_speech_long_text_mp3(voice_id):
             elif hasattr(response, "result") and isinstance(response.result, str):
                 try:
                     result_data = json.loads(response.result)
-                    print(f"  ✅ Chunked JSON response detected")
+                    print("  ✅ Chunked JSON response detected")
 
                     if "audio_base64" in result_data:
                         audio_data = base64.b64decode(result_data["audio_base64"])
@@ -2055,7 +2058,7 @@ async def test_stream_speech_long_text_mp3(voice_id):
                         print(
                             f"  📊 Estimated chunks: {estimated_chunks} (based on text length)"
                         )
-                        print(f"  🔀 Auto-chunked segments merged as MP3")
+                        print("  🔀 Auto-chunked segments merged as MP3")
 
                         return True, {
                             "total_bytes": total_bytes,
@@ -2064,7 +2067,7 @@ async def test_stream_speech_long_text_mp3(voice_id):
                             "format": "mp3",
                         }
                     else:
-                        print(f"  ❌ audio_base64 key missing")
+                        print("  ❌ audio_base64 key missing")
                         return False, result_data
 
                 except json.JSONDecodeError as e:
@@ -2109,14 +2112,14 @@ async def test_stream_speech_long_text_mp3(voice_id):
                         "format": "mp3",
                     }
                 else:
-                    print(f"  ⚠️ No audio data received")
+                    print("  ⚠️ No audio data received")
                     return False, None
             else:
-                print(f"  ❌ Response structure verification needed")
+                print("  ❌ Response structure verification needed")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please recharge")
+        print("  ❌ Insufficient credits: Please recharge")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -2128,7 +2131,7 @@ async def test_stream_speech_long_text_mp3(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -2142,8 +2145,9 @@ async def test_create_speech_long_text_with_phonemes(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
         import base64
+
+        from supertone import Supertone, errors, models
 
         long_text = """
         안녕하세요! 이것은 300자를 초과하는 매우 긴 텍스트를 사용한 자동 청킹과 Phoneme 정보를 동시에 테스트합니다.
@@ -2229,7 +2233,7 @@ async def test_create_speech_long_text_with_phonemes(voice_id):
                             ) as f:
                                 json.dump(phoneme_data, f, ensure_ascii=False, indent=2)
                             print(
-                                f"\n  💾 Phoneme data saved: test_async_long_chunking_phoneme_data.json"
+                                "\n  💾 Phoneme data saved: test_async_long_chunking_phoneme_data.json"
                             )
                     else:
                         print("  ⚠️ No phoneme information")
@@ -2265,8 +2269,9 @@ async def test_stream_speech_phoneme_chunking_wav(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
         import base64
+
+        from supertone import Supertone, errors, models
 
         long_text = """
         안녕하세요! 이것은 300자를 초과하는 매우 긴 텍스트를 사용한 Phoneme + 스트리밍 테스트입니다.
@@ -2340,7 +2345,7 @@ async def test_stream_speech_phoneme_chunking_wav(voice_id):
                 elif isinstance(response.result, str):
                     try:
                         result_data = json.loads(response.result)
-                        print(f"  ✅ Chunked merged JSON response detected")
+                        print("  ✅ Chunked merged JSON response detected")
 
                         if "audio_base64" in result_data:
                             audio_data = base64.b64decode(result_data["audio_base64"])
@@ -2361,7 +2366,7 @@ async def test_stream_speech_phoneme_chunking_wav(voice_id):
 
                             if "phonemes" in result_data and result_data["phonemes"]:
                                 phonemes = result_data["phonemes"]
-                                print(f"\n  🔤 ===== Merged Phoneme Information =====")
+                                print("\n  🔤 ===== Merged Phoneme Information =====")
                                 print(
                                     f"    - Symbols: {len(phonemes.get('symbols', []))}"
                                 )
@@ -2386,7 +2391,7 @@ async def test_stream_speech_phoneme_chunking_wav(voice_id):
                                     json.dump(phonemes, f, ensure_ascii=False, indent=2)
                                 print(f"  💾 Phoneme data saved: {phoneme_file}")
                             else:
-                                print(f"  ⚠️ No phoneme information")
+                                print("  ⚠️ No phoneme information")
 
                             return True, {
                                 "total_bytes": total_bytes,
@@ -2396,11 +2401,11 @@ async def test_stream_speech_phoneme_chunking_wav(voice_id):
                                 and result_data["phonemes"] is not None,
                             }
                         else:
-                            print(f"  ❌ audio_base64 key missing")
+                            print("  ❌ audio_base64 key missing")
                             return False, result_data
 
                     except json.JSONDecodeError:
-                        print(f"  ❌ JSON parsing failed")
+                        print("  ❌ JSON parsing failed")
                         return False, None
 
                 print("  ⚠️ Unexpected response structure")
@@ -2413,7 +2418,7 @@ async def test_stream_speech_phoneme_chunking_wav(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -2482,7 +2487,9 @@ async def test_create_speech_sona_speech_2_flash(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with sona_speech_2_flash using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with sona_speech_2_flash using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             response = await client.text_to_speech.create_speech_async(
@@ -2529,7 +2536,9 @@ async def test_create_speech_sona_speech_2_with_normalized_text(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with sona_speech_2 + normalized_text using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with sona_speech_2 + normalized_text using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Japanese text with kanji and its reading (hiragana)
@@ -2552,13 +2561,15 @@ async def test_create_speech_sona_speech_2_with_normalized_text(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 audio_size = len(audio_data)
-                print(f"  ✅ sona_speech_2 + normalized_text TTS successful: {audio_size} bytes")
+                print(
+                    f"  ✅ sona_speech_2 + normalized_text TTS successful: {audio_size} bytes"
+                )
 
                 output_file = "test_async_sona_speech_2_normalized_text_output.wav"
                 with open(output_file, "wb") as f:
                     f.write(audio_data)
                 print(f"  💾 Audio saved: {output_file}")
-                print(f"  🎯 The TTS engine used normalized_text for pronunciation!")
+                print("  🎯 The TTS engine used normalized_text for pronunciation!")
 
                 return True, response
             else:
@@ -2575,7 +2586,9 @@ async def test_create_speech_sona_speech_2_with_normalized_text(voice_id):
 
 async def test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id):
     """Test TTS with sona_speech_2_flash model using normalized_text for Japanese pronunciation (Async)"""
-    print("⚡🇯🇵 TTS Test with sona_speech_2_flash Model + normalized_text (Async) (Low Latency)")
+    print(
+        "⚡🇯🇵 TTS Test with sona_speech_2_flash Model + normalized_text (Async) (Low Latency)"
+    )
 
     if not voice_id:
         print("  ⚠️ No voice ID available")
@@ -2585,7 +2598,9 @@ async def test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with sona_speech_2_flash + normalized_text using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with sona_speech_2_flash + normalized_text using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Japanese text with kanji and its reading (hiragana)
@@ -2608,13 +2623,17 @@ async def test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 audio_size = len(audio_data)
-                print(f"  ✅ sona_speech_2_flash + normalized_text TTS successful: {audio_size} bytes")
+                print(
+                    f"  ✅ sona_speech_2_flash + normalized_text TTS successful: {audio_size} bytes"
+                )
 
-                output_file = "test_async_sona_speech_2_flash_normalized_text_output.wav"
+                output_file = (
+                    "test_async_sona_speech_2_flash_normalized_text_output.wav"
+                )
                 with open(output_file, "wb") as f:
                     f.write(audio_data)
                 print(f"  💾 Audio saved: {output_file}")
-                print(f"  🎯 The TTS engine used normalized_text for pronunciation!")
+                print("  🎯 The TTS engine used normalized_text for pronunciation!")
 
                 return True, response
             else:
@@ -2690,7 +2709,7 @@ async def test_create_speech_invalid_model(voice_id):
         from supertone import Supertone, errors, models
 
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Attempting TTS with invalid model 'invalid_model_xyz'...")
+            print("  🔍 Attempting TTS with invalid model 'invalid_model_xyz'...")
 
             response = await client.text_to_speech.create_speech_async(
                 voice_id=voice_id,
@@ -2701,7 +2720,7 @@ async def test_create_speech_invalid_model(voice_id):
                 model="invalid_model_xyz",  # Invalid model
             )
 
-            print(f"  ⚠️ Unexpected: API did not reject invalid model")
+            print("  ⚠️ Unexpected: API did not reject invalid model")
             return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
@@ -2837,7 +2856,7 @@ async def test_predict_duration_invalid_model(voice_id):
 
         async with Supertone(api_key=API_KEY) as client:
             print(
-                f"  🔍 Attempting prediction with invalid model 'invalid_model_xyz'..."
+                "  🔍 Attempting prediction with invalid model 'invalid_model_xyz'..."
             )
 
             response = await client.text_to_speech.predict_duration_async(
@@ -2848,7 +2867,7 @@ async def test_predict_duration_invalid_model(voice_id):
                 model="invalid_model_xyz",  # Invalid model
             )
 
-            print(f"  ⚠️ Unexpected: API did not reject invalid model")
+            print("  ⚠️ Unexpected: API did not reject invalid model")
             return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
@@ -2864,6 +2883,325 @@ async def test_predict_duration_invalid_model(voice_id):
     except Exception as e:
         print(f"  ✅ Error received (expected): {e}")
         return True, e
+
+
+# =============================================================================
+# NEW MODEL TESTS (sona_speech_3t, supertonic_api_3) - 31 language support - Async
+# =============================================================================
+
+
+async def test_create_speech_sona_speech_3t(voice_id):
+    """Test TTS with sona_speech_3t model (Async)"""
+    print("🎤 TTS Test with sona_speech_3t Model (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Converting TTS with sona_speech_3t using voice '{voice_id}'..."
+            )
+            print("  ⚠️ This test will consume credits!")
+
+            response = await client.text_to_speech.create_speech_async(
+                voice_id=voice_id,
+                text="Hello! This is a test with the new sona_speech_3t model.",
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_3T,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                audio_size = len(audio_data)
+                print(f"  ✅ sona_speech_3t TTS successful: {audio_size} bytes")
+
+                output_file = "test_async_sona_speech_3t_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Audio saved: {output_file}")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure error: {type(response)}")
+                return False, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+async def test_create_speech_supertonic_api_3(voice_id):
+    """Test TTS with supertonic_api_3 model (Async)"""
+    print("🎤 TTS Test with supertonic_api_3 Model (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Converting TTS with supertonic_api_3 using voice '{voice_id}'..."
+            )
+            print("  ⚠️ This test will consume credits!")
+
+            response = await client.text_to_speech.create_speech_async(
+                voice_id=voice_id,
+                text="Hello! This is a test with the new supertonic_api_3 model.",
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SUPERTONIC_API_3,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                audio_size = len(audio_data)
+                print(f"  ✅ supertonic_api_3 TTS successful: {audio_size} bytes")
+
+                output_file = "test_async_supertonic_api_3_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Audio saved: {output_file}")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure error: {type(response)}")
+                return False, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+async def test_predict_duration_sona_speech_3t(voice_id):
+    """Test duration prediction with sona_speech_3t model (Async)"""
+    print("⏱️ Duration Prediction Test with sona_speech_3t Model (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Predicting duration with sona_speech_3t using voice '{voice_id}'..."
+            )
+
+            response = await client.text_to_speech.predict_duration_async(
+                voice_id=voice_id,
+                text="Hello! This is a duration prediction test with sona_speech_3t.",
+                language=models.PredictTTSDurationRequestLanguage.EN,
+                style="neutral",
+                model=models.PredictTTSDurationRequestModel.SONA_SPEECH_3T,
+            )
+
+            print(f"  ✅ sona_speech_3t prediction complete: {response} seconds")
+            return True, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+async def test_predict_duration_supertonic_api_3(voice_id):
+    """Test duration prediction with supertonic_api_3 model (Async)"""
+    print("⏱️ Duration Prediction Test with supertonic_api_3 Model (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        async with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Predicting duration with supertonic_api_3 using voice '{voice_id}'..."
+            )
+
+            response = await client.text_to_speech.predict_duration_async(
+                voice_id=voice_id,
+                text="Hello! This is a duration prediction test with supertonic_api_3.",
+                language=models.PredictTTSDurationRequestLanguage.EN,
+                style="neutral",
+                model=models.PredictTTSDurationRequestModel.SUPERTONIC_API_3,
+            )
+
+            print(f"  ✅ supertonic_api_3 prediction complete: {response} seconds")
+            return True, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+# 31 languages supported by sona_speech_3t and supertonic_api_3
+ALL_31_LANGUAGE_SAMPLES = [
+    ("KO", "안녕하세요!"),
+    ("EN", "Hello!"),
+    ("JA", "こんにちは!"),
+    ("BG", "Здравейте!"),
+    ("CS", "Ahoj!"),
+    ("DA", "Hej!"),
+    ("EL", "Γεια σας!"),
+    ("ES", "¡Hola!"),
+    ("ET", "Tere!"),
+    ("FI", "Hei!"),
+    ("HU", "Helló!"),
+    ("IT", "Ciao!"),
+    ("NL", "Hallo!"),
+    ("PL", "Cześć!"),
+    ("PT", "Olá!"),
+    ("RO", "Salut!"),
+    ("AR", "مرحبا!"),
+    ("DE", "Hallo!"),
+    ("FR", "Bonjour!"),
+    ("HI", "नमस्ते!"),
+    ("ID", "Halo!"),
+    ("RU", "Привет!"),
+    ("VI", "Xin chào!"),
+    ("HR", "Bok!"),
+    ("LT", "Labas!"),
+    ("LV", "Sveiki!"),
+    ("SK", "Ahoj!"),
+    ("SL", "Pozdravljeni!"),
+    ("SV", "Hej!"),
+    ("TR", "Merhaba!"),
+    ("UK", "Привіт!"),
+]
+
+
+async def test_create_speech_sona_speech_3t_multilang(voice_id):
+    """Test sona_speech_3t with all 31 supported languages (Async)"""
+    print("🌐 sona_speech_3t Multi-language Test (31 languages) (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        Lang = models.APIConvertTextToSpeechUsingCharacterRequestLanguage
+        test_cases = [
+            (getattr(Lang, name), text) for name, text in ALL_31_LANGUAGE_SAMPLES
+        ]
+
+        all_success = True
+        success_count = 0
+        async with Supertone(api_key=API_KEY) as client:
+            for lang, text in test_cases:
+                print(f"  🔍 Testing {lang.value} with sona_speech_3t...")
+
+                try:
+                    response = await client.text_to_speech.create_speech_async(
+                        voice_id=voice_id,
+                        text=text,
+                        language=lang,
+                        output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                        style="neutral",
+                        model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_3T,
+                    )
+
+                    if hasattr(response, "result") and hasattr(response.result, "read"):
+                        audio_data = response.result.read()
+                        print(f"    ✅ {lang.value}: {len(audio_data)} bytes")
+                        success_count += 1
+                    else:
+                        print(f"    ❌ {lang.value}: Response structure error")
+                        all_success = False
+
+                except errors.SupertoneError as e:
+                    print(f"    ❌ {lang.value}: {e.message}")
+                    all_success = False
+
+        print(f"  📊 Total: {success_count}/{len(test_cases)} languages successful")
+        return (
+            all_success,
+            f"sona_speech_3t multilang async: {success_count}/{len(test_cases)}",
+        )
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+async def test_create_speech_supertonic_api_3_multilang(voice_id):
+    """Test supertonic_api_3 with all 31 supported languages (Async)"""
+    print("🌐 supertonic_api_3 Multi-language Test (31 languages) (Async)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        Lang = models.APIConvertTextToSpeechUsingCharacterRequestLanguage
+        test_cases = [
+            (getattr(Lang, name), text) for name, text in ALL_31_LANGUAGE_SAMPLES
+        ]
+
+        all_success = True
+        success_count = 0
+        async with Supertone(api_key=API_KEY) as client:
+            for lang, text in test_cases:
+                print(f"  🔍 Testing {lang.value} with supertonic_api_3...")
+
+                try:
+                    response = await client.text_to_speech.create_speech_async(
+                        voice_id=voice_id,
+                        text=text,
+                        language=lang,
+                        output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                        style="neutral",
+                        model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SUPERTONIC_API_3,
+                    )
+
+                    if hasattr(response, "result") and hasattr(response.result, "read"):
+                        audio_data = response.result.read()
+                        print(f"    ✅ {lang.value}: {len(audio_data)} bytes")
+                        success_count += 1
+                    else:
+                        print(f"    ❌ {lang.value}: Response structure error")
+                        all_success = False
+
+                except errors.SupertoneError as e:
+                    print(f"    ❌ {lang.value}: {e.message}")
+                    all_success = False
+
+        print(f"  📊 Total: {success_count}/{len(test_cases)} languages successful")
+        return (
+            all_success,
+            f"supertonic_api_3 multilang async: {success_count}/{len(test_cases)}",
+        )
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
 
 
 # =============================================================================
@@ -3081,7 +3419,7 @@ async def test_create_speech_sona_speech_1_unsupported_lang(voice_id):
 
         # sona_speech_1 only supports ko, en, ja - testing with German (de)
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Attempting sona_speech_1 with German (unsupported)...")
+            print("  🔍 Attempting sona_speech_1 with German (unsupported)...")
 
             response = await client.text_to_speech.create_speech_async(
                 voice_id=voice_id,
@@ -3127,7 +3465,7 @@ async def test_create_speech_supertonic_api_1_unsupported_lang(voice_id):
 
         # supertonic_api_1 supports: ko, en, ja, es, pt - testing with German (de)
         async with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Attempting supertonic_api_1 with German (unsupported)...")
+            print("  🔍 Attempting supertonic_api_1 with German (unsupported)...")
 
             response = await client.text_to_speech.create_speech_async(
                 voice_id=voice_id,
@@ -3255,7 +3593,7 @@ async def test_create_speech_long_sentence_word_split(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 if len(audio_data) > 0:
-                    print(f"  ✅ Word-based chunking successful!")
+                    print("  ✅ Word-based chunking successful!")
                     print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                     return True, response
                 else:
@@ -3311,7 +3649,7 @@ async def test_create_speech_japanese_no_spaces(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 if len(audio_data) > 0:
-                    print(f"  ✅ Character-based chunking successful!")
+                    print("  ✅ Character-based chunking successful!")
                     print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                     return True, response
                 else:
@@ -3373,7 +3711,7 @@ async def test_stream_speech_long_sentence_word_split(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming word-based chunking successful!")
+                print("  ✅ Streaming word-based chunking successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                 return True, response
             else:
@@ -3450,10 +3788,10 @@ async def test_create_speech_multilingual_punctuation(voice_id):
                         if len(audio_data) > 0:
                             print(f"     ✅ Success: {len(audio_data):,} bytes")
                         else:
-                            print(f"     ❌ Empty audio data")
+                            print("     ❌ Empty audio data")
                             all_success = False
                     else:
-                        print(f"     ❌ Response structure error")
+                        print("     ❌ Response structure error")
                         all_success = False
 
                 except Exception as e:
@@ -3490,7 +3828,7 @@ async def test_stream_speech_multilingual_punctuation(voice_id):
         )
 
         print(f"  📏 Text length: {len(japanese_text)} characters")
-        print(f"  📝 Contains: 。！？ punctuation marks")
+        print("  📝 Contains: 。！？ punctuation marks")
 
         async with Supertone(api_key=API_KEY) as client:
             print("  🔍 Streaming TTS with Japanese punctuation splitting (async)...")
@@ -3517,7 +3855,7 @@ async def test_stream_speech_multilingual_punctuation(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming multilingual punctuation splitting successful!")
+                print("  ✅ Streaming multilingual punctuation splitting successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                 return True, response
             else:
@@ -3578,7 +3916,7 @@ async def test_stream_speech_japanese_no_spaces(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming character-based chunking successful!")
+                print("  ✅ Streaming character-based chunking successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                 return True, response
             else:
@@ -3604,7 +3942,7 @@ async def test_concurrent_api_calls(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
+        from supertone import Supertone, models
 
         async with Supertone(api_key=API_KEY) as client:
             print("  🔍 Running 5 different API calls concurrently...")
@@ -3634,18 +3972,18 @@ async def test_concurrent_api_calls(voice_id):
             end_time = time.time()
             elapsed_time = end_time - start_time
 
-            print(f"  ✅ All 5 API calls completed!")
+            print("  ✅ All 5 API calls completed!")
             print(f"  ⏱️ Total time: {elapsed_time:.3f}s (parallel execution)")
-            print(f"  🚀 Average time per call: {elapsed_time/5:.3f}s")
+            print(f"  🚀 Average time per call: {elapsed_time / 5:.3f}s")
 
             success_count = sum(1 for r in results if not isinstance(r, Exception))
             print(f"  📊 Success: {success_count}/5 calls")
 
             for i, result in enumerate(results):
                 if isinstance(result, Exception):
-                    print(f"     Call {i+1}: ❌ {type(result).__name__}")
+                    print(f"     Call {i + 1}: ❌ {type(result).__name__}")
                 else:
-                    print(f"     Call {i+1}: ✅ Success")
+                    print(f"     Call {i + 1}: ✅ Success")
 
             return True, {
                 "elapsed_time": elapsed_time,
@@ -3657,7 +3995,7 @@ async def test_concurrent_api_calls(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -3671,7 +4009,7 @@ async def test_parallel_tts_conversion(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
+        from supertone import Supertone, models
 
         texts = [
             "First parallel TTS test.",
@@ -3704,24 +4042,24 @@ async def test_parallel_tts_conversion(voice_id):
 
             print(f"  ✅ All {len(texts)} TTS conversions completed!")
             print(f"  ⏱️ Total time: {elapsed_time:.3f}s (parallel execution)")
-            print(f"  🚀 Average time per conversion: {elapsed_time/len(texts):.3f}s")
+            print(f"  🚀 Average time per conversion: {elapsed_time / len(texts):.3f}s")
 
             success_count = 0
             total_bytes = 0
 
             for i, result in enumerate(results):
                 if isinstance(result, Exception):
-                    print(f"     Text {i+1}: ❌ {type(result).__name__}")
+                    print(f"     Text {i + 1}: ❌ {type(result).__name__}")
                 else:
                     if hasattr(result, "result") and hasattr(result.result, "read"):
                         audio_data = result.result.read()
                         audio_size = len(audio_data)
                         total_bytes += audio_size
                         success_count += 1
-                        print(f"     Text {i+1}: ✅ {audio_size} bytes")
+                        print(f"     Text {i + 1}: ✅ {audio_size} bytes")
 
                         # Save individual files
-                        output_file = f"test_async_parallel_tts_{i+1}.wav"
+                        output_file = f"test_async_parallel_tts_{i + 1}.wav"
                         with open(output_file, "wb") as f:
                             f.write(audio_data)
                         print(f"        💾 Saved: {output_file}")
@@ -3740,7 +4078,7 @@ async def test_parallel_tts_conversion(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -3754,7 +4092,7 @@ async def test_parallel_multiple_voices(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors
+        from supertone import Supertone
 
         async with Supertone(api_key=API_KEY) as client:
             # First, get multiple voices
@@ -3792,16 +4130,16 @@ async def test_parallel_multiple_voices(voice_id):
 
             print(f"  ✅ All {len(voice_ids)} voice predictions completed!")
             print(f"  ⏱️ Total time: {elapsed_time:.3f}s (parallel execution)")
-            print(f"  🚀 Average time per voice: {elapsed_time/len(voice_ids):.3f}s")
+            print(f"  🚀 Average time per voice: {elapsed_time / len(voice_ids):.3f}s")
 
             success_count = 0
             for i, result in enumerate(results):
                 if isinstance(result, Exception):
                     print(
-                        f"     Voice {i+1} ({voice_ids[i][:8]}...): ❌ {type(result).__name__}"
+                        f"     Voice {i + 1} ({voice_ids[i][:8]}...): ❌ {type(result).__name__}"
                     )
                 else:
-                    print(f"     Voice {i+1} ({voice_ids[i][:8]}...): ✅ {result}s")
+                    print(f"     Voice {i + 1} ({voice_ids[i][:8]}...): ✅ {result}s")
                     success_count += 1
 
             print(f"  📊 Success: {success_count}/{len(voice_ids)} predictions")
@@ -3816,7 +4154,7 @@ async def test_parallel_multiple_voices(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -3830,7 +4168,7 @@ async def test_mixed_parallel_operations(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
+        from supertone import Supertone, models
 
         async with Supertone(api_key=API_KEY) as client:
             print("  🔍 Running mixed read/write operations in parallel...")
@@ -3861,7 +4199,7 @@ async def test_mixed_parallel_operations(voice_id):
             end_time = time.time()
             elapsed_time = end_time - start_time
 
-            print(f"  ✅ All mixed operations completed!")
+            print("  ✅ All mixed operations completed!")
             print(f"  ⏱️ Total time: {elapsed_time:.3f}s (parallel execution)")
 
             operation_types = [
@@ -3882,7 +4220,7 @@ async def test_mixed_parallel_operations(voice_id):
 
             print(f"  📊 Success: {success_count}/{len(results)} operations")
             print(
-                f"  💡 Note: Parallel async allows mixing different operation types efficiently!"
+                "  💡 Note: Parallel async allows mixing different operation types efficiently!"
             )
 
             return True, {
@@ -3895,7 +4233,7 @@ async def test_mixed_parallel_operations(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -3918,17 +4256,33 @@ async def test_create_speech_with_pronunciation_dictionary(voice_id):
             # Pronunciation dictionary: mix of partial_match=True and False
             pronunciation_dictionary = [
                 # partial_match=False: only matches standalone "Supertone"
-                {"text": "Supertone", "pronunciation": "Super-tone", "partial_match": False},
+                {
+                    "text": "Supertone",
+                    "pronunciation": "Super-tone",
+                    "partial_match": False,
+                },
                 # partial_match=True: matches "TTS" inside "TTSAPI" as well
-                {"text": "TTS", "pronunciation": "Text-to-Speech", "partial_match": True},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech",
+                    "partial_match": True,
+                },
                 # partial_match=False: exact word boundary match
-                {"text": "Inc", "pronunciation": "Incorporated", "partial_match": False},
+                {
+                    "text": "Inc",
+                    "pronunciation": "Incorporated",
+                    "partial_match": False,
+                },
             ]
 
             print(f"  📝 Original text: {text}")
-            print(f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}")
+            print(
+                f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}"
+            )
             for entry in pronunciation_dictionary:
-                print(f"    - '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})")
+                print(
+                    f"    - '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})"
+                )
             print("  ⚠️ This test consumes credits!")
 
             response = await client.text_to_speech.create_speech_async(
@@ -3943,7 +4297,7 @@ async def test_create_speech_with_pronunciation_dictionary(voice_id):
 
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
-                print(f"  ✅ Pronunciation dictionary TTS successful!")
+                print("  ✅ Pronunciation dictionary TTS successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
 
                 output_file = "test_async_pronunciation_dictionary_output.wav"
@@ -3960,7 +4314,7 @@ async def test_create_speech_with_pronunciation_dictionary(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -3990,26 +4344,48 @@ async def test_create_speech_pronunciation_dictionary_long_text(voice_id):
             # Mix of partial_match=True and False to demonstrate both behaviors
             pronunciation_dictionary = [
                 # partial_match=False: "AI" won't match inside "AIML"
-                {"text": "AI", "pronunciation": "Artificial Intelligence System", "partial_match": False},
+                {
+                    "text": "AI",
+                    "pronunciation": "Artificial Intelligence System",
+                    "partial_match": False,
+                },
                 # partial_match=True: "TTS" will match inside "TTSAPI"
-                {"text": "TTS", "pronunciation": "Text-to-Speech Engine", "partial_match": True},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech Engine",
+                    "partial_match": True,
+                },
                 # partial_match=False: exact word match only
-                {"text": "SDK", "pronunciation": "Software Development Kit", "partial_match": False},
+                {
+                    "text": "SDK",
+                    "pronunciation": "Software Development Kit",
+                    "partial_match": False,
+                },
                 # partial_match=True: "API" will match inside "TTSAPI" (after TTS replaced)
-                {"text": "API", "pronunciation": "Application Programming Interface", "partial_match": True},
+                {
+                    "text": "API",
+                    "pronunciation": "Application Programming Interface",
+                    "partial_match": True,
+                },
             ]
 
             print(f"  📏 Original text length: {len(text)} characters")
-            print(f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}")
+            print(
+                f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}"
+            )
             for entry in pronunciation_dictionary:
                 print(f"    - '{entry['text']}' → '{entry['pronunciation']}'")
 
             # Calculate expanded length
             expanded_text = text
             for entry in pronunciation_dictionary:
-                expanded_text = expanded_text.replace(entry["text"], entry["pronunciation"])
+                expanded_text = expanded_text.replace(
+                    entry["text"], entry["pronunciation"]
+                )
             print(f"  📏 Expanded text length: {len(expanded_text)} characters")
-            print(f"  {'✅' if len(expanded_text) > 300 else '⚠️'} {'Exceeds' if len(expanded_text) > 300 else 'Does not exceed'} 300 chars (auto-chunking threshold)")
+            print(
+                f"  {'✅' if len(expanded_text) > 300 else '⚠️'} {'Exceeds' if len(expanded_text) > 300 else 'Does not exceed'} 300 chars (auto-chunking threshold)"
+            )
             print("  ⚠️ This test consumes credits!")
 
             response = await client.text_to_speech.create_speech_async(
@@ -4024,7 +4400,7 @@ async def test_create_speech_pronunciation_dictionary_long_text(voice_id):
 
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
-                print(f"  ✅ Pronunciation dictionary long text TTS successful!")
+                print("  ✅ Pronunciation dictionary long text TTS successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
 
                 output_file = "test_async_pronunciation_dictionary_long_output.wav"
@@ -4041,7 +4417,7 @@ async def test_create_speech_pronunciation_dictionary_long_text(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -4063,10 +4439,22 @@ async def test_stream_speech_with_pronunciation_dictionary(voice_id):
 
             pronunciation_dictionary = [
                 # partial_match=False: exact word boundary match
-                {"text": "Supertone", "pronunciation": "Super-tone Korea", "partial_match": False},
-                {"text": "AI", "pronunciation": "Artificial Intelligence", "partial_match": False},
+                {
+                    "text": "Supertone",
+                    "pronunciation": "Super-tone Korea",
+                    "partial_match": False,
+                },
+                {
+                    "text": "AI",
+                    "pronunciation": "Artificial Intelligence",
+                    "partial_match": False,
+                },
                 # partial_match=True: matches "TTS" inside "TTSAPI"
-                {"text": "TTS", "pronunciation": "Text-to-Speech", "partial_match": True},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech",
+                    "partial_match": True,
+                },
                 {"text": "API", "pronunciation": "A-P-I", "partial_match": True},
             ]
 
@@ -4096,7 +4484,7 @@ async def test_stream_speech_with_pronunciation_dictionary(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Pronunciation dictionary streaming successful!")
+                print("  ✅ Pronunciation dictionary streaming successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
 
                 output_file = "test_async_pronunciation_dictionary_stream_output.wav"
@@ -4113,7 +4501,7 @@ async def test_stream_speech_with_pronunciation_dictionary(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -4140,22 +4528,42 @@ async def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
 
             pronunciation_dictionary = [
                 # partial_match=False: "AI" won't match inside "AIML" or "AI-powered"
-                {"text": "AI", "pronunciation": "Artificial Intelligence System", "partial_match": False},
+                {
+                    "text": "AI",
+                    "pronunciation": "Artificial Intelligence System",
+                    "partial_match": False,
+                },
                 # partial_match=True: "TTS" matches inside "TTSAPI"
-                {"text": "TTS", "pronunciation": "Text-to-Speech Voice Engine", "partial_match": True},
-                {"text": "SDK", "pronunciation": "Software Development Kit", "partial_match": False},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech Voice Engine",
+                    "partial_match": True,
+                },
+                {
+                    "text": "SDK",
+                    "pronunciation": "Software Development Kit",
+                    "partial_match": False,
+                },
                 # partial_match=True: "API" matches inside "TTSAPI"
-                {"text": "API", "pronunciation": "Application Programming Interface", "partial_match": True},
+                {
+                    "text": "API",
+                    "pronunciation": "Application Programming Interface",
+                    "partial_match": True,
+                },
             ]
 
             print(f"  📏 Original text length: {len(text)} characters")
             for entry in pronunciation_dictionary:
-                print(f"    - '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})")
+                print(
+                    f"    - '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})"
+                )
 
             # Calculate expanded length
             expanded_text = text
             for entry in pronunciation_dictionary:
-                expanded_text = expanded_text.replace(entry["text"], entry["pronunciation"])
+                expanded_text = expanded_text.replace(
+                    entry["text"], entry["pronunciation"]
+                )
             print(f"  📏 Expanded text length: {len(expanded_text)} characters")
             print(f"  ✅ Triggers auto-chunking: {len(expanded_text) > 300}")
             print("  ⚠️ This test consumes credits!")
@@ -4182,10 +4590,12 @@ async def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Pronunciation dictionary long text streaming successful!")
+                print("  ✅ Pronunciation dictionary long text streaming successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
 
-                output_file = "test_async_pronunciation_dictionary_stream_long_output.wav"
+                output_file = (
+                    "test_async_pronunciation_dictionary_stream_long_output.wav"
+                )
                 with open(output_file, "wb") as f:
                     f.write(audio_data)
                 print(f"  💾 Saved: {output_file}")
@@ -4199,7 +4609,7 @@ async def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
         import traceback
 
         print(f"  ❌ Unexpected error: {e}")
-        print(f"  📋 Traceback:")
+        print("  📋 Traceback:")
         traceback.print_exc()
         return False, e
 
@@ -4346,7 +4756,9 @@ async def main():
         test_results["stream_speech_phoneme_chunking_wav_async"] = success
 
         # 9. New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1)
-        print("\n6️⃣ New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1) (Async)")
+        print(
+            "\n6️⃣ New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1) (Async)"
+        )
 
         # TTS with sona_speech_2
         success, result = await test_create_speech_sona_speech_2(voice_id_for_tts)
@@ -4357,12 +4769,21 @@ async def main():
         test_results["create_speech_sona_speech_2_flash_async"] = success
 
         # TTS with sona_speech_2 + normalized_text (Japanese pronunciation)
-        success, result = await test_create_speech_sona_speech_2_with_normalized_text(voice_id_for_tts)
+        success, result = await test_create_speech_sona_speech_2_with_normalized_text(
+            voice_id_for_tts
+        )
         test_results["create_speech_sona_speech_2_with_normalized_text_async"] = success
 
         # TTS with sona_speech_2_flash + normalized_text (Japanese pronunciation)
-        success, result = await test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id_for_tts)
-        test_results["create_speech_sona_speech_2_flash_with_normalized_text_async"] = success
+        (
+            success,
+            result,
+        ) = await test_create_speech_sona_speech_2_flash_with_normalized_text(
+            voice_id_for_tts
+        )
+        test_results["create_speech_sona_speech_2_flash_with_normalized_text_async"] = (
+            success
+        )
 
         # TTS with supertonic_api_1
         success, result = await test_create_speech_supertonic_api_1(voice_id_for_tts)
@@ -4377,7 +4798,9 @@ async def main():
         test_results["predict_duration_sona_speech_2_async"] = success
 
         # Duration prediction with sona_speech_2_flash
-        success, result = await test_predict_duration_sona_speech_2_flash(voice_id_for_tts)
+        success, result = await test_predict_duration_sona_speech_2_flash(
+            voice_id_for_tts
+        )
         test_results["predict_duration_sona_speech_2_flash_async"] = success
 
         success, result = await test_predict_duration_supertonic_api_1(voice_id_for_tts)
@@ -4386,6 +4809,21 @@ async def main():
         # Invalid model prediction test
         success, result = await test_predict_duration_invalid_model(voice_id_for_tts)
         test_results["predict_duration_invalid_model_async"] = success
+
+        # New Model Tests v3 (sona_speech_3t, supertonic_api_3) - 31 language support
+        print("\n6️⃣.5 New Model Tests v3 (sona_speech_3t, supertonic_api_3) (Async)")
+
+        success, result = await test_create_speech_sona_speech_3t(voice_id_for_tts)
+        test_results["create_speech_sona_speech_3t_async"] = success
+
+        success, result = await test_create_speech_supertonic_api_3(voice_id_for_tts)
+        test_results["create_speech_supertonic_api_3_async"] = success
+
+        success, result = await test_predict_duration_sona_speech_3t(voice_id_for_tts)
+        test_results["predict_duration_sona_speech_3t_async"] = success
+
+        success, result = await test_predict_duration_supertonic_api_3(voice_id_for_tts)
+        test_results["predict_duration_supertonic_api_3_async"] = success
 
         # 10. Multi-language Tests by Model
         print("\n7️⃣ Multi-language Tests by Model (Async)")
@@ -4407,6 +4845,18 @@ async def main():
             voice_id_for_tts
         )
         test_results["create_speech_supertonic_api_1_multilang_async"] = success
+
+        # sona_speech_3t multilang (all 31 languages)
+        success, result = await test_create_speech_sona_speech_3t_multilang(
+            voice_id_for_tts
+        )
+        test_results["create_speech_sona_speech_3t_multilang_async"] = success
+
+        # supertonic_api_3 multilang (all 31 languages)
+        success, result = await test_create_speech_supertonic_api_3_multilang(
+            voice_id_for_tts
+        )
+        test_results["create_speech_supertonic_api_3_multilang_async"] = success
 
         # Unsupported language error tests
         success, result = await test_create_speech_sona_speech_1_unsupported_lang(
@@ -4600,11 +5050,11 @@ async def main():
     if created_custom_voice_id:
         print(f"\n🎨 Custom voice created during test: {created_custom_voice_id}")
 
-    print(f"\n💡 Async Advantages Demonstrated:")
-    print(f"  • All tests use async/await for non-blocking I/O")
-    print(f"  • Concurrent tests showcase parallel API call capabilities")
-    print(f"  • Significantly faster than sync when running multiple operations")
-    print(f"  • Perfect for web servers, real-time apps, and batch processing")
+    print("\n💡 Async Advantages Demonstrated:")
+    print("  • All tests use async/await for non-blocking I/O")
+    print("  • Concurrent tests showcase parallel API call capabilities")
+    print("  • Significantly faster than sync when running multiple operations")
+    print("  • Perfect for web servers, real-time apps, and batch processing")
 
     return passed == total
 

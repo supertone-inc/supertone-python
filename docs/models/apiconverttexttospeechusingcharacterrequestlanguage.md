@@ -30,3 +30,11 @@ The language code of the text
 | `ID`  | id    |
 | `RU`  | ru    |
 | `VI`  | vi    |
+| `HR`  | hr    |
+| `LT`  | lt    |
+| `LV`  | lv    |
+| `SK`  | sk    |
+| `SL`  | sl    |
+| `SV`  | sv    |
+| `TR`  | tr    |
+| `UK`  | uk    |

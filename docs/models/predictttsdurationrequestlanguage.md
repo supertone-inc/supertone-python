@@ -30,3 +30,11 @@ Language code of the voice
 | `ID`  | id    |
 | `RU`  | ru    |
 | `VI`  | vi    |
+| `HR`  | hr    |
+| `LT`  | lt    |
+| `LV`  | lv    |
+| `SK`  | sk    |
+| `SL`  | sl    |
+| `SV`  | sv    |
+| `TR`  | tr    |
+| `UK`  | uk    |

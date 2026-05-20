@@ -37,6 +37,14 @@ class PredictTTSDurationRequestLanguage(str, Enum):
     ID = "id"
     RU = "ru"
     VI = "vi"
+    HR = "hr"
+    LT = "lt"
+    LV = "lv"
+    SK = "sk"
+    SL = "sl"
+    SV = "sv"
+    TR = "tr"
+    UK = "uk"
 
 
 class PredictTTSDurationRequestModel(str, Enum):
@@ -47,6 +55,8 @@ class PredictTTSDurationRequestModel(str, Enum):
     SONA_SPEECH_2T = "sona_speech_2t"
     SONA_SPEECH_2_FLASH = "sona_speech_2_flash"
     SUPERTONIC_API_1 = "supertonic_api_1"
+    SONA_SPEECH_3T = "sona_speech_3t"
+    SUPERTONIC_API_3 = "supertonic_api_3"
 
 
 class PredictTTSDurationRequestOutputFormat(str, Enum):

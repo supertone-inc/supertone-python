@@ -37,6 +37,14 @@ class APIConvertTextToSpeechUsingCharacterRequestLanguage(str, Enum):
     ID = "id"
     RU = "ru"
     VI = "vi"
+    HR = "hr"
+    LT = "lt"
+    LV = "lv"
+    SK = "sk"
+    SL = "sl"
+    SV = "sv"
+    TR = "tr"
+    UK = "uk"
 
 
 class APIConvertTextToSpeechUsingCharacterRequestModel(str, Enum):
@@ -44,9 +52,11 @@ class APIConvertTextToSpeechUsingCharacterRequestModel(str, Enum):
 
     SONA_SPEECH_1 = "sona_speech_1"
     SONA_SPEECH_2 = "sona_speech_2"
-    SONA_SPEECH_2_FLASH = "sona_speech_2_flash"
     SONA_SPEECH_2T = "sona_speech_2t"
+    SONA_SPEECH_2_FLASH = "sona_speech_2_flash"
     SUPERTONIC_API_1 = "supertonic_api_1"
+    SONA_SPEECH_3T = "sona_speech_3t"
+    SUPERTONIC_API_3 = "supertonic_api_3"
 
 
 class APIConvertTextToSpeechUsingCharacterRequestOutputFormat(str, Enum):

@@ -3,12 +3,13 @@
 Real API Integration Test Script
 Tests all SDK functionality with real Supertone API calls.
 """
-import sys
-import os
-import json
+
 import base64
-from datetime import datetime, timedelta
+import json
+import os
+import sys
 import time
+from datetime import datetime, timedelta
 
 # Load environment variables from .env file
 try:
@@ -52,7 +53,7 @@ def test_credit_balance():
             return True, response
 
     except errors.UnauthorizedErrorResponse as e:
-        print(f"  ❌ Authentication failed: Invalid API key")
+        print("  ❌ Authentication failed: Invalid API key")
         print(f"     Status code: {e.status_code}")
         return False, e
     except errors.SupertoneError as e:
@@ -188,7 +189,7 @@ def test_list_voices():
             # Display first voice information
             if response.items:
                 first_voice = response.items[0]
-                print(f"  🎤 First voice:")
+                print("  🎤 First voice:")
                 print(f"     ID: {first_voice.voice_id}")
                 print(f"     Name: {first_voice.name}")
                 print(f"     Description: {first_voice.description[:50]}...")
@@ -201,7 +202,7 @@ def test_list_voices():
                 return True, (response, None)
 
     except errors.UnauthorizedErrorResponse as e:
-        print(f"  ❌ Authentication failed: Invalid API key")
+        print("  ❌ Authentication failed: Invalid API key")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -260,7 +261,7 @@ def test_get_voice(voice_id):
 
             response = client.voices.get_voice(voice_id=voice_id)
 
-            print(f"  ✅ Query successful:")
+            print("  ✅ Query successful:")
             print(f"     Name: {response.name}")
             print(f"     ID: {response.voice_id}")
             print(f"     Description: {response.description}")
@@ -356,7 +357,7 @@ def test_get_custom_voice(voice_id):
 
             response = client.custom_voices.get_custom_voice(voice_id=voice_id)
 
-            print(f"  ✅ Query successful:")
+            print("  ✅ Query successful:")
             print(f"     Name: {response.name}")
             print(f"     ID: {response.voice_id}")
             print(f"     Description: {response.description}")
@@ -389,10 +390,10 @@ def test_create_cloned_voice():
     file_size = os.path.getsize(audio_file_path)
     max_size = 3 * 1024 * 1024  # 3MB
 
-    print(f"  📏 File size: {file_size:,} bytes ({file_size/1024/1024:.2f} MB)")
+    print(f"  📏 File size: {file_size:,} bytes ({file_size / 1024 / 1024:.2f} MB)")
 
     if file_size > max_size:
-        print(f"  ❌ File size exceeds 3MB: {file_size/1024/1024:.2f} MB")
+        print(f"  ❌ File size exceeds 3MB: {file_size / 1024 / 1024:.2f} MB")
         return False, None
 
     try:
@@ -404,7 +405,7 @@ def test_create_cloned_voice():
             voice_name = f"Test Sample Voice {timestamp}"
             voice_description = f"Test custom voice created at {timestamp}"
 
-            print(f"  🔍 Creating custom voice...")
+            print("  🔍 Creating custom voice...")
             print(f"     File: {audio_file_path}")
             print(f"     Name: {voice_name}")
             print(f"     Description: {voice_description}")
@@ -428,20 +429,20 @@ def test_create_cloned_voice():
                     description=voice_description,
                 )
 
-            print(f"  ✅ Custom voice creation request successful!")
+            print("  ✅ Custom voice creation request successful!")
             print(f"     Voice ID: {response.voice_id}")
             print(f"     Status: {getattr(response, 'status', 'Unknown')}")
 
             return True, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.PayloadTooLargeErrorResponse as e:
-        print(f"  ❌ File size exceeded: File is too large (exceeds 3MB)")
+        print("  ❌ File size exceeded: File is too large (exceeds 3MB)")
         return False, e
     except errors.UnsupportedMediaTypeErrorResponse as e:
-        print(f"  ❌ Unsupported file format: Please use WAV or MP3 file")
+        print("  ❌ Unsupported file format: Please use WAV or MP3 file")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -478,7 +479,7 @@ def test_edit_custom_voice(voice_id):
                 description=test_description,
             )
 
-            print(f"  ✅ Update successful:")
+            print("  ✅ Update successful:")
             print(f"     Updated name: {response.name}")
             print(f"     Updated description: {response.description}")
 
@@ -514,7 +515,7 @@ def test_delete_custom_voice(voice_id):
 
             response = client.custom_voices.delete_custom_voice(voice_id=voice_id)
 
-            print(f"  ✅ Deletion successful:")
+            print("  ✅ Deletion successful:")
             print(f"     Response: {response}")
 
             return True, response
@@ -613,7 +614,7 @@ def test_create_speech(voice_id):
                 with open(output_file, "rb") as f:
                     header = f.read(12)
                     if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                        print(f"  ✅ Valid WAV file generated")
+                        print("  ✅ Valid WAV file generated")
                     else:
                         print(f"  ⚠️ WAV header needs verification: {header[:12]}")
 
@@ -623,7 +624,7 @@ def test_create_speech(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -660,7 +661,7 @@ def test_create_speech_long_text(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (over 300)")
-        print(f"  🔧 Auto-chunking enabled, text will be automatically split")
+        print("  🔧 Auto-chunking enabled, text will be automatically split")
 
         with Supertone(api_key=API_KEY) as client:
             print(f"  🔍 Converting auto-chunking TTS with voice '{voice_id}'...")
@@ -684,7 +685,7 @@ def test_create_speech_long_text(voice_id):
                 print(
                     f"  ✅ Auto-chunking TTS conversion successful: {audio_size} bytes audio generated"
                 )
-                print(f"  🎯 Long text successfully chunked and processed!")
+                print("  🎯 Long text successfully chunked and processed!")
 
                 output_file = "test_auto_chunking_speech_output.wav"
                 with open(output_file, "wb") as f:
@@ -698,7 +699,7 @@ def test_create_speech_long_text(voice_id):
                 with open(output_file, "rb") as f:
                     header = f.read(12)
                     if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                        print(f"  ✅ Valid auto-chunking WAV file generated")
+                        print("  ✅ Valid auto-chunking WAV file generated")
                     else:
                         print(f"  ⚠️ WAV header needs verification: {header[:12]}")
 
@@ -708,7 +709,7 @@ def test_create_speech_long_text(voice_id):
                     f"  📊 Estimated chunk count: {estimated_chunks} (based on text length)"
                 )
                 print(
-                    f"  🔀 Each chunk processed concurrently through parallel processing"
+                    "  🔀 Each chunk processed concurrently through parallel processing"
                 )
 
                 return True, {
@@ -739,7 +740,7 @@ def test_create_speech_long_text(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -818,7 +819,7 @@ def test_stream_speech(voice_id):
                         if chunk_count <= 20:
                             print(f"     Chunk {chunk_count}: {chunk_size} bytes")
                         elif chunk_count == 21:
-                            print(f"     ... (more chunks - logs omitted)")
+                            print("     ... (more chunks - logs omitted)")
                         elif chunk_count % 50 == 0:
                             print(
                                 f"     Chunk {chunk_count}: {chunk_size} bytes (in progress...)"
@@ -860,20 +861,20 @@ def test_stream_speech(voice_id):
                     with open(output_file, "rb") as f:
                         header = f.read(12)
                         if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                            print(f"  ✅ Valid streaming WAV file generated")
+                            print("  ✅ Valid streaming WAV file generated")
                         else:
                             print(f"  📄 File header: {header[:12]} (may not be WAV)")
 
                     return True, f"{chunk_count} chunks, {total_bytes} bytes"
                 else:
-                    print(f"  ⚠️ No audio data received")
+                    print("  ⚠️ No audio data received")
                     return False, "No audio data received"
             else:
                 print(f"  ❌ Response missing iter_bytes attribute: {type(response)}")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -911,7 +912,7 @@ def test_stream_speech_long_text(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (over 300)")
-        print(f"  🔧 Auto-chunking + WAV streaming enabled")
+        print("  🔧 Auto-chunking + WAV streaming enabled")
 
         with Supertone(api_key=API_KEY) as client:
             print(
@@ -939,10 +940,9 @@ def test_stream_speech_long_text(voice_id):
             # Handle new JSON format response (chunked case)
             if hasattr(response, "result") and isinstance(response.result, str):
                 try:
-
                     # Parse JSON
                     result_data = json.loads(response.result)
-                    print(f"  ✅ Detected chunked JSON response")
+                    print("  ✅ Detected chunked JSON response")
                     print(f"  🔍 JSON keys: {list(result_data.keys())}")
 
                     if "audio_base64" in result_data:
@@ -990,7 +990,7 @@ def test_stream_speech_long_text(voice_id):
                             header = f.read(12)
                             if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
                                 print(
-                                    f"  ✅ Valid long text WAV streaming file generated"
+                                    "  ✅ Valid long text WAV streaming file generated"
                                 )
                             else:
                                 print(
@@ -1000,7 +1000,7 @@ def test_stream_speech_long_text(voice_id):
                         # Check Phoneme information
                         if "phonemes" in result_data and result_data["phonemes"]:
                             phonemes = result_data["phonemes"]
-                            print(f"  🔤 Phoneme information included:")
+                            print("  🔤 Phoneme information included:")
                             print(
                                 f"    - Symbol count: {len(phonemes.get('symbols', []))}"
                             )
@@ -1018,7 +1018,7 @@ def test_stream_speech_long_text(voice_id):
                         print(
                             f"  📊 Estimated text chunk count: {estimated_chunks} (based on text length)"
                         )
-                        print(f"  🔀 Auto-chunked segments merged and processed as WAV")
+                        print("  🔀 Auto-chunked segments merged and processed as WAV")
 
                         return True, {
                             "total_bytes": total_bytes,
@@ -1088,7 +1088,7 @@ def test_stream_speech_long_text(voice_id):
                     if streaming_time > 0:
                         throughput = total_bytes / streaming_time
                         print(f"  🚀 Average throughput: {throughput:.0f} bytes/sec")
-                    print(f"  🔧 Additional processing time due to auto-chunking")
+                    print("  🔧 Additional processing time due to auto-chunking")
 
                 # Save file
                 if audio_chunks and total_bytes > 0:
@@ -1111,7 +1111,7 @@ def test_stream_speech_long_text(voice_id):
                 return False, None
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1215,7 +1215,7 @@ def test_create_speech_with_phonemes(voice_id):
             return True, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1300,14 +1300,14 @@ def test_stream_speech_with_phonemes(voice_id):
                                 audio_chunks.append(audio_data)
                                 audio_chunks_count += 1
                                 print(
-                                    f"     Chunk {i+1}: {len(audio_data)} bytes audio data"
+                                    f"     Chunk {i + 1}: {len(audio_data)} bytes audio data"
                                 )
 
                             # Handle phoneme data - collect from all chunks
                             if chunk_data.get("phonemes") and chunk_data["phonemes"]:
                                 chunk_phonemes = chunk_data["phonemes"]
                                 phoneme_chunks_count += 1
-                                print(f"     Chunk {i+1}: Phoneme data found!")
+                                print(f"     Chunk {i + 1}: Phoneme data found!")
                                 print(
                                     f"       Symbol count: {len(chunk_phonemes.get('symbols', []))}"
                                 )
@@ -1377,16 +1377,16 @@ def test_stream_speech_with_phonemes(voice_id):
                                         f"       Chunk duration: {chunk_duration:.3f}s (Streaming NDJSON)"
                                     )
                             else:
-                                print(f"     Chunk {i+1}: No phoneme data")
+                                print(f"     Chunk {i + 1}: No phoneme data")
 
                         except json.JSONDecodeError as e:
                             print(
-                                f"     Chunk {i+1}: JSON parsing failed - {str(e)[:50]}..."
+                                f"     Chunk {i + 1}: JSON parsing failed - {str(e)[:50]}..."
                             )
                             continue
 
                 # Display statistics
-                print(f"\n  📊 ===== Chunking Statistics =====")
+                print("\n  📊 ===== Chunking Statistics =====")
                 print(f"    - Total JSON chunks: {len(json_chunks)}")
                 print(f"    - Audio chunks: {audio_chunks_count}")
                 print(f"    - Phoneme chunks: {phoneme_chunks_count}")
@@ -1399,7 +1399,7 @@ def test_stream_speech_with_phonemes(voice_id):
                     total_audio_bytes = sum(len(chunk) for chunk in audio_chunks)
                     print(f"    - Total audio data: {total_audio_bytes} bytes")
                     for i, chunk in enumerate(audio_chunks):
-                        print(f"      Chunk {i+1}: {len(chunk)} bytes")
+                        print(f"      Chunk {i + 1}: {len(chunk)} bytes")
 
                 # Text length information
                 original_text = "Hello world! This is a phoneme streaming test with timing information."
@@ -1411,7 +1411,7 @@ def test_stream_speech_with_phonemes(voice_id):
 
                 # Display detailed merged phoneme data
                 if phoneme_data:
-                    print(f"  🔤 ===== Merged Phoneme Data Details =====")
+                    print("  🔤 ===== Merged Phoneme Data Details =====")
                     symbols = phoneme_data.get("symbols", [])
                     durations = phoneme_data.get("durations_seconds", [])
                     start_times = phoneme_data.get("start_times_seconds", [])
@@ -1429,7 +1429,7 @@ def test_stream_speech_with_phonemes(voice_id):
 
                     # Display first 10 phoneme samples
                     if len(symbols) > 0:
-                        print(f"\n  🔤 Phoneme samples (first 10):")
+                        print("\n  🔤 Phoneme samples (first 10):")
                         for i in range(min(10, len(symbols))):
                             symbol = symbols[i]
                             duration = durations[i] if i < len(durations) else "N/A"
@@ -1437,7 +1437,7 @@ def test_stream_speech_with_phonemes(voice_id):
                                 start_times[i] if i < len(start_times) else "N/A"
                             )
                             print(
-                                f"    [{i+1:2d}] '{symbol}' | {duration}s | start: {start_time}s"
+                                f"    [{i + 1:2d}] '{symbol}' | {duration}s | start: {start_time}s"
                             )
 
                         if len(symbols) > 10:
@@ -1468,7 +1468,7 @@ def test_stream_speech_with_phonemes(voice_id):
                     with open(output_file, "rb") as f:
                         header = f.read(44)  # Read entire WAV header
                         if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                            print(f"  ✅ Valid WAV file with phonemes generated")
+                            print("  ✅ Valid WAV file with phonemes generated")
 
                             # Extract WAV file information
                             try:
@@ -1479,7 +1479,7 @@ def test_stream_speech_with_phonemes(voice_id):
                                 data_size = file_size - 44  # Data size excluding header
                                 audio_duration = data_size / byte_rate
 
-                                print(f"  🎵 Audio information:")
+                                print("  🎵 Audio information:")
                                 print(f"    - Sample rate: {sample_rate} Hz")
                                 print(f"    - Channels: {channels}")
                                 print(f"    - Bit depth: {bits_per_sample} bits")
@@ -1523,7 +1523,7 @@ def test_stream_speech_with_phonemes(voice_id):
 
                                     if time_diff > 0.5:
                                         print(
-                                            f"    ⚠️ Audio and phoneme time mismatch detected!"
+                                            "    ⚠️ Audio and phoneme time mismatch detected!"
                                         )
 
                             except Exception as e:
@@ -1555,13 +1555,13 @@ def test_stream_speech_with_phonemes(voice_id):
                 return False, "Binary streaming not implemented for phonemes"
 
             else:
-                print(f"  🔍 Result details:")
+                print("  🔍 Result details:")
                 print(f"     Type: {type(response.result)}")
                 print(f"     Value (first 500 chars): {str(response.result)[:500]}...")
                 return False, f"Unexpected result type: {type(response.result)}"
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1686,7 +1686,7 @@ def test_create_speech_with_voice_settings(voice_id):
                 with open(output_file, "rb") as f:
                     header = f.read(12)
                     if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                        print(f"  ✅ Valid Voice Settings WAV file generated")
+                        print("  ✅ Valid Voice Settings WAV file generated")
                     else:
                         print(f"  ⚠️ WAV header needs verification: {header[:12]}")
 
@@ -1696,7 +1696,7 @@ def test_create_speech_with_voice_settings(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1718,9 +1718,10 @@ def test_stream_speech_with_voice_settings(voice_id):
         return False, None
 
     try:
-        from supertone import Supertone, errors, models
-        import json
         import base64
+        import json
+
+        from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
             print(
@@ -1775,7 +1776,7 @@ def test_stream_speech_with_voice_settings(voice_id):
                         if chunk_count <= 15:
                             print(f"     Chunk {chunk_count}: {chunk_size} bytes")
                         elif chunk_count == 16:
-                            print(f"     ... (more chunks - log omitted)")
+                            print("     ... (more chunks - log omitted)")
                         elif chunk_count % 25 == 0:
                             print(
                                 f"     Chunk {chunk_count}: {chunk_size} bytes (in progress...)"
@@ -1809,7 +1810,7 @@ def test_stream_speech_with_voice_settings(voice_id):
                         header = f.read(12)
                         if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
                             print(
-                                f"  ✅ Valid Voice Settings streaming WAV file generated"
+                                "  ✅ Valid Voice Settings streaming WAV file generated"
                             )
                         else:
                             print(f"  📄 File header: {header[:12]} (may not be WAV)")
@@ -1820,7 +1821,7 @@ def test_stream_speech_with_voice_settings(voice_id):
                         "streaming_type": "binary",
                     }
                 else:
-                    print(f"  ⚠️ No received audio data")
+                    print("  ⚠️ No received audio data")
                     return False, "No audio data received"
 
             # Handle JSON streaming data if result is a string (when Phoneme is included)
@@ -1848,12 +1849,12 @@ def test_stream_speech_with_voice_settings(voice_id):
                                 )
                                 audio_chunks.append(audio_data)
                                 print(
-                                    f"     Chunk {i+1}: {len(audio_data)} bytes audio data"
+                                    f"     Chunk {i + 1}: {len(audio_data)} bytes audio data"
                                 )
 
                         except json.JSONDecodeError as e:
                             print(
-                                f"     Chunk {i+1}: JSON parsing failed - {str(e)[:50]}..."
+                                f"     Chunk {i + 1}: JSON parsing failed - {str(e)[:50]}..."
                             )
                             continue
 
@@ -1882,7 +1883,7 @@ def test_stream_speech_with_voice_settings(voice_id):
                         header = f.read(12)
                         if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
                             print(
-                                f"  ✅ Valid Voice Settings streaming WAV file generated"
+                                "  ✅ Valid Voice Settings streaming WAV file generated"
                             )
                         else:
                             print(f"  📄 File header: {header[:12]} (may not be WAV)")
@@ -1898,7 +1899,7 @@ def test_stream_speech_with_voice_settings(voice_id):
                     return False, "No audio data in JSON chunks"
 
             else:
-                print(f"  🔍 Result details:")
+                print("  🔍 Result details:")
                 print(
                     f"     Type: {type(response.result) if hasattr(response, 'result') else 'No result'}"
                 )
@@ -1935,7 +1936,7 @@ def test_stream_speech_with_voice_settings(voice_id):
                 )
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -1998,9 +1999,9 @@ def test_create_speech_mp3(voice_id):
                     header = f.read(10)
                     # Verify MP3 file (ID3 tag or MPEG frame header)
                     if header[:3] == b"ID3":
-                        print(f"  ✅ Valid MP3 file generated (with ID3 tag)")
+                        print("  ✅ Valid MP3 file generated (with ID3 tag)")
                     elif header[:2] == b"\xff\xfb" or header[:2] == b"\xff\xfa":
-                        print(f"  ✅ Valid MP3 file generated (MPEG frame)")
+                        print("  ✅ Valid MP3 file generated (MPEG frame)")
                     else:
                         print(
                             f"  📄 MP3 header: {header[:10].hex()} (needs verification)"
@@ -2026,7 +2027,7 @@ def test_create_speech_mp3(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -2063,8 +2064,8 @@ def test_create_speech_long_text_mp3(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (exceeds 300 chars)")
-        print(f"  🔧 Auto-chunking feature activated, text will be split automatically")
-        print(f"  🎵 Output will be in MP3 format")
+        print("  🔧 Auto-chunking feature activated, text will be split automatically")
+        print("  🎵 Output will be in MP3 format")
 
         with Supertone(api_key=API_KEY) as client:
             print(f"  🔍 MP3 using voice '{voice_id}' auto-chunking converting TTS...")
@@ -2088,7 +2089,7 @@ def test_create_speech_long_text_mp3(voice_id):
                 print(
                     f"  ✅ MP3 auto-chunking TTS conversion successful: {audio_size} bytes audio generated"
                 )
-                print(f"  🎯 Long text successfully chunked and processed as MP3!")
+                print("  🎯 Long text successfully chunked and processed as MP3!")
 
                 output_file = "test_auto_chunking_speech_output.mp3"
                 with open(output_file, "wb") as f:
@@ -2106,11 +2107,11 @@ def test_create_speech_long_text_mp3(voice_id):
                     # Verify MP3 file
                     if header[:3] == b"ID3":
                         print(
-                            f"  ✅ Valid MP3 auto-chunking file generated (with ID3 tag)"
+                            "  ✅ Valid MP3 auto-chunking file generated (with ID3 tag)"
                         )
                     elif header[:2] == b"\xff\xfb" or header[:2] == b"\xff\xfa":
                         print(
-                            f"  ✅ Valid MP3 auto-chunking file generated (MPEG frame)"
+                            "  ✅ Valid MP3 auto-chunking file generated (MPEG frame)"
                         )
                     else:
                         print(
@@ -2123,7 +2124,7 @@ def test_create_speech_long_text_mp3(voice_id):
                     f"  📊 Estimated chunk count: {estimated_chunks} items (based on text length)"
                 )
                 print(
-                    f"  🔀 Each chunk processed simultaneously through parallel processing and merged into MP3"
+                    "  🔀 Each chunk processed simultaneously through parallel processing and merged into MP3"
                 )
 
                 return True, {
@@ -2159,7 +2160,7 @@ def test_create_speech_long_text_mp3(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -2229,7 +2230,7 @@ def test_stream_speech_mp3(voice_id):
                         if chunk_count <= 20:
                             print(f"     Chunk {chunk_count}: {chunk_size} bytes")
                         elif chunk_count == 21:
-                            print(f"     ... (more chunks - log omitted)")
+                            print("     ... (more chunks - log omitted)")
                         elif chunk_count % 50 == 0:
                             print(
                                 f"     Chunk {chunk_count}: {chunk_size} bytes (in progress...)"
@@ -2260,11 +2261,11 @@ def test_stream_speech_mp3(voice_id):
                         header = f.read(10)
                         if header[:3] == b"ID3":
                             print(
-                                f"  ✅ Valid MP3 streaming file generated (with ID3 tag)"
+                                "  ✅ Valid MP3 streaming file generated (with ID3 tag)"
                             )
                         elif header[:2] == b"\xff\xfb" or header[:2] == b"\xff\xfa":
                             print(
-                                f"  ✅ Valid MP3 streaming file generated (MPEG frame)"
+                                "  ✅ Valid MP3 streaming file generated (MPEG frame)"
                             )
                         else:
                             print(
@@ -2273,14 +2274,14 @@ def test_stream_speech_mp3(voice_id):
 
                     return True, f"{chunk_count} chunks, {total_bytes} bytes"
                 else:
-                    print(f"  ⚠️ No received audio data")
+                    print("  ⚠️ No received audio data")
                     return False, "No audio data received"
             else:
                 print(f"  ❌ Response missing iter_bytes attribute: {type(response)}")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -2318,7 +2319,7 @@ def test_stream_speech_long_text_mp3(voice_id):
 
         actual_length = len(long_text)
         print(f"  📏 Test text length: {actual_length} characters (exceeds 300 chars)")
-        print(f"  🔧 auto-chunking + MP3 streaming feature activated")
+        print("  🔧 auto-chunking + MP3 streaming feature activated")
 
         with Supertone(api_key=API_KEY) as client:
             print(
@@ -2343,12 +2344,12 @@ def test_stream_speech_long_text_mp3(voice_id):
             # Process new JSON format response (chunked case)
             if hasattr(response, "result") and isinstance(response.result, str):
                 try:
-                    import json
                     import base64
+                    import json
 
                     # Parse JSON
                     result_data = json.loads(response.result)
-                    print(f"  ✅ Chunked JSON response detected")
+                    print("  ✅ Chunked JSON response detected")
                     print(f"  🔍 JSON keys: {list(result_data.keys())}")
 
                     if "audio_base64" in result_data:
@@ -2376,11 +2377,11 @@ def test_stream_speech_long_text_mp3(voice_id):
                             header = f.read(10)
                             if header[:3] == b"ID3":
                                 print(
-                                    f"  ✅ Valid MP3 Long text streaming file generated (with ID3 tag)"
+                                    "  ✅ Valid MP3 Long text streaming file generated (with ID3 tag)"
                                 )
                             elif header[:2] == b"\xff\xfb" or header[:2] == b"\xff\xfa":
                                 print(
-                                    f"  ✅ Valid MP3 Long text streaming file generated (MPEG frame)"
+                                    "  ✅ Valid MP3 Long text streaming file generated (MPEG frame)"
                                 )
                             else:
                                 print(
@@ -2390,7 +2391,7 @@ def test_stream_speech_long_text_mp3(voice_id):
                         # Check Phoneme Information
                         if "phonemes" in result_data and result_data["phonemes"]:
                             phonemes = result_data["phonemes"]
-                            print(f"  🔤 Phoneme information included:")
+                            print("  🔤 Phoneme information included:")
                             print(
                                 f"    - Symbol count: {len(phonemes.get('symbols', []))}"
                             )
@@ -2409,7 +2410,7 @@ def test_stream_speech_long_text_mp3(voice_id):
                             f"  📊 Estimated text chunk count: {estimated_chunks} items (based on text length)"
                         )
                         print(
-                            f"  🔀 Each auto-chunked segment was merged and processed as MP3"
+                            "  🔀 Each auto-chunked segment was merged and processed as MP3"
                         )
 
                         return True, {
@@ -2473,11 +2474,11 @@ def test_stream_speech_long_text_mp3(voice_id):
                         header = f.read(10)
                         if header[:3] == b"ID3":
                             print(
-                                f"  ✅ Valid MP3 Long text streaming file generated (with ID3 tag)"
+                                "  ✅ Valid MP3 Long text streaming file generated (with ID3 tag)"
                             )
                         elif header[:2] == b"\xff\xfb" or header[:2] == b"\xff\xfa":
                             print(
-                                f"  ✅ Valid MP3 Long text streaming file generated (MPEG frame)"
+                                "  ✅ Valid MP3 Long text streaming file generated (MPEG frame)"
                             )
                         else:
                             print(
@@ -2492,7 +2493,7 @@ def test_stream_speech_long_text_mp3(voice_id):
                         f"  📊 Estimated text chunk count: {estimated_chunks} items (based on text length)"
                     )
                     print(
-                        f"  🔀 Each auto-chunked segment was processed as MP3 streaming"
+                        "  🔀 Each auto-chunked segment was processed as MP3 streaming"
                     )
 
                     return True, {
@@ -2503,14 +2504,14 @@ def test_stream_speech_long_text_mp3(voice_id):
                         "format": "mp3",
                     }
                 else:
-                    print(f"  ⚠️ No received audio data")
+                    print("  ⚠️ No received audio data")
                     return False, "No audio data received"
             else:
                 print(f"  ❌ Response structure needs verification: {type(response)}")
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits: Please top up your credits")
+        print("  ❌ Insufficient credits: Please top up your credits")
         return False, e
     except errors.NotFoundErrorResponse as e:
         print(f"  ❌ Voice not found: {voice_id}")
@@ -2614,25 +2615,25 @@ def test_create_speech_long_text_with_phonemes(voice_id):
                                 f"  🚀 Start Times 개수: {len(phonemes.start_times_seconds)}"
                             )
                         else:
-                            print(f"  🚀 Start Times count: 0 (no information)")
+                            print("  🚀 Start Times count: 0 (no information)")
 
                         if phonemes.symbols:
-                            print(f"\n  🔤 All Phoneme Symbols:")
+                            print("\n  🔤 All Phoneme Symbols:")
                             # Display in groups of 10
                             symbols = phonemes.symbols
                             for i in range(0, len(symbols), 10):
                                 group = symbols[i : i + 10]
                                 print(
-                                    f"    {i+1:3d}-{min(i+10, len(symbols)):3d}: {group}"
+                                    f"    {i + 1:3d}-{min(i + 10, len(symbols)):3d}: {group}"
                                 )
 
                         if phonemes.durations_seconds:
-                            print(f"\n  ⏱️ Duration Information (in seconds):")
+                            print("\n  ⏱️ Duration Information (in seconds):")
                             durations = phonemes.durations_seconds
                             total_duration = sum(durations)
                             print(f"    Total duration: {total_duration:.3f}s")
                             print(
-                                f"    Average duration: {total_duration/len(durations):.3f}s"
+                                f"    Average duration: {total_duration / len(durations):.3f}s"
                             )
                             print(f"    Min duration: {min(durations):.3f}s")
                             print(f"    Max duration: {max(durations):.3f}s")
@@ -2647,7 +2648,7 @@ def test_create_speech_long_text_with_phonemes(voice_id):
                             hasattr(phonemes, "start_times_seconds")
                             and phonemes.start_times_seconds
                         ):
-                            print(f"\n  🚀 Start Times Information (in seconds):")
+                            print("\n  🚀 Start Times Information (in seconds):")
                             start_times = phonemes.start_times_seconds
                             print(f"    First start: {min(start_times):.3f}s")
                             print(f"    Last start: {max(start_times):.3f}s")
@@ -2663,7 +2664,7 @@ def test_create_speech_long_text_with_phonemes(voice_id):
                         # Display Phoneme-Duration-StartTime mapping (first 30)
                         if phonemes.symbols and phonemes.durations_seconds:
                             print(
-                                f"\n  🎯 Phoneme-Duration-StartTime mapping (first 30):"
+                                "\n  🎯 Phoneme-Duration-StartTime mapping (first 30):"
                             )
                             has_start_times = (
                                 hasattr(phonemes, "start_times_seconds")
@@ -2686,11 +2687,11 @@ def test_create_speech_long_text_with_phonemes(voice_id):
                                     start_time = phonemes.start_times_seconds[i]
                                     end_time = start_time + duration
                                     print(
-                                        f"    {i+1:2d}. '{symbol}' -> {start_time:.3f}s~{end_time:.3f}s ({duration:.3f}s)"
+                                        f"    {i + 1:2d}. '{symbol}' -> {start_time:.3f}s~{end_time:.3f}s ({duration:.3f}s)"
                                     )
                                 else:
                                     print(
-                                        f"    {i+1:2d}. '{symbol}' -> duration: {duration:.3f}s (start time 없음)"
+                                        f"    {i + 1:2d}. '{symbol}' -> duration: {duration:.3f}s (start time 없음)"
                                     )
 
                             if len(phonemes.symbols) > 30:
@@ -2737,7 +2738,7 @@ def test_create_speech_long_text_with_phonemes(voice_id):
                         ) as f:
                             json.dump(phoneme_data, f, ensure_ascii=False, indent=2)
                         print(
-                            f"\n  💾 상세 Phoneme 데이터 저장: test_long_chunking_phoneme_data.json"
+                            "\n  💾 상세 Phoneme 데이터 저장: test_long_chunking_phoneme_data.json"
                         )
 
                     else:
@@ -2813,12 +2814,12 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                 # Process new JSON format response (Chunked merged response)
                 if isinstance(response.result, str):
                     try:
-                        import json
                         import base64
+                        import json
 
                         # Attempt to parse JSON
                         result_data = json.loads(response.result)
-                        print(f"  ✅ Chunked merged JSON response detected")
+                        print("  ✅ Chunked merged JSON response detected")
                         print(f"  🔍 JSON keys: {list(result_data.keys())}")
 
                         if "audio_base64" in result_data:
@@ -2847,7 +2848,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                             with open(output_file, "rb") as f:
                                 header = f.read(12)
                                 if header[:4] == b"RIFF" and header[8:12] == b"WAVE":
-                                    print(f"  ✅ Valid WAV file generated")
+                                    print("  ✅ Valid WAV file generated")
                                 else:
                                     print(
                                         f"  ⚠️ WAV header needs verification: {header[:12]}"
@@ -2856,7 +2857,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                             # Process Merged Phoneme Information
                             if "phonemes" in result_data and result_data["phonemes"]:
                                 phonemes = result_data["phonemes"]
-                                print(f"\n  🔤 ===== Merged Phoneme Information =====")
+                                print("\n  🔤 ===== Merged Phoneme Information =====")
                                 print(
                                     f"    - Symbol count: {len(phonemes.get('symbols', []))}"
                                 )
@@ -2910,7 +2911,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                 start_times = phonemes.get("start_times_seconds", [])
 
                                 if len(symbols) > 0:
-                                    print(f"\n  🔤 Phoneme samples (first 10):")
+                                    print("\n  🔤 Phoneme samples (first 10):")
                                     for i in range(min(10, len(symbols))):
                                         symbol = symbols[i]
                                         duration = (
@@ -2924,7 +2925,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                             else "N/A"
                                         )
                                         print(
-                                            f"    [{i+1:2d}] '{symbol}' | {duration}s | start: {start_time}s"
+                                            f"    [{i + 1:2d}] '{symbol}' | {duration}s | start: {start_time}s"
                                         )
 
                                     if len(symbols) > 10:
@@ -2932,7 +2933,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                             f"    ... (showing only first 10 of {len(symbols)} items total)"
                                         )
                             else:
-                                print(f"  ⚠️ Phoneme Information missing")
+                                print("  ⚠️ Phoneme Information missing")
 
                             return True, {
                                 "total_bytes": total_bytes,
@@ -2952,7 +2953,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
 
                     except json.JSONDecodeError:
                         # Process with existing logic if not JSON
-                        print(f"  📄 Direct processing of string response...")
+                        print("  📄 Direct processing of string response...")
                         pass
                     except Exception as e:
                         print(f"  ❌ Merged JSON Error processing response: {e}")
@@ -2976,8 +2977,8 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                     "  📄 Original response가 문자열 - JSON 스트리밍으로 처리"
                                 )
 
-                                import json
                                 import base64
+                                import json
 
                                 lines = original.strip().split("\n")
                                 total_audio = b""
@@ -2993,7 +2994,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                         try:
                                             chunk_data = json.loads(line.strip())
                                             print(
-                                                f"    JSON Chunk {i+1}: {list(chunk_data.keys())}"
+                                                f"    JSON Chunk {i + 1}: {list(chunk_data.keys())}"
                                             )
 
                                             # Process audio data
@@ -3012,7 +3013,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
 
                                                 # 🔍 Debugging output of original phonemes structure (added)
                                                 print(
-                                                    f"\n      �� Original Phonemes structure:"
+                                                    "\n      �� Original Phonemes structure:"
                                                 )
                                                 for key in phonemes.keys():
                                                     value = phonemes[key]
@@ -3070,13 +3071,13 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
 
                                         except json.JSONDecodeError as je:
                                             print(
-                                                f"    JSON Chunk {i+1} parsing failed: {str(je)[:50]}..."
+                                                f"    JSON Chunk {i + 1} parsing failed: {str(je)[:50]}..."
                                             )
 
                                 # Display detailed Phoneme Information (including start_times_seconds)
                                 if all_phonemes["symbols"]:
                                     print(
-                                        f"\n  🔤 ===== Merged Phoneme Information ====="
+                                        "\n  🔤 ===== Merged Phoneme Information ====="
                                     )
                                     print(
                                         f"  📊 Total symbol count: {len(all_phonemes['symbols'])}"
@@ -3090,23 +3091,23 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
 
                                     # Display all symbols (in groups of 10)
                                     symbols = all_phonemes["symbols"]
-                                    print(f"\n  🔤 All Phoneme Symbols:")
+                                    print("\n  🔤 All Phoneme Symbols:")
                                     for i in range(0, len(symbols), 10):
                                         group = symbols[i : i + 10]
                                         print(
-                                            f"    {i+1:3d}-{min(i+10, len(symbols)):3d}: {group}"
+                                            f"    {i + 1:3d}-{min(i + 10, len(symbols)):3d}: {group}"
                                         )
 
                                     # Duration statistics
                                     if all_phonemes["durations_seconds"]:
                                         durations = all_phonemes["durations_seconds"]
                                         total_duration = sum(durations)
-                                        print(f"\n  ⏱️ Duration statistics:")
+                                        print("\n  ⏱️ Duration statistics:")
                                         print(
                                             f"    Total duration: {total_duration:.3f}s"
                                         )
                                         print(
-                                            f"    Average duration: {total_duration/len(durations):.3f}s"
+                                            f"    Average duration: {total_duration / len(durations):.3f}s"
                                         )
                                         print(
                                             f"    Min duration: {min(durations):.3f}s"
@@ -3120,7 +3121,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                         start_times = all_phonemes[
                                             "start_times_seconds"
                                         ]
-                                        print(f"\n  🚀 Start Times statistics:")
+                                        print("\n  🚀 Start Times statistics:")
                                         print(
                                             f"    First start: {min(start_times):.3f}s"
                                         )
@@ -3137,7 +3138,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                         and all_phonemes["durations_seconds"]
                                     ):
                                         print(
-                                            f"\n  🎯 Phoneme-Duration-StartTime mapping (first 30):"
+                                            "\n  🎯 Phoneme-Duration-StartTime mapping (first 30):"
                                         )
                                         has_start_times = (
                                             len(all_phonemes["start_times_seconds"]) > 0
@@ -3163,11 +3164,11 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                                 ][i]
                                                 end_time = start_time + duration
                                                 print(
-                                                    f"    {i+1:2d}. '{symbol}' -> {start_time:.3f}s~{end_time:.3f}s ({duration:.3f}s)"
+                                                    f"    {i + 1:2d}. '{symbol}' -> {start_time:.3f}s~{end_time:.3f}s ({duration:.3f}s)"
                                                 )
                                             else:
                                                 print(
-                                                    f"    {i+1:2d}. '{symbol}' -> duration: {duration:.3f}s (start time 없음)"
+                                                    f"    {i + 1:2d}. '{symbol}' -> duration: {duration:.3f}s (start time 없음)"
                                                 )
 
                                         if len(all_phonemes["symbols"]) > 30:
@@ -3220,7 +3221,7 @@ def test_stream_speech_phoneme_chunking_wav(voice_id):
                                             indent=2,
                                         )
                                     print(
-                                        f"\n  💾 Detailed Phoneme streaming data saved: test_phoneme_chunking_stream_data.json"
+                                        "\n  💾 Detailed Phoneme streaming data saved: test_phoneme_chunking_stream_data.json"
                                     )
 
                                 return (
@@ -3350,7 +3351,9 @@ def test_create_speech_sona_speech_2_flash(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with sona_speech_2_flash using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with sona_speech_2_flash using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             response = client.text_to_speech.create_speech(
@@ -3397,7 +3400,9 @@ def test_create_speech_sona_speech_2_with_normalized_text(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with sona_speech_2 + normalized_text using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with sona_speech_2 + normalized_text using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Japanese text with kanji and its reading (hiragana)
@@ -3420,13 +3425,15 @@ def test_create_speech_sona_speech_2_with_normalized_text(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 audio_size = len(audio_data)
-                print(f"  ✅ sona_speech_2 + normalized_text TTS successful: {audio_size} bytes")
+                print(
+                    f"  ✅ sona_speech_2 + normalized_text TTS successful: {audio_size} bytes"
+                )
 
                 output_file = "test_sona_speech_2_normalized_text_output.wav"
                 with open(output_file, "wb") as f:
                     f.write(audio_data)
                 print(f"  💾 Audio saved: {output_file}")
-                print(f"  🎯 The TTS engine used normalized_text for pronunciation!")
+                print("  🎯 The TTS engine used normalized_text for pronunciation!")
 
                 return True, response
             else:
@@ -3443,7 +3450,9 @@ def test_create_speech_sona_speech_2_with_normalized_text(voice_id):
 
 def test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id):
     """Test TTS with sona_speech_2_flash model using normalized_text for Japanese pronunciation"""
-    print("⚡🇯🇵 TTS Test with sona_speech_2_flash Model + normalized_text (Low Latency)")
+    print(
+        "⚡🇯🇵 TTS Test with sona_speech_2_flash Model + normalized_text (Low Latency)"
+    )
 
     if not voice_id:
         print("  ⚠️ No voice ID available")
@@ -3453,7 +3462,9 @@ def test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with sona_speech_2_flash + normalized_text using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with sona_speech_2_flash + normalized_text using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Japanese text with kanji and its reading (hiragana)
@@ -3476,13 +3487,15 @@ def test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 audio_size = len(audio_data)
-                print(f"  ✅ sona_speech_2_flash + normalized_text TTS successful: {audio_size} bytes")
+                print(
+                    f"  ✅ sona_speech_2_flash + normalized_text TTS successful: {audio_size} bytes"
+                )
 
                 output_file = "test_sona_speech_2_flash_normalized_text_output.wav"
                 with open(output_file, "wb") as f:
                     f.write(audio_data)
                 print(f"  💾 Audio saved: {output_file}")
-                print(f"  🎯 The TTS engine used normalized_text for pronunciation!")
+                print("  🎯 The TTS engine used normalized_text for pronunciation!")
 
                 return True, response
             else:
@@ -3558,7 +3571,7 @@ def test_create_speech_invalid_model(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Attempting TTS with invalid model 'invalid_model_xyz'...")
+            print("  🔍 Attempting TTS with invalid model 'invalid_model_xyz'...")
 
             # Attempt to call with invalid model string directly
             response = client.text_to_speech.create_speech(
@@ -3570,7 +3583,7 @@ def test_create_speech_invalid_model(voice_id):
                 model="invalid_model_xyz",  # Invalid model
             )
 
-            print(f"  ⚠️ Unexpected: API did not reject invalid model")
+            print("  ⚠️ Unexpected: API did not reject invalid model")
             return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
@@ -3708,7 +3721,7 @@ def test_predict_duration_invalid_model(voice_id):
 
         with Supertone(api_key=API_KEY) as client:
             print(
-                f"  🔍 Attempting prediction with invalid model 'invalid_model_xyz'..."
+                "  🔍 Attempting prediction with invalid model 'invalid_model_xyz'..."
             )
 
             response = client.text_to_speech.predict_duration(
@@ -3719,7 +3732,7 @@ def test_predict_duration_invalid_model(voice_id):
                 model="invalid_model_xyz",  # Invalid model
             )
 
-            print(f"  ⚠️ Unexpected: API did not reject invalid model")
+            print("  ⚠️ Unexpected: API did not reject invalid model")
             return False, response
 
     except (errors.BadRequestErrorResponse, errors.SupertoneError) as e:
@@ -3735,6 +3748,325 @@ def test_predict_duration_invalid_model(voice_id):
     except Exception as e:
         print(f"  ✅ Error received (expected): {e}")
         return True, e
+
+
+# =============================================================================
+# NEW MODEL TESTS (sona_speech_3t, supertonic_api_3) - 31 language support
+# =============================================================================
+
+
+def test_create_speech_sona_speech_3t(voice_id):
+    """Test TTS with sona_speech_3t model"""
+    print("🎤 TTS Test with sona_speech_3t Model")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Converting TTS with sona_speech_3t using voice '{voice_id}'..."
+            )
+            print("  ⚠️ This test will consume credits!")
+
+            response = client.text_to_speech.create_speech(
+                voice_id=voice_id,
+                text="Hello! This is a test with the new sona_speech_3t model.",
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_3T,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                audio_size = len(audio_data)
+                print(f"  ✅ sona_speech_3t TTS successful: {audio_size} bytes")
+
+                output_file = "test_sona_speech_3t_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Audio saved: {output_file}")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure error: {type(response)}")
+                return False, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_create_speech_supertonic_api_3(voice_id):
+    """Test TTS with supertonic_api_3 model"""
+    print("🎤 TTS Test with supertonic_api_3 Model")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Converting TTS with supertonic_api_3 using voice '{voice_id}'..."
+            )
+            print("  ⚠️ This test will consume credits!")
+
+            response = client.text_to_speech.create_speech(
+                voice_id=voice_id,
+                text="Hello! This is a test with the new supertonic_api_3 model.",
+                language=models.APIConvertTextToSpeechUsingCharacterRequestLanguage.EN,
+                output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                style="neutral",
+                model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SUPERTONIC_API_3,
+            )
+
+            if hasattr(response, "result") and hasattr(response.result, "read"):
+                audio_data = response.result.read()
+                audio_size = len(audio_data)
+                print(f"  ✅ supertonic_api_3 TTS successful: {audio_size} bytes")
+
+                output_file = "test_supertonic_api_3_output.wav"
+                with open(output_file, "wb") as f:
+                    f.write(audio_data)
+                print(f"  💾 Audio saved: {output_file}")
+
+                return True, response
+            else:
+                print(f"  ❌ Response structure error: {type(response)}")
+                return False, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_predict_duration_sona_speech_3t(voice_id):
+    """Test duration prediction with sona_speech_3t model"""
+    print("⏱️ Duration Prediction Test with sona_speech_3t Model")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Predicting duration with sona_speech_3t using voice '{voice_id}'..."
+            )
+
+            response = client.text_to_speech.predict_duration(
+                voice_id=voice_id,
+                text="Hello! This is a duration prediction test with sona_speech_3t.",
+                language=models.PredictTTSDurationRequestLanguage.EN,
+                style="neutral",
+                model=models.PredictTTSDurationRequestModel.SONA_SPEECH_3T,
+            )
+
+            print(f"  ✅ sona_speech_3t prediction complete: {response} seconds")
+            return True, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_predict_duration_supertonic_api_3(voice_id):
+    """Test duration prediction with supertonic_api_3 model"""
+    print("⏱️ Duration Prediction Test with supertonic_api_3 Model")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        with Supertone(api_key=API_KEY) as client:
+            print(
+                f"  🔍 Predicting duration with supertonic_api_3 using voice '{voice_id}'..."
+            )
+
+            response = client.text_to_speech.predict_duration(
+                voice_id=voice_id,
+                text="Hello! This is a duration prediction test with supertonic_api_3.",
+                language=models.PredictTTSDurationRequestLanguage.EN,
+                style="neutral",
+                model=models.PredictTTSDurationRequestModel.SUPERTONIC_API_3,
+            )
+
+            print(f"  ✅ supertonic_api_3 prediction complete: {response} seconds")
+            return True, response
+
+    except errors.SupertoneError as e:
+        print(f"  ❌ API error: {e.message}")
+        return False, e
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+# 31 languages supported by sona_speech_3t and supertonic_api_3
+ALL_31_LANGUAGE_SAMPLES = [
+    ("KO", "안녕하세요!"),
+    ("EN", "Hello!"),
+    ("JA", "こんにちは!"),
+    ("BG", "Здравейте!"),
+    ("CS", "Ahoj!"),
+    ("DA", "Hej!"),
+    ("EL", "Γεια σας!"),
+    ("ES", "¡Hola!"),
+    ("ET", "Tere!"),
+    ("FI", "Hei!"),
+    ("HU", "Helló!"),
+    ("IT", "Ciao!"),
+    ("NL", "Hallo!"),
+    ("PL", "Cześć!"),
+    ("PT", "Olá!"),
+    ("RO", "Salut!"),
+    ("AR", "مرحبا!"),
+    ("DE", "Hallo!"),
+    ("FR", "Bonjour!"),
+    ("HI", "नमस्ते!"),
+    ("ID", "Halo!"),
+    ("RU", "Привет!"),
+    ("VI", "Xin chào!"),
+    ("HR", "Bok!"),
+    ("LT", "Labas!"),
+    ("LV", "Sveiki!"),
+    ("SK", "Ahoj!"),
+    ("SL", "Pozdravljeni!"),
+    ("SV", "Hej!"),
+    ("TR", "Merhaba!"),
+    ("UK", "Привіт!"),
+]
+
+
+def test_create_speech_sona_speech_3t_multilang(voice_id):
+    """Test sona_speech_3t with all 31 supported languages"""
+    print("🌐 sona_speech_3t Multi-language Test (31 languages)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        Lang = models.APIConvertTextToSpeechUsingCharacterRequestLanguage
+        test_cases = [
+            (getattr(Lang, name), text) for name, text in ALL_31_LANGUAGE_SAMPLES
+        ]
+
+        all_success = True
+        success_count = 0
+        with Supertone(api_key=API_KEY) as client:
+            for lang, text in test_cases:
+                print(f"  🔍 Testing {lang.value} with sona_speech_3t...")
+
+                try:
+                    response = client.text_to_speech.create_speech(
+                        voice_id=voice_id,
+                        text=text,
+                        language=lang,
+                        output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                        style="neutral",
+                        model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SONA_SPEECH_3T,
+                    )
+
+                    if hasattr(response, "result") and hasattr(response.result, "read"):
+                        audio_data = response.result.read()
+                        print(f"    ✅ {lang.value}: {len(audio_data)} bytes")
+                        success_count += 1
+                    else:
+                        print(f"    ❌ {lang.value}: Response structure error")
+                        all_success = False
+
+                except errors.SupertoneError as e:
+                    print(f"    ❌ {lang.value}: {e.message}")
+                    all_success = False
+
+        print(f"  📊 Total: {success_count}/{len(test_cases)} languages successful")
+        return (
+            all_success,
+            f"sona_speech_3t multilang: {success_count}/{len(test_cases)}",
+        )
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
+
+
+def test_create_speech_supertonic_api_3_multilang(voice_id):
+    """Test supertonic_api_3 with all 31 supported languages"""
+    print("🌐 supertonic_api_3 Multi-language Test (31 languages)")
+
+    if not voice_id:
+        print("  ⚠️ No voice ID available")
+        return False, None
+
+    try:
+        from supertone import Supertone, errors, models
+
+        Lang = models.APIConvertTextToSpeechUsingCharacterRequestLanguage
+        test_cases = [
+            (getattr(Lang, name), text) for name, text in ALL_31_LANGUAGE_SAMPLES
+        ]
+
+        all_success = True
+        success_count = 0
+        with Supertone(api_key=API_KEY) as client:
+            for lang, text in test_cases:
+                print(f"  🔍 Testing {lang.value} with supertonic_api_3...")
+
+                try:
+                    response = client.text_to_speech.create_speech(
+                        voice_id=voice_id,
+                        text=text,
+                        language=lang,
+                        output_format=models.APIConvertTextToSpeechUsingCharacterRequestOutputFormat.WAV,
+                        style="neutral",
+                        model=models.APIConvertTextToSpeechUsingCharacterRequestModel.SUPERTONIC_API_3,
+                    )
+
+                    if hasattr(response, "result") and hasattr(response.result, "read"):
+                        audio_data = response.result.read()
+                        print(f"    ✅ {lang.value}: {len(audio_data)} bytes")
+                        success_count += 1
+                    else:
+                        print(f"    ❌ {lang.value}: Response structure error")
+                        all_success = False
+
+                except errors.SupertoneError as e:
+                    print(f"    ❌ {lang.value}: {e.message}")
+                    all_success = False
+
+        print(f"  📊 Total: {success_count}/{len(test_cases)} languages successful")
+        return (
+            all_success,
+            f"supertonic_api_3 multilang: {success_count}/{len(test_cases)}",
+        )
+
+    except Exception as e:
+        print(f"  ❌ Unexpected error: {e}")
+        return False, e
 
 
 # =============================================================================
@@ -3952,7 +4284,7 @@ def test_create_speech_sona_speech_1_unsupported_lang(voice_id):
 
         # sona_speech_1 only supports ko, en, ja - testing with German (de)
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Attempting sona_speech_1 with German (unsupported)...")
+            print("  🔍 Attempting sona_speech_1 with German (unsupported)...")
 
             response = client.text_to_speech.create_speech(
                 voice_id=voice_id,
@@ -3999,7 +4331,7 @@ def test_create_speech_supertonic_api_1_unsupported_lang(voice_id):
 
         # supertonic_api_1 supports: ko, en, ja, es, pt - testing with German (de)
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Attempting supertonic_api_1 with German (unsupported)...")
+            print("  🔍 Attempting supertonic_api_1 with German (unsupported)...")
 
             response = client.text_to_speech.create_speech(
                 voice_id=voice_id,
@@ -4128,7 +4460,7 @@ def test_create_speech_long_sentence_word_split(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 if len(audio_data) > 0:
-                    print(f"  ✅ Word-based chunking successful!")
+                    print("  ✅ Word-based chunking successful!")
                     print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                     return True, response
                 else:
@@ -4186,7 +4518,7 @@ def test_create_speech_japanese_no_spaces(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 if len(audio_data) > 0:
-                    print(f"  ✅ Character-based chunking successful!")
+                    print("  ✅ Character-based chunking successful!")
                     print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                     return True, response
                 else:
@@ -4245,7 +4577,7 @@ def test_stream_speech_long_sentence_word_split(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming word-based chunking successful!")
+                print("  ✅ Streaming word-based chunking successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                 return True, response
             else:
@@ -4322,10 +4654,10 @@ def test_create_speech_multilingual_punctuation(voice_id):
                         if len(audio_data) > 0:
                             print(f"     ✅ Success: {len(audio_data):,} bytes")
                         else:
-                            print(f"     ❌ Empty audio data")
+                            print("     ❌ Empty audio data")
                             all_success = False
                     else:
-                        print(f"     ❌ Response structure error")
+                        print("     ❌ Response structure error")
                         all_success = False
 
                 except Exception as e:
@@ -4362,7 +4694,7 @@ def test_stream_speech_multilingual_punctuation(voice_id):
         )
 
         print(f"  📏 Text length: {len(japanese_text)} characters")
-        print(f"  📝 Contains: 。！？ punctuation marks")
+        print("  📝 Contains: 。！？ punctuation marks")
 
         with Supertone(api_key=API_KEY) as client:
             print("  🔍 Streaming TTS with Japanese punctuation splitting...")
@@ -4386,7 +4718,7 @@ def test_stream_speech_multilingual_punctuation(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming multilingual punctuation splitting successful!")
+                print("  ✅ Streaming multilingual punctuation splitting successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                 return True, response
             else:
@@ -4444,7 +4776,7 @@ def test_stream_speech_japanese_no_spaces(voice_id):
                 audio_data = response.result.read()
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming character-based chunking successful!")
+                print("  ✅ Streaming character-based chunking successful!")
                 print(f"  📦 Audio data size: {len(audio_data):,} bytes")
                 return True, response
             else:
@@ -4468,7 +4800,9 @@ def test_create_speech_with_pronunciation_dictionary(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Converting TTS with pronunciation dictionary using voice '{voice_id}'...")
+            print(
+                f"  🔍 Converting TTS with pronunciation dictionary using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Text with words to be replaced by pronunciation dictionary
@@ -4478,17 +4812,33 @@ def test_create_speech_with_pronunciation_dictionary(voice_id):
             # Pronunciation dictionary: mix of partial_match=True and False
             pronunciation_dictionary = [
                 # partial_match=False: only matches standalone "Supertone", not "SupertoneAPI"
-                {"text": "Supertone", "pronunciation": "Super-tone", "partial_match": False},
+                {
+                    "text": "Supertone",
+                    "pronunciation": "Super-tone",
+                    "partial_match": False,
+                },
                 # partial_match=True: matches "TTS" inside "TTSAPI" as well
-                {"text": "TTS", "pronunciation": "Text-to-Speech", "partial_match": True},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech",
+                    "partial_match": True,
+                },
                 # partial_match=False: exact word boundary match
-                {"text": "Inc", "pronunciation": "Incorporated", "partial_match": False},
+                {
+                    "text": "Inc",
+                    "pronunciation": "Incorporated",
+                    "partial_match": False,
+                },
             ]
 
             print(f"  📝 Original text: {original_text}")
-            print(f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}")
+            print(
+                f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}"
+            )
             for entry in pronunciation_dictionary:
-                print(f"     '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})")
+                print(
+                    f"     '{entry['text']}' → '{entry['pronunciation']}' (partial_match={entry['partial_match']})"
+                )
 
             response = client.text_to_speech.create_speech(
                 voice_id=voice_id,
@@ -4504,7 +4854,9 @@ def test_create_speech_with_pronunciation_dictionary(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 audio_size = len(audio_data)
-                print(f"  ✅ TTS with pronunciation dictionary successful: {audio_size} bytes")
+                print(
+                    f"  ✅ TTS with pronunciation dictionary successful: {audio_size} bytes"
+                )
 
                 output_file = "test_pronunciation_dictionary_output.wav"
                 with open(output_file, "wb") as f:
@@ -4517,7 +4869,7 @@ def test_create_speech_with_pronunciation_dictionary(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits")
+        print("  ❌ Insufficient credits")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -4539,7 +4891,9 @@ def test_create_speech_pronunciation_dictionary_long_text(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Testing pronunciation dictionary with text expansion using voice '{voice_id}'...")
+            print(
+                f"  🔍 Testing pronunciation dictionary with text expansion using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Short text that will expand beyond 300 chars after pronunciation substitution
@@ -4555,26 +4909,46 @@ def test_create_speech_pronunciation_dictionary_long_text(voice_id):
             # Mix of partial_match=True and False to demonstrate both behaviors
             pronunciation_dictionary = [
                 # partial_match=False: "AI" won't match inside "AIML"
-                {"text": "AI", "pronunciation": "Artificial Intelligence System", "partial_match": False},
+                {
+                    "text": "AI",
+                    "pronunciation": "Artificial Intelligence System",
+                    "partial_match": False,
+                },
                 # partial_match=True: "TTS" will match inside "TTSAPI"
-                {"text": "TTS", "pronunciation": "Text-to-Speech Engine", "partial_match": True},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech Engine",
+                    "partial_match": True,
+                },
                 # partial_match=False: exact word match only
-                {"text": "SDK", "pronunciation": "Software Development Kit", "partial_match": False},
+                {
+                    "text": "SDK",
+                    "pronunciation": "Software Development Kit",
+                    "partial_match": False,
+                },
                 # partial_match=True: "API" will match inside "TTSAPI" (after TTS replaced)
-                {"text": "API", "pronunciation": "Application Programming Interface", "partial_match": True},
+                {
+                    "text": "API",
+                    "pronunciation": "Application Programming Interface",
+                    "partial_match": True,
+                },
             ]
 
             original_length = len(original_text)
             print(f"  📝 Original text length: {original_length} characters")
             print(f"  📝 Original text: {original_text[:100]}...")
-            print(f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}")
+            print(
+                f"  📖 Pronunciation dictionary entries: {len(pronunciation_dictionary)}"
+            )
             for entry in pronunciation_dictionary:
                 print(f"     '{entry['text']}' → '{entry['pronunciation']}'")
 
             # Estimate expanded length
             expanded_text = original_text
             for entry in pronunciation_dictionary:
-                expanded_text = expanded_text.replace(entry["text"], entry["pronunciation"])
+                expanded_text = expanded_text.replace(
+                    entry["text"], entry["pronunciation"]
+                )
             expanded_length = len(expanded_text)
             print(f"  📏 Estimated expanded text length: {expanded_length} characters")
             print(f"  🔧 Auto-chunking will be triggered: {expanded_length > 300}")
@@ -4593,8 +4967,12 @@ def test_create_speech_pronunciation_dictionary_long_text(voice_id):
             if hasattr(response, "result") and hasattr(response.result, "read"):
                 audio_data = response.result.read()
                 audio_size = len(audio_data)
-                print(f"  ✅ Pronunciation dictionary long text TTS successful: {audio_size} bytes")
-                print(f"  🎯 Text expanded from {original_length} to {expanded_length} chars and auto-chunked!")
+                print(
+                    f"  ✅ Pronunciation dictionary long text TTS successful: {audio_size} bytes"
+                )
+                print(
+                    f"  🎯 Text expanded from {original_length} to {expanded_length} chars and auto-chunked!"
+                )
 
                 output_file = "test_pronunciation_dictionary_long_output.wav"
                 with open(output_file, "wb") as f:
@@ -4616,7 +4994,7 @@ def test_create_speech_pronunciation_dictionary_long_text(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits")
+        print("  ❌ Insufficient credits")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -4638,7 +5016,9 @@ def test_stream_speech_with_pronunciation_dictionary(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Streaming TTS with pronunciation dictionary using voice '{voice_id}'...")
+            print(
+                f"  🔍 Streaming TTS with pronunciation dictionary using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Note: "TTSAPI" tests partial_match=True behavior
@@ -4646,10 +5026,22 @@ def test_stream_speech_with_pronunciation_dictionary(voice_id):
 
             pronunciation_dictionary = [
                 # partial_match=False: exact word boundary match
-                {"text": "Supertone", "pronunciation": "Super-tone Korea", "partial_match": False},
-                {"text": "AI", "pronunciation": "Artificial Intelligence", "partial_match": False},
+                {
+                    "text": "Supertone",
+                    "pronunciation": "Super-tone Korea",
+                    "partial_match": False,
+                },
+                {
+                    "text": "AI",
+                    "pronunciation": "Artificial Intelligence",
+                    "partial_match": False,
+                },
                 # partial_match=True: matches "TTS" inside "TTSAPI"
-                {"text": "TTS", "pronunciation": "Text-to-Speech", "partial_match": True},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech",
+                    "partial_match": True,
+                },
                 {"text": "API", "pronunciation": "A-P-I", "partial_match": True},
             ]
 
@@ -4679,8 +5071,10 @@ def test_stream_speech_with_pronunciation_dictionary(voice_id):
                 chunk_count = 1
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming with pronunciation dictionary successful!")
-                print(f"  📦 Audio data: {len(audio_data):,} bytes, {chunk_count} chunks")
+                print("  ✅ Streaming with pronunciation dictionary successful!")
+                print(
+                    f"  📦 Audio data: {len(audio_data):,} bytes, {chunk_count} chunks"
+                )
 
                 output_file = "test_pronunciation_dictionary_stream_output.wav"
                 with open(output_file, "wb") as f:
@@ -4693,7 +5087,7 @@ def test_stream_speech_with_pronunciation_dictionary(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits")
+        print("  ❌ Insufficient credits")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -4715,7 +5109,9 @@ def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
         from supertone import Supertone, errors, models
 
         with Supertone(api_key=API_KEY) as client:
-            print(f"  🔍 Streaming with pronunciation dictionary expansion using voice '{voice_id}'...")
+            print(
+                f"  🔍 Streaming with pronunciation dictionary expansion using voice '{voice_id}'..."
+            )
             print("  ⚠️ This test will consume credits!")
 
             # Short text that expands beyond 300 chars
@@ -4728,23 +5124,43 @@ def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
 
             pronunciation_dictionary = [
                 # partial_match=False: "AI" won't match inside "AIML" or "AI-powered"
-                {"text": "AI", "pronunciation": "Artificial Intelligence System", "partial_match": False},
+                {
+                    "text": "AI",
+                    "pronunciation": "Artificial Intelligence System",
+                    "partial_match": False,
+                },
                 # partial_match=True: "TTS" matches inside "TTSAPI"
-                {"text": "TTS", "pronunciation": "Text-to-Speech Voice Engine", "partial_match": True},
-                {"text": "SDK", "pronunciation": "Software Development Kit", "partial_match": False},
+                {
+                    "text": "TTS",
+                    "pronunciation": "Text-to-Speech Voice Engine",
+                    "partial_match": True,
+                },
+                {
+                    "text": "SDK",
+                    "pronunciation": "Software Development Kit",
+                    "partial_match": False,
+                },
                 # partial_match=True: "API" matches inside "TTSAPI"
-                {"text": "API", "pronunciation": "Application Programming Interface", "partial_match": True},
+                {
+                    "text": "API",
+                    "pronunciation": "Application Programming Interface",
+                    "partial_match": True,
+                },
             ]
 
             # Calculate expanded length
             expanded_text = original_text
             for entry in pronunciation_dictionary:
-                expanded_text = expanded_text.replace(entry["text"], entry["pronunciation"])
+                expanded_text = expanded_text.replace(
+                    entry["text"], entry["pronunciation"]
+                )
 
             original_length = len(original_text)
             expanded_length = len(expanded_text)
 
-            print(f"  📏 Original: {original_length} chars → Expanded: {expanded_length} chars")
+            print(
+                f"  📏 Original: {original_length} chars → Expanded: {expanded_length} chars"
+            )
             print(f"  🔧 Auto-chunking triggered: {expanded_length > 300}")
 
             response = client.text_to_speech.stream_speech(
@@ -4770,9 +5186,9 @@ def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
                 chunk_count = 1
 
             if len(audio_data) > 0:
-                print(f"  ✅ Streaming pronunciation dictionary long text successful!")
+                print("  ✅ Streaming pronunciation dictionary long text successful!")
                 print(f"  📦 Audio: {len(audio_data):,} bytes, {chunk_count} chunks")
-                print(f"  🎯 Text expanded and auto-chunked for streaming!")
+                print("  🎯 Text expanded and auto-chunked for streaming!")
 
                 output_file = "test_pronunciation_dictionary_stream_long_output.wav"
                 with open(output_file, "wb") as f:
@@ -4793,7 +5209,7 @@ def test_stream_speech_pronunciation_dictionary_long_text(voice_id):
                 return False, response
 
     except errors.PaymentRequiredErrorResponse as e:
-        print(f"  ❌ Insufficient credits")
+        print("  ❌ Insufficient credits")
         return False, e
     except errors.SupertoneError as e:
         print(f"  ❌ API error: {e.message}")
@@ -4944,7 +5360,9 @@ def main():
         test_results["stream_speech_phoneme_chunking_wav"] = success
 
         # 6. New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1)
-        print("\n6️⃣ New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1)")
+        print(
+            "\n6️⃣ New Model Tests (sona_speech_2, sona_speech_2_flash, supertonic_api_1)"
+        )
 
         # TTS with sona_speech_2
         success, result = test_create_speech_sona_speech_2(voice_id_for_tts)
@@ -4955,11 +5373,15 @@ def main():
         test_results["create_speech_sona_speech_2_flash"] = success
 
         # TTS with sona_speech_2 + normalized_text (Japanese pronunciation)
-        success, result = test_create_speech_sona_speech_2_with_normalized_text(voice_id_for_tts)
+        success, result = test_create_speech_sona_speech_2_with_normalized_text(
+            voice_id_for_tts
+        )
         test_results["create_speech_sona_speech_2_with_normalized_text"] = success
 
         # TTS with sona_speech_2_flash + normalized_text (Japanese pronunciation)
-        success, result = test_create_speech_sona_speech_2_flash_with_normalized_text(voice_id_for_tts)
+        success, result = test_create_speech_sona_speech_2_flash_with_normalized_text(
+            voice_id_for_tts
+        )
         test_results["create_speech_sona_speech_2_flash_with_normalized_text"] = success
 
         # TTS with supertonic_api_1
@@ -4985,6 +5407,21 @@ def main():
         success, result = test_predict_duration_invalid_model(voice_id_for_tts)
         test_results["predict_duration_invalid_model"] = success
 
+        # New Model Tests v3 (sona_speech_3t, supertonic_api_3) - 31 language support
+        print("\n6️⃣.5 New Model Tests v3 (sona_speech_3t, supertonic_api_3)")
+
+        success, result = test_create_speech_sona_speech_3t(voice_id_for_tts)
+        test_results["create_speech_sona_speech_3t"] = success
+
+        success, result = test_create_speech_supertonic_api_3(voice_id_for_tts)
+        test_results["create_speech_supertonic_api_3"] = success
+
+        success, result = test_predict_duration_sona_speech_3t(voice_id_for_tts)
+        test_results["predict_duration_sona_speech_3t"] = success
+
+        success, result = test_predict_duration_supertonic_api_3(voice_id_for_tts)
+        test_results["predict_duration_supertonic_api_3"] = success
+
         # 7. Multi-language Tests by Model
         print("\n7️⃣ Multi-language Tests by Model")
 
@@ -5001,6 +5438,16 @@ def main():
             voice_id_for_tts
         )
         test_results["create_speech_supertonic_api_1_multilang"] = success
+
+        # sona_speech_3t multilang (all 31 languages)
+        success, result = test_create_speech_sona_speech_3t_multilang(voice_id_for_tts)
+        test_results["create_speech_sona_speech_3t_multilang"] = success
+
+        # supertonic_api_3 multilang (all 31 languages)
+        success, result = test_create_speech_supertonic_api_3_multilang(
+            voice_id_for_tts
+        )
+        test_results["create_speech_supertonic_api_3_multilang"] = success
 
         # Unsupported language error tests
         success, result = test_create_speech_sona_speech_1_unsupported_lang(
