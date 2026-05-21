@@ -1910,10 +1910,8 @@
             "enum": [
               "sona_speech_1",
               "sona_speech_2",
-              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
-              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "default": "sona_speech_1"
@@ -2027,10 +2025,8 @@
             "enum": [
               "sona_speech_1",
               "sona_speech_2",
-              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
-              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "default": "sona_speech_1"
@@ -2069,7 +2065,7 @@
           "model": {
             "type": "string",
             "description": "Model of the sample",
-            "example": "supertonic_api_1"
+            "example": "supertonic_api_3"
           },
           "url": {
             "type": "string",
@@ -2178,10 +2174,8 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
-              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
-              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "type": "array",
@@ -2334,10 +2328,8 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
-              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
-              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "type": "array",
