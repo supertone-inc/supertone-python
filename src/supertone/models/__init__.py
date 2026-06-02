@@ -13,6 +13,10 @@ if TYPE_CHECKING:
         APIConvertTextToSpeechUsingCharacterRequestTypedDict,
     )
     from .apisampledata import APISampleData, APISampleDataTypedDict
+    from .badrequesterrorresponse import (
+        BadRequestErrorResponseMessage,
+        BadRequestErrorResponseMessageTypedDict,
+    )
     from .converttexttospeechparameters import (
         ConvertTextToSpeechParameters,
         ConvertTextToSpeechParametersTypedDict,
@@ -155,6 +159,10 @@ if TYPE_CHECKING:
         UnauthorizedErrorResponseMessage,
         UnauthorizedErrorResponseMessageTypedDict,
     )
+    from .unsupportedmediatypeerrorresponse import (
+        UnsupportedMediaTypeErrorResponseMessage,
+        UnsupportedMediaTypeErrorResponseMessageTypedDict,
+    )
     from .updatecustomvoicerequest import (
         UpdateCustomVoiceRequest,
         UpdateCustomVoiceRequestTypedDict,
@@ -178,6 +186,8 @@ __all__ = [
     "APIConvertTextToSpeechUsingCharacterRequestTypedDict",
     "APISampleData",
     "APISampleDataTypedDict",
+    "BadRequestErrorResponseMessage",
+    "BadRequestErrorResponseMessageTypedDict",
     "BreakdownType",
     "BucketWidth",
     "ConvertTextToSpeechParameters",
@@ -267,6 +277,8 @@ __all__ = [
     "TooManyRequestsErrorResponseMessageTypedDict",
     "UnauthorizedErrorResponseMessage",
     "UnauthorizedErrorResponseMessageTypedDict",
+    "UnsupportedMediaTypeErrorResponseMessage",
+    "UnsupportedMediaTypeErrorResponseMessageTypedDict",
     "UpdateCustomVoiceRequest",
     "UpdateCustomVoiceRequestTypedDict",
     "UpdateCustomVoiceResponse",
@@ -287,6 +299,8 @@ _dynamic_imports: dict[str, str] = {
     "APIConvertTextToSpeechUsingCharacterRequestTypedDict": ".apiconverttexttospeechusingcharacterrequest",
     "APISampleData": ".apisampledata",
     "APISampleDataTypedDict": ".apisampledata",
+    "BadRequestErrorResponseMessage": ".badrequesterrorresponse",
+    "BadRequestErrorResponseMessageTypedDict": ".badrequesterrorresponse",
     "ConvertTextToSpeechParameters": ".converttexttospeechparameters",
     "ConvertTextToSpeechParametersTypedDict": ".converttexttospeechparameters",
     "CreateClonedVoiceRequest": ".create_cloned_voiceop",
@@ -376,6 +390,8 @@ _dynamic_imports: dict[str, str] = {
     "TooManyRequestsErrorResponseMessageTypedDict": ".toomanyrequestserrorresponse",
     "UnauthorizedErrorResponseMessage": ".unauthorizederrorresponse",
     "UnauthorizedErrorResponseMessageTypedDict": ".unauthorizederrorresponse",
+    "UnsupportedMediaTypeErrorResponseMessage": ".unsupportedmediatypeerrorresponse",
+    "UnsupportedMediaTypeErrorResponseMessageTypedDict": ".unsupportedmediatypeerrorresponse",
     "UpdateCustomVoiceRequest": ".updatecustomvoicerequest",
     "UpdateCustomVoiceRequestTypedDict": ".updatecustomvoicerequest",
     "UpdateCustomVoiceResponse": ".updatecustomvoiceresponse",

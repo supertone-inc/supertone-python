@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 from .usagebucket import UsageBucket, UsageBucketTypedDict
-from supertone.types import BaseModel
-from typing import List, Optional
+from pydantic import model_serializer
+from supertone.types import BaseModel, Nullable, OptionalNullable, UNSET, UNSET_SENTINEL
+from typing import List
 from typing_extensions import NotRequired, TypedDict
 
 
@@ -12,8 +13,8 @@ class UsageAnalyticsResponseTypedDict(TypedDict):
     r"""Array of time buckets containing usage data"""
     total: float
     r"""Total number of time buckets across all pages"""
-    next_page_token: NotRequired[str]
-    r"""Pagination token for next page"""
+    next_page_token: NotRequired[Nullable[str]]
+    r"""Pagination token for next page. Null if no more pages."""
 
 
 class UsageAnalyticsResponse(BaseModel):
@@ -23,5 +24,35 @@ class UsageAnalyticsResponse(BaseModel):
     total: float
     r"""Total number of time buckets across all pages"""
 
-    next_page_token: Optional[str] = None
-    r"""Pagination token for next page"""
+    next_page_token: OptionalNullable[str] = UNSET
+    r"""Pagination token for next page. Null if no more pages."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = ["next_page_token"]
+        nullable_fields = ["next_page_token"]
+        null_default_fields = []
+
+        serialized = handler(self)
+
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            optional_nullable = k in optional_fields and k in nullable_fields
+            is_set = (
+                self.__pydantic_fields_set__.intersection({n})
+                or k in null_default_fields
+            )  # pylint: disable=no-member
+
+            if val is not None and val != UNSET_SENTINEL:
+                m[k] = val
+            elif val != UNSET_SENTINEL and (
+                not k in optional_fields or (optional_nullable and is_set)
+            ):
+                m[k] = val
+
+        return m

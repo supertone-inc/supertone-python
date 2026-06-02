@@ -3,6 +3,7 @@
 from __future__ import annotations
 import httpx
 from supertone.errors import SupertoneError
+from supertone.models import badrequesterrorresponse as models_badrequesterrorresponse
 from supertone.types import BaseModel
 from typing import Optional
 
@@ -11,8 +12,8 @@ class BadRequestErrorResponseData(BaseModel):
     status: str
     r"""Response status"""
 
-    message: str
-    r"""Bad request error message"""
+    message: models_badrequesterrorresponse.BadRequestErrorResponseMessage
+    r"""Bad request error details"""
 
 
 class BadRequestErrorResponse(SupertoneError):
@@ -24,7 +25,6 @@ class BadRequestErrorResponse(SupertoneError):
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
-        fallback = body or raw_response.text
-        message = str(data.message) or fallback
+        message = body or raw_response.text
         super().__init__(message, raw_response, body)
         self.data = data

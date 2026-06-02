@@ -1598,25 +1598,6 @@
       }
     },
     "schemas": {
-      "BadRequestErrorResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "Response status",
-            "example": "error"
-          },
-          "message": {
-            "type": "string",
-            "description": "Bad request error message",
-            "example": "Invalid request data"
-          }
-        },
-        "required": [
-          "status",
-          "message"
-        ]
-      },
       "ErrorMessageData": {
         "type": "object",
         "properties": {
@@ -1640,6 +1621,33 @@
           "message",
           "error",
           "status_code"
+        ]
+      },
+      "BadRequestErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response status",
+            "example": "error"
+          },
+          "message": {
+            "description": "Bad request error details",
+            "example": {
+              "message": "Invalid request data",
+              "error": "Bad Request",
+              "statusCode": 400
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "message"
         ]
       },
       "UnauthorizedErrorResponse": {
@@ -1910,8 +1918,10 @@
             "enum": [
               "sona_speech_1",
               "sona_speech_2",
+              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
+              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "default": "sona_speech_1"
@@ -2025,8 +2035,10 @@
             "enum": [
               "sona_speech_1",
               "sona_speech_2",
+              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
+              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "default": "sona_speech_1"
@@ -2065,7 +2077,7 @@
           "model": {
             "type": "string",
             "description": "Model of the sample",
-            "example": "supertonic_api_3"
+            "example": "supertonic_api_1"
           },
           "url": {
             "type": "string",
@@ -2174,8 +2186,10 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
+              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
+              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "type": "array",
@@ -2225,8 +2239,9 @@
           },
           "next_page_token": {
             "type": "string",
-            "description": "Token for fetching the next page of results. Undefined if no more pages.",
-            "example": "some_opaque_token_string_representing_last_id"
+            "description": "Token for fetching the next page of results. Null if no more pages.",
+            "example": "some_opaque_token_string_representing_last_id",
+            "nullable": true
           }
         },
         "required": [
@@ -2328,8 +2343,10 @@
             "example": [
               "sona_speech_1",
               "sona_speech_2",
+              "sona_speech_2t",
               "sona_speech_2_flash",
               "supertonic_api_1",
+              "sona_speech_3t",
               "supertonic_api_3"
             ],
             "type": "array",
@@ -2411,9 +2428,17 @@
             "example": "error"
           },
           "message": {
-            "type": "string",
-            "description": "Unsupported media type error message",
-            "example": "Unsupported audio format. Supported formats: WAV, MP3. Received: application/json"
+            "description": "Unsupported media type error details",
+            "example": {
+              "message": "Unsupported audio format. Supported formats: WAV, MP3. Received: application/json",
+              "error": "Unsupported Media Type",
+              "statusCode": 415
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ErrorMessageData"
+              }
+            ]
           }
         },
         "required": [
@@ -2464,7 +2489,8 @@
           "next_page_token": {
             "type": "string",
             "description": "Token for fetching the next page of results. A valid non-negative integer string (e.g., \"10\", \"20\"). Null if no more pages.",
-            "example": "10"
+            "example": "10",
+            "nullable": true
           }
         },
         "required": [
@@ -2635,7 +2661,8 @@
           },
           "next_page_token": {
             "type": "string",
-            "description": "Pagination token for next page"
+            "description": "Pagination token for next page. Null if no more pages.",
+            "nullable": true
           },
           "total": {
             "type": "number",

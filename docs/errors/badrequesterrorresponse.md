@@ -3,7 +3,7 @@
 
 ## Fields
 
-| Field                     | Type                      | Required                  | Description               | Example                   |
-| ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
-| `status`                  | *str*                     | :heavy_check_mark:        | Response status           | error                     |
-| `message`                 | *str*                     | :heavy_check_mark:        | Bad request error message | Invalid request data      |
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          | Example                                                                              |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `status`                                                                             | *str*                                                                                | :heavy_check_mark:                                                                   | Response status                                                                      | error                                                                                |
+| `message`                                                                            | [models.BadRequestErrorResponseMessage](../models/badrequesterrorresponsemessage.md) | :heavy_check_mark:                                                                   | Bad request error details                                                            | {<br/>"message": "Invalid request data",<br/>"error": "Bad Request",<br/>"statusCode": 400<br/>} |

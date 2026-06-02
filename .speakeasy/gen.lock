@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a7434ee7-004c-44b3-a7c4-1d4e3f9fb006
 management:
-  docChecksum: b75592ad8f533e2ab8c6f232c973825c
+  docChecksum: 727a47f0e767954aee17c24dc94262bb
   docVersion: 0.9.6
   speakeasyVersion: 1.606.0
   generationVersion: 2.686.7
-  releaseVersion: 0.2.2
-  configChecksum: a3e05986b0c64d891941e30610002adc
+  releaseVersion: 0.2.3
+  configChecksum: 39c9b4539db4e94ef2db380fd3293b52
 features:
   python:
     acceptHeaders: 3.0.0
@@ -50,6 +50,7 @@ generatedFiles:
   - docs/models/apiconverttexttospeechusingcharacterrequestmodel.md
   - docs/models/apiconverttexttospeechusingcharacterrequestoutputformat.md
   - docs/models/apisampledata.md
+  - docs/models/badrequesterrorresponsemessage.md
   - docs/models/breakdowntype.md
   - docs/models/bucketwidth.md
   - docs/models/converttexttospeechparameters.md
@@ -97,6 +98,7 @@ generatedFiles:
   - docs/models/streamspeechresponseresult.md
   - docs/models/toomanyrequestserrorresponsemessage.md
   - docs/models/unauthorizederrorresponsemessage.md
+  - docs/models/unsupportedmediatypeerrorresponsemessage.md
   - docs/models/updatecustomvoicerequest.md
   - docs/models/updatecustomvoiceresponse.md
   - docs/models/usageanalyticsresponse.md
@@ -138,6 +140,7 @@ generatedFiles:
   - src/supertone/models/__init__.py
   - src/supertone/models/apiconverttexttospeechusingcharacterrequest.py
   - src/supertone/models/apisampledata.py
+  - src/supertone/models/badrequesterrorresponse.py
   - src/supertone/models/converttexttospeechparameters.py
   - src/supertone/models/create_cloned_voiceop.py
   - src/supertone/models/create_speechop.py
@@ -172,6 +175,7 @@ generatedFiles:
   - src/supertone/models/stream_speechop.py
   - src/supertone/models/toomanyrequestserrorresponse.py
   - src/supertone/models/unauthorizederrorresponse.py
+  - src/supertone/models/unsupportedmediatypeerrorresponse.py
   - src/supertone/models/updatecustomvoicerequest.py
   - src/supertone/models/updatecustomvoiceresponse.py
   - src/supertone/models/usageanalyticsresponse.py
@@ -235,7 +239,7 @@ examples:
           audio/mpeg: "x-file: example.file"
           application/x-ndjson: "<value>"
         "400":
-          application/json: {"status": "error", "message": "Invalid request data"}
+          application/json: {"status": "error", "message": {"message": "Invalid request data", "error": "Bad Request", "status_code": 401}}
         "401":
           application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
         "402":
@@ -261,7 +265,7 @@ examples:
         "200":
           application/json: {}
         "400":
-          application/json: {"status": "error", "message": "Invalid request data"}
+          application/json: {"status": "error", "message": {"message": "Invalid request data", "error": "Bad Request", "status_code": 401}}
         "401":
           application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
         "402":
@@ -293,7 +297,7 @@ examples:
           voice_id: "<id>"
       responses:
         "200":
-          application/json: {"voice_id": "<voice-id>", "name": "Agatha", "description": "", "age": "young-adult", "gender": "female", "use_case": "narration", "use_cases": ["narration", "storytelling"], "language": ["ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "hi", "hu", "id", "it", "ja", "ko", "nl", "pl", "pt", "ro", "ru", "vi"], "styles": ["kind-default", "normal", "serene"], "models": ["sona_speech_1", "sona_speech_2", "sona_speech_2_flash", "supertonic_api_1", "supertonic_api_3"], "samples": [{"language": "ko", "style": "kind-default", "model": "sona_speech_1", "url": "https://example.com/samples/sample-audio.wav"}], "thumbnail_image_url": "https://example.com/thumbnails/voice-thumbnail.png"}
+          application/json: {"voice_id": "<voice-id>", "name": "Agatha", "description": "", "age": "young-adult", "gender": "female", "use_case": "narration", "use_cases": ["narration", "storytelling"], "language": ["ar", "bg", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "hi", "hu", "id", "it", "ja", "ko", "nl", "pl", "pt", "ro", "ru", "vi"], "styles": ["kind-default", "normal", "serene"], "models": ["sona_speech_1", "sona_speech_2", "sona_speech_2t", "sona_speech_2_flash", "supertonic_api_1", "sona_speech_3t", "supertonic_api_3"], "samples": [{"language": "ko", "style": "kind-default", "model": "sona_speech_1", "url": "https://example.com/samples/sample-audio.wav"}], "thumbnail_image_url": "https://example.com/thumbnails/voice-thumbnail.png"}
   create_cloned_voice:
     speakeasy-default-create-cloned-voice:
       requestBody:
@@ -302,7 +306,7 @@ examples:
         "200":
           application/json: {"voice_id": "voice_123456789"}
         "400":
-          application/json: {"status": "error", "message": "Invalid request data"}
+          application/json: {"status": "error", "message": {"message": "Invalid request data", "error": "Bad Request", "status_code": 401}}
         "401":
           application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
         "403":
@@ -312,7 +316,7 @@ examples:
         "413":
           application/json: {"status": "error", "message": {"message": "File too large", "error": "Payload Too Large", "status_code": 401}}
         "415":
-          application/json: {"status": "error", "message": "Unsupported audio format. Supported formats: WAV, MP3. Received: application/json"}
+          application/json: {"status": "error", "message": {"message": "Unsupported audio format. Supported formats: WAV, MP3. Received: application/json", "error": "Unsupported Media Type", "status_code": 401}}
         "429":
           application/json: {"status": "error", "message": {"message": "rate limit exceeded", "error": "Too Many Requests", "status_code": 401}}
         "500":
@@ -403,7 +407,7 @@ examples:
         "200":
           application/json: {"data": [{"starting_at": "2024-01-01T00:00:00+09:00", "ending_at": "2024-01-01T01:00:00+09:00", "results": [{"minutes_used": 3867.15}]}], "total": 8302.89}
         "400":
-          application/json: {"status": "error", "message": "Invalid request data"}
+          application/json: {"status": "error", "message": {"message": "Invalid request data", "error": "Bad Request", "status_code": 401}}
         "401":
           application/json: {"status": "error", "message": {"message": "Invalid API Key", "error": "Unauthorized", "status_code": 401}}
         "408":

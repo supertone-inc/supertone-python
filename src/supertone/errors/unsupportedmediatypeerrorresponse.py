@@ -3,6 +3,9 @@
 from __future__ import annotations
 import httpx
 from supertone.errors import SupertoneError
+from supertone.models import (
+    unsupportedmediatypeerrorresponse as models_unsupportedmediatypeerrorresponse,
+)
 from supertone.types import BaseModel
 from typing import Optional
 
@@ -11,8 +14,8 @@ class UnsupportedMediaTypeErrorResponseData(BaseModel):
     status: str
     r"""Response status"""
 
-    message: str
-    r"""Unsupported media type error message"""
+    message: models_unsupportedmediatypeerrorresponse.UnsupportedMediaTypeErrorResponseMessage
+    r"""Unsupported media type error details"""
 
 
 class UnsupportedMediaTypeErrorResponse(SupertoneError):
@@ -24,7 +27,6 @@ class UnsupportedMediaTypeErrorResponse(SupertoneError):
         raw_response: httpx.Response,
         body: Optional[str] = None,
     ):
-        fallback = body or raw_response.text
-        message = str(data.message) or fallback
+        message = body or raw_response.text
         super().__init__(message, raw_response, body)
         self.data = data
