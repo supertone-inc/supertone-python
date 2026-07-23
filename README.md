@@ -1,16 +1,5 @@
 # Supertone Python Library
 
-![LOGO](https://github.com/supertone-inc/supertone-python/blob/3d19bcdad946bd3c7412f40818ef799b32b2e8e9/images/hero-light.png?raw=true)
-
-<!-- Start Summary [summary] -->
-
-## Summary
-
-Supertone Public API: Supertone API is a RESTful API for using our state-of-the-art AI voice models.
-
-<!-- End Summary [summary] -->
-
-
 <!-- ⚠️ SERVICE DISCONTINUATION NOTICE — paste at the very top of the README, right below the title -->
 
 > [!CAUTION]
@@ -22,6 +11,16 @@ Supertone Public API: Supertone API is a RESTful API for using our state-of-the-
 > 👉 For the full timeline, refund policy, and details, see the **[End-of-Life Guide](https://docs.supertoneapi.com/en/docs/sunset)**.
 
 
+
+![LOGO](https://github.com/supertone-inc/supertone-python/blob/3d19bcdad946bd3c7412f40818ef799b32b2e8e9/images/hero-light.png?raw=true)
+
+<!-- Start Summary [summary] -->
+
+## Summary
+
+Supertone Public API: Supertone API is a RESTful API for using our state-of-the-art AI voice models.
+
+<!-- End Summary [summary] -->
 
 <!-- Start SDK Installation [installation] -->
 
