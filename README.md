@@ -9,6 +9,20 @@
 Supertone Public API: Supertone API is a RESTful API for using our state-of-the-art AI voice models.
 
 <!-- End Summary [summary] -->
+
+
+<!-- ⚠️ SERVICE DISCONTINUATION NOTICE — paste at the very top of the README, right below the title -->
+
+> [!CAUTION]
+> ## ⚠️ Service Discontinuation Notice
+>
+> **The Supertone API will be permanently shut down on August 31, 2026.**
+> After this date, all API requests will stop being served and this package will no longer work.
+>
+> 👉 For the full timeline, refund policy, and details, see the **[End-of-Life Guide](https://docs.supertoneapi.com/en/docs/sunset)**.
+
+
+
 <!-- Start SDK Installation [installation] -->
 
 ## SDK Installation
